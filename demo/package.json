@@ -1,0 +1,32 @@
+{
+  "name": "dcl-project",
+  "version": "0.9.0",
+  "description": "SDK7 ui-utils demo scene",
+  "scripts": {
+    "start": "sdk-commands start",
+    "deploy": "sdk-commands deploy",
+    "build": "sdk-commands build",
+    "upgrade-sdk": "npm install --save-dev @dcl/sdk@latest",
+    "upgrade-sdk:next": "npm install --save-dev @dcl/sdk@next"
+  },
+  "devDependencies": {
+    "@dcl/sdk": "next"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120,
+    "trailingComma": "none"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=6.0.0",
+    "yarn": "please use npm"
+  },
+  "dependencies": {
+    "@dcl-sdk/ui-utils": "file:.."
+  },
+  "bundleDependencies": [
+    "@dcl-sdk/ui-utils"
+  ]
+}
