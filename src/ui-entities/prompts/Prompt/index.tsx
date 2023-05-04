@@ -84,7 +84,7 @@ export class Prompt extends UIObject implements IPrompt {
     width,
     height,
     onClose = promptInitialConfig.onClose,
-  }: PromptConfig | undefined = {}) {
+  }: PromptConfig) {
     super({ startHidden })
 
     this.style = style

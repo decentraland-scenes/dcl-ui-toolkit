@@ -62,7 +62,7 @@ export class Loading extends DelayedHidingUIObject {
     xOffset = loadingInitialConfig.xOffset,
     yOffset = loadingInitialConfig.yOffset,
     scale = loadingInitialConfig.scale,
-  }: LoadingConfig | undefined = {}) {
+  }: LoadingConfig) {
     super({ startHidden, duration })
 
     this.xOffset = xOffset

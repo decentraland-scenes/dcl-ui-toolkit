@@ -1,3 +1,4 @@
+export { UIObject } from './ui-entities/UIObject'
 export { Announcement } from './ui-entities/Announcement'
 export { Counter as UICounter } from './ui-entities/Counter'
 export { CornerLabel } from './ui-entities/CornerLabel'
@@ -11,3 +12,5 @@ export { PromptSwitchStyles as SwitchStyles } from './ui-entities/prompts/Prompt
 export { OkPrompt } from './ui-entities/prompts/OkPrompt'
 export { OptionPrompt } from './ui-entities/prompts/OptionPrompt'
 export { FillInPrompt } from './ui-entities/prompts/FillInPrompt'
+
+export { render, createComponent, destroyComponent } from './utils/factory'

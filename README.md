@@ -33,30 +33,29 @@ To use any of the helpers provided by the utils library
 
 1. Install it as an `npm` package. Run this command in your scene's project folder:
 
-```
-npm install @dcl-sdk/ui-utils -B
-```
+    ```
+    npm install @dcl-sdk/ui-utils -B
+    ```
 
 2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.
 
 3. Import the library into the scene's script. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
-```ts
-import * as ui from '@dcl-sdk/ui-utils'
-```
+    ```ts
+    import * as ui from '@dcl-sdk/ui-utils'
+    ```
+4. Add following to your scene intialization code:
 
-4. In your TypeScript file, write `ui.` and let the suggestions of your IDE show the available helpers.
+    ```ts
+    ReactEcsRenderer.setUiRenderer(ui.render)
+    ```
 
 ## Text Announcement
 
 To display a text announcement on the center of the screen for a specified amount of time, use the `Announcement` class.
 
 ```ts
-const announcement = new ui.Announcement({ value: 'Text center', duration: 3 })
-
-// ...
-
-announcement.render('my-announcement')
+const announcement = ui.createComponent(ui.Announcement, { value: 'Text center', duration: 3 })
 ```
 
 <img src="screenshots/announcement.png" width="400">
@@ -74,7 +73,7 @@ When instancing, you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created announcement.
 
 ```ts
-const announcement = new ui.Announcement({
+const announcement = ui.createComponent(ui.Announcement, {
   value: 'Text center',
   startHidden: false,
   duration: 5,
@@ -112,11 +111,7 @@ Announcement components that you can interact with:
 To display a number on a corner of the screen that can be easily updated, you can create a `UICounter`.
 
 ```ts
-const ammo = new ui.UICounter({ value: 123 })
-
-// ...
-
-ammo.render('player-ammo')
+const ammo = ui.createComponent(ui.UICounter, { value: 123 })
 ```
 
 <img src="screenshots/counter.png" width="150">
@@ -134,7 +129,7 @@ When instancing a new counter you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created counter.
 
 ```ts
-const ammo = new ui.UICounter({
+const ammo = ui.createComponent(ui.UICounter, {
   value: 123,
   startHidden: false,
   xOffset: -50,
@@ -184,11 +179,7 @@ Counter components that you can interact with:
 To display text on the bottom-left corner of the screen, you can create a `CornerLabel`.
 
 ```ts
-const healthLabel = new ui.CornerLabel({ value: 'Health: ' })
-
-/// ...
-
-healthLabel.render('health-label')
+const healthLabel = ui.createComponent(ui.CornerLabel, { value: 'Health: ' })
 ```
 
 <img src="screenshots/corner-label.png" width="350">
@@ -205,7 +196,7 @@ When instancing a new corner label you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created label.
 
 ```ts
-const healthLabel = new ui.CornerLabel({
+const healthLabel = ui.createComponent(ui.CornerLabel, {
   value: 'Health: ',
   xOffset: -300,
   yOffset: 70,
@@ -246,11 +237,7 @@ Label components that you can interact with:
 To display a bar that can be updated to increase or shorten in length, similar to a typical health bar in games, you can create a `UIBar`.
 
 ```ts
-const health = new ui.UIBar({ value: 0.5 })
-
-/// ...
-
-health.render('player-health')
+const health = ui.createComponent(ui.UIBar, { value: 0.5 })
 ```
 
 <img src="screenshots/bar.png" width="200">
@@ -268,7 +255,7 @@ When instancing a new bar you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created progress bar.
 
 ```ts
-const health = new ui.UIBar({
+const health = ui.createComponent(ui.UIBar, {
   value: 1,
   xOffset: -30,
   yOffset: 130,
@@ -323,12 +310,8 @@ To display an icon of on the bottom-left corner of the screen you can create one
 - `LargeIcon`: by default 128x128 pixels in size.
 
 ```ts
-const mediumIcon = new ui.MediumIcon({ image: 'images/scene-thumbnail.png' })
+const mediumIcon = ui.createComponent(ui.MediumIcon, { image: 'images/scene-thumbnail.png' })
 mediumIcon.show()
-
-/// ...
-
-mediumIcon.render('scene-thumbnail-icon')
 ```
 
 <img src="screenshots/icons.png" width="200">
@@ -347,14 +330,14 @@ When instancing a new icon you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created icon.
 
 ```ts
-const ammoIcon = new ui.SmallIcon({
+const ammoIcon = ui.createComponent(ui.SmallIcon, {
   image: 'images/ammo32.png',
   xOffset: -70,
   yOffset: 70,
   startHidden: false,
 })
 
-const healthIcon = new ui.MediumIcon({
+const healthIcon = ui.createComponent(ui.MediumIcon, {
   image: 'images/heart64.png',
   xOffset: -170,
   yOffset: 120,
@@ -379,11 +362,7 @@ Icon components that you can interact with:
 To display a loading icon on the center of the screen for a specified amount of time, create a `LoadingIcon`.
 
 ```ts
-const loading = new ui.LoadingIcon({ duration: 3 })
-
-// ...
-
-loading.render('loading-icon')
+const loading = ui.createComponent(ui.LoadingIcon, { duration: 3 })
 ```
 
 <img src="screenshots/timer.png" width="100">
@@ -399,7 +378,7 @@ When instancing a new loading icon, you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created loading icon.
 
 ```ts
-const loading = new ui.LoadingIcon({
+const loading = ui.createComponent(ui.LoadingIcon, {
   duration: 3,
   xOffset: 0,
   yOffset: 40,
@@ -426,11 +405,7 @@ Loading icon components that you can interact with:
 To display a large image on the center of the screen for a specified amount of time, create a `CenterImage`. By default images must be 512 x 512 pixels, unless specified.
 
 ```ts
-const largeImage = new ui.CenterImage({ image: 'images/Burn.png' })
-
-// ...
-
-largeImage.render('burn-image')
+const largeImage = ui.createComponent(ui.CenterImage, { image: 'images/Burn.png' })
 
 // ...
 
@@ -451,7 +426,7 @@ When instancing a new large image, you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created image.
 
 ```ts
-const gameOver = new ui.CenterImage({
+const gameOver = ui.createComponent(ui.CenterImage, {
   image: 'images/Burn.png',
   duration: 3,
   startHidden: true,
@@ -501,7 +476,7 @@ When instancing a new Ok Prompt, you can pass the following parameters:
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
 ```ts
-const prompt = new ui.OkPrompt({
+const prompt = ui.createComponent(ui.OkPrompt, {
   text: 'This is an Ok Prompt',
   onAccept: () => {
     log('accepted')
@@ -512,10 +487,6 @@ const prompt = new ui.OkPrompt({
   height: 300,
   startHidden: false,
 })
-
-// ...
-
-prompt.render('example-ok-prompt')
 ```
 
 <img src="screenshots/ok-prompt.png" width="400">
@@ -556,7 +527,7 @@ When instancing a new Option Prompt, you can pass the following parameters:
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
 ```ts
-const prompt = new ui.OptionPrompt({
+const prompt = ui.createComponent(ui.OptionPrompt, {
   title: 'Pick an option!',
   text: 'What will you choose?',
   acceptLabel: 'Pick A',
@@ -571,10 +542,6 @@ const prompt = new ui.OptionPrompt({
   },
   startHidden: false,
 })
-
-// ...
-
-prompt.render('option-prompt')
 ```
 
 <img src="screenshots/option-prompt.png" width="400">
@@ -614,7 +581,7 @@ When instancing a new Fill-in Prompt, you can pass the following parameters:
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
 ```ts
-const prompt = new ui.FillInPrompt({
+const prompt = ui.createComponent(ui.FillInPrompt, {
   title: 'What are you thinking?',
   onAccept: (value: string) => {
     console.log('accepted value:', value)
@@ -649,11 +616,7 @@ Custom prompt windows let you arrange as many elements as you want into a window
 First create a new `CustomPrompt` object.
 
 ```ts
-const prompt = new ui.CustomPrompt({ style: ui.PromptStyles.DARKSLANTED })
-
-// ...
-
-prompt.render('my-custom-prompt')
+const prompt = ui.createComponent(ui.CustomPrompt, { style: ui.PromptStyles.DARKSLANTED })
 ```
 
 <img src="screenshots/custom-prompt-background.png" width="400">
@@ -950,7 +913,7 @@ Input components that you can interact with:
 Here's a full example of a custom UI:
 
 ```ts
-export const customPrompt = new ui.CustomPrompt({
+export const customPrompt = ui.createComponent(ui.CustomPrompt, {
   style: ui.PromptStyles.DARKSLANTED,
   height: 600,
 })
@@ -1029,10 +992,6 @@ const promptIcon = customPrompt.addIcon({
 })
 
 customPrompt.show()
-
-// ...
-
-customPrompt.render('my-custom-prompt')
 ```
 
 <img src="screenshots/custom-prompt-full.png" width="400">
