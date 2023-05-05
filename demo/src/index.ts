@@ -21,8 +21,6 @@ import { okPrompt } from './ui-entities/OkPrompt'
 import { optionPrompt } from './ui-entities/OptionPrompt'
 import { uiBar } from './ui-entities/UiBar'
 import { uiCounter } from './ui-entities/UiCounter'
-export * from '@dcl/sdk'
-
 
 
 executeTask(async function () {
@@ -33,7 +31,6 @@ executeTask(async function () {
     Vector3.create(3, 1, 3),
     (bool: boolean) => {
       if (bool) {
-        
         announcement.hide()
       } else {
         announcement.show()
@@ -190,9 +187,6 @@ executeTask(async function () {
 })
 
 setupUi()
-
-
-
 
 
 export class Cube {

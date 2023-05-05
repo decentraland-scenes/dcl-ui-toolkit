@@ -1,6 +1,6 @@
 import * as ui from '@dcl-sdk/ui-utils'
 
-export const optionPrompt = new ui.OptionPrompt({
+export const optionPrompt = ui.createComponent(ui.OptionPrompt, {
   title: 'Pick an option!',
   text: 'What will you choose?',
   onAccept: () => {

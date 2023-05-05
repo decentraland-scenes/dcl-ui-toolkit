@@ -2,7 +2,7 @@ import { Color4 } from '@dcl/sdk/math'
 
 import * as ui from '@dcl-sdk/ui-utils'
 
-export const customPrompt = new ui.CustomPrompt(
+export const customPrompt = ui.createComponent(ui.CustomPrompt, 
   {
     style: ui.PromptStyles.DARKLARGE,
     height: 550,

@@ -1,7 +1,7 @@
 import * as ui from '@dcl-sdk/ui-utils'
 import { Color4 } from '@dcl/sdk/math'
 
-export const uiBar = new ui.UIBar({ value: .5, xOffset: -500, yOffset: 60 })
+export const uiBar = ui.createComponent(ui.UIBar, { value: .5, xOffset: -500, yOffset: 60 })
 
 // uiBar.show()
 

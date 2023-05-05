@@ -1,6 +1,6 @@
 import * as ui from '@dcl-sdk/ui-utils'
 
-export const fillInPrompt = new ui.FillInPrompt({
+export const fillInPrompt = ui.createComponent(ui.FillInPrompt, {
   title: 'What are you thinking?',
   onAccept: (value: string) => {
     console.log('fillInPrompt onAccept', value)

@@ -1,7 +1,7 @@
 import * as ui from '@dcl-sdk/ui-utils'
 import { Color4 } from '@dcl/sdk/math'
 
-export const loadingIcon = new ui.LoadingIcon({ yOffset: 350 })
+export const loadingIcon = ui.createComponent(ui.LoadingIcon, { yOffset: 350 })
 
 // loadingIcon.show()
 

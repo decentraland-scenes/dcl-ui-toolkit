@@ -1,7 +1,7 @@
 import * as ui from '@dcl-sdk/ui-utils'
 import { Color4 } from '@dcl/sdk/math'
 
-export const centerImage = new ui.CenterImage({ duration: 0, image: 'images/scene-thumbnail.png' })
+export const centerImage = ui.createComponent(ui.CenterImage, { duration: 0, image: 'images/scene-thumbnail.png' })
 
 // centerImage.show()
 
