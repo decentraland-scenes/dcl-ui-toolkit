@@ -202,6 +202,10 @@ export class ProgressBar extends UIObject {
     this._progressPaddingRight = (isNotDefaultBorders ? 3 : 2) * this.scale
     this._progressHeight = this._height - this._progressPaddingTop - this._progressPaddingBottom
 
+    const { sourceWidth: progressSourceWidth, ...progressSourcesComponentsCoordinates } = sourcesComponentsCoordinates.buttons[
+      this.style.startsWith('round') ? 'roundWhite' : 'squareWhite'
+    ];
+
     return (
       <UiEntity
         key={key}
@@ -241,9 +245,8 @@ export class ProgressBar extends UIObject {
             ...this.processElement.uiBackground,
             color: this.color,
             uvs: getImageAtlasMapping({
-              ...sourcesComponentsCoordinates.buttons[
-                this.style.startsWith('round') ? 'roundWhite' : 'squareWhite'
-              ],
+              ...progressSourcesComponentsCoordinates,
+              sourceWidth: progressSourceWidth * this._value,
               atlasHeight: sourcesComponentsCoordinates.atlasHeight,
               atlasWidth: sourcesComponentsCoordinates.atlasWidth,
             }),
