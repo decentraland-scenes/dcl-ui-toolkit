@@ -1,5 +1,5 @@
 {
-  "name": "@dcl-sdk/ui-utils",
+  "name": "dcl-ui-toolkit",
   "version": "0.9.0",
   "description": "A collection of UI helpers to make it easier to build a Decentraland scene using the SDK 7.",
   "main": "./dist/index.js",
@@ -24,9 +24,9 @@
   "author": "DAPPCRAFT",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/decentraland/sdk7-ui-utils/issues"
+    "url": "https://github.com/decentraland-scenes/dcl-ui-toolkit/issues"
   },
-  "homepage": "https://github.com/decentraland/sdk7-ui-utils#readme",
+  "homepage": "https://github.com/decentraland-scenes/dcl-ui-toolkit#readme",
   "publishConfig": {
     "access": "public"
   },
