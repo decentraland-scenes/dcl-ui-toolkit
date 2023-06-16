@@ -27,14 +27,39 @@ A collection of tools for common UI requirements for Decentraland scenes.
 - [Contribute](#contribute)
 - [CI/CD](#cicd)
 
-## Using the UI utils library
 
+## Install the library
+
+## Via the Decentraland Editor
+
+To use any of the helpers provided by the utils library, follow the steps in [Manage Dependencies](https://docs.decentraland.org/creator/development-guide/sdk7/libraries/manage-dependencies/#via-the-editor) with Visual Studio Code open on your project folder.
+
+1. Open the Decentraland Editor tab. Note that the bottom section lists all of your project’s currently installed dependencies.
+
+2. Click the + icon on the header of the Dependencies view.
+
+3. Visual Studio opens an input box at the top of the screen. Write `dcl-ui-toolkit` and press Enter.
+
+4. Import the library into the scene's script. Add this line at the start of your `index.ts` file, or any other TypeScript files that require it:
+
+```ts
+import  *  as  npc  from  'dcl-ui-toolkit'
+```
+
+5. Add following to your scene intialization code:
+
+    ```ts
+    ReactEcsRenderer.setUiRenderer(ui.render)
+    ```
+ 
+## Via the CLI
+  
 To use any of the helpers provided by the utils library
 
 1. Install it as an `npm` package. Run this command in your scene's project folder:
 
     ```
-    npm install @dcl-sdk/ui-utils -B
+    npm install dcl-ui-toolkit
     ```
 
 2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.
@@ -42,7 +67,7 @@ To use any of the helpers provided by the utils library
 3. Import the library into the scene's script. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
     ```ts
-    import * as ui from '@dcl-sdk/ui-utils'
+    import * as ui from 'dcl-ui-toolkit'
     ```
 4. Add following to your scene intialization code:
 
