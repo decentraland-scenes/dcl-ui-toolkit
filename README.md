@@ -51,6 +51,17 @@ import  *  as  npc  from  'dcl-ui-toolkit'
     ```ts
     ReactEcsRenderer.setUiRenderer(ui.render)
     ```
+
+6. Add the following permissions for fetching media on the 'scene.json' file. See [Required Permissions](https://docs.decentraland.org/creator/development-guide/sdk7/scene-metadata/#required-permissions) for more details:
+
+```json
+	"requiredPermissions": [
+		"ALLOW_MEDIA_HOSTNAMES"
+	],
+	"allowedMediaHostnames": [
+		"decentraland.org"
+	],
+```
  
 ## Via the CLI
   
@@ -74,6 +85,19 @@ To use any of the helpers provided by the utils library
     ```ts
     ReactEcsRenderer.setUiRenderer(ui.render)
     ```
+
+
+5. Add the following permissions for fetching media on the 'scene.json' file. See [Required Permissions](https://docs.decentraland.org/creator/development-guide/sdk7/scene-metadata/#required-permissions) for more details:
+
+```json
+	"requiredPermissions": [
+		"ALLOW_MEDIA_HOSTNAMES"
+	],
+	"allowedMediaHostnames": [
+		"decentraland.org"
+	],
+```
+
 
 ## Text Announcement
 
