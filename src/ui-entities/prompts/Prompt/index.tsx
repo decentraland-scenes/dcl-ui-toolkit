@@ -30,8 +30,8 @@ export enum PromptStyles {
 }
 
 export type PromptExternalConfig = UIObjectConfig & {
-  width?: number
-  height?: number
+  width?: number | string
+  height?: number | string
   onClose?: Callback
 }
 
@@ -60,8 +60,8 @@ export class Prompt extends UIObject implements IPrompt {
   public closeIcon: PromptCloseIcon
 
   public style: PromptStyles
-  public width: number | undefined
-  public height: number | undefined
+  public width: number | string | undefined
+  public height: number | string | undefined
   public onClose: Callback
 
   private _texture: AtlasTheme
