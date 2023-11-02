@@ -43,7 +43,7 @@ To use any of the helpers provided by the utils library, follow the steps in [Ma
 4. Import the library into the scene's script. Add this line at the start of your `index.ts` file, or any other TypeScript files that require it:
 
 ```ts
-import  *  as  npc  from  'dcl-ui-toolkit'
+import  *  as  ui  from  'dcl-ui-toolkit'
 ```
 
 5. Add following to your scene intialization code:
