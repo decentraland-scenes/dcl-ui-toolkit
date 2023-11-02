@@ -104,6 +104,8 @@ To use any of the helpers provided by the utils library
 To display a text announcement on the center of the screen for a specified amount of time, use the `Announcement` class.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const announcement = ui.createComponent(ui.Announcement, { value: 'Text center', duration: 3 })
 ```
 
@@ -122,6 +124,8 @@ When instancing, you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created announcement.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const announcement = ui.createComponent(ui.Announcement, {
   value: 'Text center',
   startHidden: false,
@@ -131,6 +135,8 @@ const announcement = ui.createComponent(ui.Announcement, {
   xOffset: 100,
   yOffset: -50,
 })
+
+announcement.show()
 ```
 
 After creating, `Announcement` has methods to control visibility:
@@ -160,6 +166,8 @@ Announcement components that you can interact with:
 To display a number on a corner of the screen that can be easily updated, you can create a `UICounter`.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const ammo = ui.createComponent(ui.UICounter, { value: 123 })
 ```
 
@@ -178,6 +186,8 @@ When instancing a new counter you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created counter.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const ammo = ui.createComponent(ui.UICounter, {
   value: 123,
   startHidden: false,
@@ -245,6 +255,8 @@ When instancing a new corner label you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created label.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const healthLabel = ui.createComponent(ui.CornerLabel, {
   value: 'Health: ',
   xOffset: -300,
@@ -254,6 +266,7 @@ const healthLabel = ui.createComponent(ui.CornerLabel, {
   startHidden: false,
 })
 
+healthLabel.show()
 //
 
 healthLabel.color = Color4.White()
@@ -286,6 +299,8 @@ Label components that you can interact with:
 To display a bar that can be updated to increase or shorten in length, similar to a typical health bar in games, you can create a `UIBar`.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const health = ui.createComponent(ui.UIBar, { value: 0.5 })
 ```
 
@@ -304,6 +319,8 @@ When instancing a new bar you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created progress bar.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const health = ui.createComponent(ui.UIBar, {
   value: 1,
   xOffset: -30,
@@ -313,6 +330,7 @@ const health = ui.createComponent(ui.UIBar, {
   scale: 1,
 })
 
+health.show()
 //
 
 health.scale = 1.25
@@ -359,7 +377,10 @@ To display an icon of on the bottom-left corner of the screen you can create one
 - `LargeIcon`: by default 128x128 pixels in size.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const mediumIcon = ui.createComponent(ui.MediumIcon, { image: 'images/scene-thumbnail.png' })
+
 mediumIcon.show()
 ```
 
@@ -379,6 +400,8 @@ When instancing a new icon you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created icon.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const ammoIcon = ui.createComponent(ui.SmallIcon, {
   image: 'images/ammo32.png',
   xOffset: -70,
@@ -392,6 +415,8 @@ const healthIcon = ui.createComponent(ui.MediumIcon, {
   yOffset: 120,
 })
 
+ammoIcon.show()
+healthIcon.show()
 //
 
 ammoIcon.yOffset = 50
@@ -411,6 +436,8 @@ Icon components that you can interact with:
 To display a loading icon on the center of the screen for a specified amount of time, create a `LoadingIcon`.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const loading = ui.createComponent(ui.LoadingIcon, { duration: 3 })
 ```
 
@@ -427,6 +454,8 @@ When instancing a new loading icon, you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created loading icon.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const loading = ui.createComponent(ui.LoadingIcon, {
   duration: 3,
   xOffset: 0,
@@ -435,6 +464,7 @@ const loading = ui.createComponent(ui.LoadingIcon, {
   startHidden: false,
 })
 
+loading.show()
 //
 
 loading.scale = 0.75
@@ -454,6 +484,8 @@ Loading icon components that you can interact with:
 To display a large image on the center of the screen for a specified amount of time, create a `CenterImage`. By default images must be 512 x 512 pixels, unless specified.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const largeImage = ui.createComponent(ui.CenterImage, { image: 'images/Burn.png' })
 
 // ...
@@ -475,6 +507,8 @@ When instancing a new large image, you can pass the following parameters:
 > Note: options marked with `*` can later be changed by accessing the relevant properties of the created image.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const gameOver = ui.createComponent(ui.CenterImage, {
   image: 'images/Burn.png',
   duration: 3,
@@ -525,10 +559,12 @@ When instancing a new Ok Prompt, you can pass the following parameters:
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const prompt = ui.createComponent(ui.OkPrompt, {
   text: 'This is an Ok Prompt',
   onAccept: () => {
-    log('accepted')
+    console.log('accepted')
   },
   acceptLabel: 'Ok',
   useDarkTheme: true,
@@ -536,6 +572,8 @@ const prompt = ui.createComponent(ui.OkPrompt, {
   height: 300,
   startHidden: false,
 })
+
+prompt.show()
 ```
 
 <img src="screenshots/ok-prompt.png" width="400">
@@ -576,6 +614,8 @@ When instancing a new Option Prompt, you can pass the following parameters:
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const prompt = ui.createComponent(ui.OptionPrompt, {
   title: 'Pick an option!',
   text: 'What will you choose?',
@@ -591,6 +631,8 @@ const prompt = ui.createComponent(ui.OptionPrompt, {
   },
   startHidden: false,
 })
+
+prompt.show()
 ```
 
 <img src="screenshots/option-prompt.png" width="400">
@@ -630,12 +672,16 @@ When instancing a new Fill-in Prompt, you can pass the following parameters:
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const prompt = ui.createComponent(ui.FillInPrompt, {
   title: 'What are you thinking?',
   onAccept: (value: string) => {
     console.log('accepted value:', value)
   },
 })
+
+prompt.show()
 ```
 
 <img src="screenshots/fill-in-prompt.png" width="400">
@@ -665,7 +711,11 @@ Custom prompt windows let you arrange as many elements as you want into a window
 First create a new `CustomPrompt` object.
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 const prompt = ui.createComponent(ui.CustomPrompt, { style: ui.PromptStyles.DARKSLANTED })
+
+prompt.show()
 ```
 
 <img src="screenshots/custom-prompt-background.png" width="400">
@@ -962,6 +1012,8 @@ Input components that you can interact with:
 Here's a full example of a custom UI:
 
 ```ts
+ReactEcsRenderer.setUiRenderer(ui.render)
+
 export const customPrompt = ui.createComponent(ui.CustomPrompt, {
   style: ui.PromptStyles.DARKSLANTED,
   height: 600,
