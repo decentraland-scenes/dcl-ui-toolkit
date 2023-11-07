@@ -24,6 +24,7 @@ A collection of tools for common UI requirements for Decentraland scenes.
   - [Add an icon](#add-an-icon)
   - [Add an input box](#add-an-input-box)
   - [Full Custom UI example](#full-custom-ui-example)
+- [Combine with Custom UI](#combine-with-custom-ui)
 - [Contribute](#contribute)
 - [CI/CD](#cicd)
 
@@ -1096,6 +1097,59 @@ customPrompt.show()
 ```
 
 <img src="screenshots/custom-prompt-full.png" width="400">
+
+## Combine with custom UI
+
+If you want to combine elements from the UI Toolkit with your own [custom UI elements](https://docs.decentraland.org/creator/development-guide/sdk7/onscreen-ui/) in the same scene, you need to render all of the UI via a single call to the `ReactEcsRenderer.setUiRenderer` function. You can combine both into a single call in the following way:
+
+´´´ts
+const uiComponent = () => (
+    [
+        ui.render(),
+        // Functions returning custom UI
+    ]
+)
+
+ReactEcsRenderer.setUiRenderer(uiComponent)
+´´´
+
+For example:
+
+´´´ts
+const uiComponent = () => (
+    [
+        ui.render(),
+        MyCustomUI()
+    ]
+)
+
+ReactEcsRenderer.setUiRenderer(uiComponent)
+
+
+function MyCustomUI() {
+
+	return <UiEntity
+		uiTransform={{
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'space-between',
+			positionType: 'absolute',
+			position: { right: "3%", bottom: '3%' }
+		}}
+	>
+		<Label
+			value="Hello World!"
+			fontSize={18}
+			textAlign="middle-center"
+		/>
+	</UiEntity>
+}
+
+
+
+´´´
+
+
 
 ---
 
