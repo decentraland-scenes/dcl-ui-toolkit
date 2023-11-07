@@ -1102,7 +1102,7 @@ customPrompt.show()
 
 If you want to combine elements from the UI Toolkit with your own [custom UI elements](https://docs.decentraland.org/creator/development-guide/sdk7/onscreen-ui/) in the same scene, you need to render all of the UI via a single call to the `ReactEcsRenderer.setUiRenderer` function. You can combine both into a single call in the following way:
 
-´´´ts
+```ts
 const uiComponent = () => (
     [
         ui.render(),
@@ -1111,11 +1111,11 @@ const uiComponent = () => (
 )
 
 ReactEcsRenderer.setUiRenderer(uiComponent)
-´´´
+```
 
 For example:
 
-´´´ts
+```ts
 const uiComponent = () => (
     [
         ui.render(),
@@ -1144,10 +1144,7 @@ function MyCustomUI() {
 		/>
 	</UiEntity>
 }
-
-
-
-´´´
+```
 
 
 
