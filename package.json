@@ -8,8 +8,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "link": "npm link",
-    "watch": "npm link && tsc --watch -p tsconfig.json",
-    "link-sdk": "cd node_modules/@dcl/sdk && npm link && cd ../js-runtime"
+    "watch": "npm link && tsc --watch -p tsconfig.json"
   },
   "repository": {
     "type": "git",
