@@ -182,7 +182,7 @@ export class PromptButton extends InPromptUIObject {
         positionType: 'absolute',
         position: {
           top: '50%',
-          left: String(text).length > 12 ? '43%' : '50%',
+          left: String(text).length > 12 ? '40%' : '45%',
         },
       },
       uiBackground: {
@@ -222,7 +222,7 @@ export class PromptButton extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this._width / (String(this.text).length > 10 ? 1.5 : 2) + this.xPosition
+    this._xPosition = this.promptWidth / -2 + this._width / (String(this.text).length > 10 ? 1.4 : 2) + this.xPosition
     this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
