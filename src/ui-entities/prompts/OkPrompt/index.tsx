@@ -59,12 +59,12 @@ export class OkPrompt extends Prompt {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: okPromptInitialConfig.width,
-        height: okPromptInitialConfig.height,
+        height: okPromptInitialConfig.height + (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  12 :  23),
         onClose,
       })
 
     this.textElement = this.addText({
-      value: String(text),
+      value: String(text).split(/((?:\S+\s*){5})/g).filter(Boolean).join('\n'),
       xPosition: 0,
       yPosition: 40,
       size: textSize,
@@ -73,7 +73,7 @@ export class OkPrompt extends Prompt {
     this.buttonElement = this.addButton({
       text: String(acceptLabel),
       xPosition: 0,
-      yPosition: -70,
+      yPosition: -70 - (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  7 :  12),
       onMouseDown: onAccept,
       style: PromptButtonStyles.E,
     })

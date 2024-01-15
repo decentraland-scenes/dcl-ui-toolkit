@@ -83,19 +83,19 @@ export class OptionPrompt extends Prompt {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: optionPromptInitialConfig.width,
-        height: optionPromptInitialConfig.height,
+        height: optionPromptInitialConfig.height + (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  10 :  18),
         onClose,
       })
 
     this.titleElement = this.addText({
       value: String(title),
       xPosition: 0,
-      yPosition: 160,
+      yPosition: 160 + (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  3 :  9),
       size: titleSize,
     })
 
     this.textElement = this.addText({
-      value: String(text),
+      value: String(text).split(/((?:\S+\s*){5})/g).filter(Boolean).join('\n'),
       xPosition: 0,
       yPosition: 40,
       size: textSize,
@@ -104,7 +104,7 @@ export class OptionPrompt extends Prompt {
     this.primaryButtonElement = this.addButton({
       text: String(acceptLabel),
       xPosition: -100,
-      yPosition: -120,
+      yPosition: -120 - (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  3 :  8),
       onMouseDown: onAccept,
       style: PromptButtonStyles.E,
     })
@@ -112,7 +112,7 @@ export class OptionPrompt extends Prompt {
     this.secondaryButtonElement = this.addButton({
       text: String(rejectLabel),
       xPosition: 100,
-      yPosition: -120,
+      yPosition: -120 - (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  3 :  8),
       onMouseDown: onReject,
       style: PromptButtonStyles.F,
     })

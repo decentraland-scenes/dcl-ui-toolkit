@@ -106,7 +106,7 @@ export class PromptButton extends InPromptUIObject {
       parent,
     })
 
-    this.text = text
+    this.text = String(text).slice(0, 16)
     this.xPosition = xPosition
     this.yPosition = yPosition
     this.onMouseDown = onMouseDown
@@ -158,7 +158,7 @@ export class PromptButton extends InPromptUIObject {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        width: this._width,
+        width: this._width + String(text).length * 2,
         height: this._height,
         positionType: 'absolute',
       },
@@ -182,7 +182,7 @@ export class PromptButton extends InPromptUIObject {
         positionType: 'absolute',
         position: {
           top: '50%',
-          left: '50%',
+          left: String(text).length > 12 ? '43%' : '50%',
         },
       },
       uiBackground: {
@@ -222,7 +222,7 @@ export class PromptButton extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
+    this._xPosition = this.promptWidth / -2 + this._width / (String(this.text).length > 10 ? 1.5 : 2) + this.xPosition
     this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
@@ -232,7 +232,7 @@ export class PromptButton extends InPromptUIObject {
         uiTransform={{
           ...this.imageElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },
+          position: { bottom: this._yPosition, right: this._xPosition * (String(this.text).length > 10 ? -1.2 : -1)},
         }}
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
