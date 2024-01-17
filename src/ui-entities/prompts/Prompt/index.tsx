@@ -70,10 +70,12 @@ export class Prompt extends UIObject implements IPrompt {
     | PromptCloseIcon
     | PromptText
     | PromptIcon
-    | PromptButton
     | PromptCheckbox
     | PromptSwitch
     | PromptInput
+  )[]
+  private _btn: (
+    | PromptButton
   )[]
   private readonly _closeIconData: PromptCloseIconConfig
   public readonly isDarkTheme: boolean
@@ -115,6 +117,8 @@ export class Prompt extends UIObject implements IPrompt {
     this.closeIcon = new PromptCloseIcon(this._closeIconData)
 
     this._components = [this.closeIcon]
+
+    this._btn = []
   }
 
   public addTextBox(config: Omit<PromptInputConfig, 'parent'>): PromptInput {
@@ -156,7 +160,7 @@ export class Prompt extends UIObject implements IPrompt {
       ...this._getPromptComponentCustomConfig(),
     })
 
-    this._components.push(uiButton)
+    this._btn.push(uiButton)
 
     return uiButton
   }
@@ -198,8 +202,9 @@ export class Prompt extends UIObject implements IPrompt {
           positionType: 'absolute',
           position: { top: '50%', left: '50%' },
           margin: { top: -height / 2, left: -width / 2 },
-          width,
-          height,
+          padding: {top: 40, bottom: 20, left: 10, right: 10},
+          width: 'auto',
+          height: 'auto',
         }}
       >
         <UiEntity
@@ -219,6 +224,17 @@ export class Prompt extends UIObject implements IPrompt {
         />
         {this.visible &&
           this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
+          <UiEntity
+          uiTransform={{
+            display: this.visible ? 'flex' : 'none',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            width: 'auto'
+          }}
+          >
+        {this.visible &&
+          this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
+          </UiEntity>
       </UiEntity>
     )
   }

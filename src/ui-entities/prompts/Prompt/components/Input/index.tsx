@@ -77,7 +77,6 @@ export class PromptInput extends InPromptUIObject {
       uiTransform: {
         width: this._width,
         height: this._height,
-        positionType: 'absolute',
       },
       fontSize: 22,
       textAlign: 'middle-center',
@@ -86,8 +85,6 @@ export class PromptInput extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
       <Input
@@ -98,7 +95,6 @@ export class PromptInput extends InPromptUIObject {
         uiTransform={{
           ...this.fillInBoxElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },
         }}
         onChange={this.onChange}
       />

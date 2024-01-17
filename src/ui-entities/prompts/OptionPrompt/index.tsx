@@ -15,6 +15,7 @@ type OptionPromptConfig = PromptExternalConfig & {
   rejectLabel?: string;
   onAccept: () => void;
   onReject?: () => void;
+  filter?: (text: string | number) => number
 }
 
 type OptionPromptSizeConfig = {
@@ -39,6 +40,9 @@ const optionPromptInitialConfig: Required<OptionPromptConfig & OptionPromptSizeC
   },
   onClose: () => {
   },
+  filter: (text: string | number) => {
+    return (String(text).match(/((?:\S+\s*){5})/g)||'').length
+  }
 } as const
 
 /**
@@ -77,20 +81,21 @@ export class OptionPrompt extends Prompt {
       onAccept = optionPromptInitialConfig.onAccept,
       onReject = optionPromptInitialConfig.onReject,
       onClose = optionPromptInitialConfig.onClose,
+      filter = optionPromptInitialConfig.filter
     }: OptionPromptConfig) {
     super(
       {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: optionPromptInitialConfig.width,
-        height: optionPromptInitialConfig.height + (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  10 :  18),
+        height: optionPromptInitialConfig.height + filter(text) * (filter(text) <= 10 ?  10 :  18),
         onClose,
       })
 
     this.titleElement = this.addText({
       value: String(title),
       xPosition: 0,
-      yPosition: 160 + (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  3 :  9),
+      yPosition: 160 + filter(text) * (filter(text) <= 10 ?  3 :  9),
       size: titleSize,
     })
 
@@ -104,7 +109,7 @@ export class OptionPrompt extends Prompt {
     this.primaryButtonElement = this.addButton({
       text: String(acceptLabel),
       xPosition: -100,
-      yPosition: -120 - (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  3 :  8),
+      yPosition: -120 - filter(text)* (filter(text) <= 10 ?  3 :  8),
       onMouseDown: onAccept,
       style: PromptButtonStyles.E,
     })
@@ -112,7 +117,7 @@ export class OptionPrompt extends Prompt {
     this.secondaryButtonElement = this.addButton({
       text: String(rejectLabel),
       xPosition: 100,
-      yPosition: -120 - (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  3 :  8),
+      yPosition: -120 - filter(text) * (filter(text) <= 10 ?  3 :  8),
       onMouseDown: onReject,
       style: PromptButtonStyles.F,
     })

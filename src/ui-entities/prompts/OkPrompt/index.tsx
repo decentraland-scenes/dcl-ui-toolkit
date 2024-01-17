@@ -11,6 +11,7 @@ type OkPromptConfig = PromptExternalConfig & {
   useDarkTheme?: boolean;
   acceptLabel?: string;
   onAccept?: () => void;
+  filter?: (text: string | number) => number;
 }
 
 const okPromptInitialConfig: Required<OkPromptConfig> = {
@@ -25,6 +26,9 @@ const okPromptInitialConfig: Required<OkPromptConfig> = {
   },
   onClose: () => {
   },
+  filter: (text: string | number) => {
+    return (String(text).match(/((?:\S+\s*){5})/g)||'').length
+  }
 } as const
 
 /**
@@ -53,13 +57,14 @@ export class OkPrompt extends Prompt {
       acceptLabel = okPromptInitialConfig.acceptLabel,
       onAccept = okPromptInitialConfig.onAccept,
       onClose = okPromptInitialConfig.onClose,
+      filter = okPromptInitialConfig.filter,
     }: OkPromptConfig) {
     super(
       {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: okPromptInitialConfig.width,
-        height: okPromptInitialConfig.height + (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  12 :  23),
+        height: okPromptInitialConfig.height + filter(text) * (filter(text) <= 10 ?  12 :  23),
         onClose,
       })
 
@@ -73,7 +78,7 @@ export class OkPrompt extends Prompt {
     this.buttonElement = this.addButton({
       text: String(acceptLabel),
       xPosition: 0,
-      yPosition: -70 - (String(text).match(/((?:\S+\s*){5})/g)||'').length * ((String(text).match(/((?:\S+\s*){5})/g)||'').length <= 10 ?  7 :  12),
+      yPosition: -70 - filter(text) * (filter(text) <= 10 ?  7 :  12),
       onMouseDown: onAccept,
       style: PromptButtonStyles.E,
     })

@@ -3,7 +3,7 @@ import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 import { Color4 } from '@dcl/sdk/math'
 import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
-import { InputAction } from '@dcl/sdk/ecs'
+import { InputAction, UiText } from '@dcl/sdk/ecs'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
@@ -155,12 +155,11 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElement = {
       uiTransform: {
-        flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'center',
-        width: this._width + String(text).length * 2,
+        width: 'auto',
         height: this._height,
-        positionType: 'absolute',
+        margin: {top: 30, right: 10}
+        // positionType: 'absolute',
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -172,17 +171,17 @@ export class PromptButton extends InPromptUIObject {
           atlasHeight: sourcesComponentsCoordinates.atlasHeight,
           atlasWidth: sourcesComponentsCoordinates.atlasWidth,
         }),
-      },
+      }, 
     }
 
     this.iconElement = {
       uiTransform: {
         width: 26,
         height: 26,
-        positionType: 'absolute',
+        alignSelf: 'flex-start',
+        justifyContent: "center",
         position: {
           top: '50%',
-          left: String(text).length > 12 ? '40%' : '45%',
         },
       },
       uiBackground: {
@@ -222,7 +221,7 @@ export class PromptButton extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this._width / (String(this.text).length > 10 ? 1.4 : 2) + this.xPosition
+    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
     this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
@@ -232,7 +231,12 @@ export class PromptButton extends InPromptUIObject {
         uiTransform={{
           ...this.imageElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
-          position: { bottom: this._yPosition, right: this._xPosition * (String(this.text).length > 10 ? -1.2 : -1)},
+          flexDirection: 'row-reverse',
+        }}
+        uiText={{
+          value: String(this.text),
+          color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
+          fontSize: 24
         }}
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
@@ -246,17 +250,18 @@ export class PromptButton extends InPromptUIObject {
             display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
             margin: {
               top: -26 / 2,
-              left: this._buttonIconPos(String(this.text).length) - 26 / 2,
+              left: 5,
+              right: 5
             },
           }}
         />
-        <Label
+        {/* <Label
           {...this.labelElement}
           value={String(this.text)}
           color={
             this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor
           }
-        />
+        /> */}
       </UiEntity>
     )
   }

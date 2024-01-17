@@ -71,9 +71,7 @@ export class PromptText extends InPromptUIObject {
 
     this.textElement = {
       uiTransform: {
-        maxWidth: '100%',
-        positionType: 'absolute',
-        position: { top: '50%', left: '50%' },
+        height: 'auto',
       },
       textAlign: 'middle-center',
       font: defaultFont,
@@ -91,7 +89,6 @@ export class PromptText extends InPromptUIObject {
         uiTransform={{
           ...this.textElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
-          margin: { left: this.xPosition, top: this.yPosition * -1 },
         }}
       />
     )
