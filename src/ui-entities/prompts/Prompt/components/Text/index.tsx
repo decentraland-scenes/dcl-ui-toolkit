@@ -14,8 +14,6 @@ export type PromptTextTextElementProps = Omit<UiLabelProps, 'value' | 'color' | 
 
 export type PromptTextConfig = InPromptUIObjectConfig & {
   value: string | number
-  xPosition: number
-  yPosition: number
   color?: Color4
   size?: number
 }
@@ -23,8 +21,6 @@ export type PromptTextConfig = InPromptUIObjectConfig & {
 const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   startHidden: false,
   value: '',
-  xPosition: 0,
-  yPosition: 0,
   color: Color4.Black(),
   size: 15,
 } as const
@@ -33,8 +29,6 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
  * Prompt text
  * @param {boolean} [startHidden=false] starting hidden
  * @param {string | number} [value=''] starting value
- * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
- * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
  * @param {boolean} [darkTheme=false] prompt color style
  * @param {Color4} [color=Color4.Black()] text color
  * @param {number} [size=15] text size
@@ -44,8 +38,6 @@ export class PromptText extends InPromptUIObject {
   public textElement: PromptTextTextElementProps
 
   public value: string | number
-  public xPosition: number
-  public yPosition: number
   public color: Color4 | undefined
   public size: number
 
@@ -54,8 +46,6 @@ export class PromptText extends InPromptUIObject {
     parent,
     startHidden = promptTextInitialConfig.startHidden,
     value = promptTextInitialConfig.value,
-    xPosition = promptTextInitialConfig.xPosition,
-    yPosition = promptTextInitialConfig.yPosition,
     size = promptTextInitialConfig.size,
   }: PromptTextConfig) {
     super({
@@ -64,8 +54,6 @@ export class PromptText extends InPromptUIObject {
     })
 
     this.value = value
-    this.xPosition = xPosition
-    this.yPosition = yPosition
     this.color = color
     this.size = size
 

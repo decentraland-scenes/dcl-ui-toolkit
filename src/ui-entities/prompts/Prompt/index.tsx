@@ -30,8 +30,8 @@ export enum PromptStyles {
 }
 
 export type PromptExternalConfig = UIObjectConfig & {
-  width?: number
-  height?: number
+  width?: number | 'auto'
+  height?: number | 'auto'
   onClose?: Callback
 }
 
@@ -51,8 +51,8 @@ const promptInitialConfig: Required<PromptConfig> = {
  * Creates a prompt object that includes a background and a close icon, and supports adding as many custom UI elements as desired
  * @param {boolean} [startHidden=true] starting hidden
  * @param {PromptStyles} [style=PromptStyles.LIGHT]: pick from a few predefined options of color, shape and size, or provide the string path to a custom image
- * @param {number} width background width
- * @param {number} height background height
+ * @param {number | auto} width background width
+ * @param {number | auto} height background height
  * @param {Callback} onClose callback on prompt close
  *
  */
@@ -60,8 +60,10 @@ export class Prompt extends UIObject implements IPrompt {
   public closeIcon: PromptCloseIcon
 
   public style: PromptStyles
-  public width: number | undefined
-  public height: number | undefined
+  public width: number | 'auto' | undefined
+  public height: number | 'auto' | undefined
+  public posWidth: number | undefined
+  public posHeight: number | undefined
   public onClose: Callback
 
   private _texture: AtlasTheme
@@ -188,53 +190,60 @@ export class Prompt extends UIObject implements IPrompt {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    const width = this.realWidth()
-    const height = this.realHeight()
 
     return (
       <UiEntity
-        key={key}
         uiTransform={{
-          display: this.visible ? 'flex' : 'none',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
           positionType: 'absolute',
-          position: { top: '50%', left: '50%' },
-          margin: { top: -height / 2, left: -width / 2 },
-          padding: {top: 40, bottom: 20, left: 10, right: 10},
-          width: 'auto',
-          height: 'auto',
+          height: '100%',
+          width: '100%',
+          display: this.visible ? 'flex' : 'none',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         <UiEntity
-          uiTransform={{
-            positionType: 'absolute',
-            position: { top: 0, left: 0 },
-            width: '100%',
-            height: '100%',
-          }}
-          uiBackground={{
-            textureMode: 'stretch',
-            texture: {
-              src: this._texture,
-            },
-            uvs: getImageAtlasMapping(this._section),
-          }}
-        />
-        {this.visible &&
-          this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
-          <UiEntity
+          key={key}
           uiTransform={{
             display: this.visible ? 'flex' : 'none',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            width: 'auto'
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            padding: {top: 40, bottom: 20, left: 10, right: 10},
+            width: this.width,
+            height: this.height,
           }}
-          >
-        {this.visible &&
-          this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
-          </UiEntity>
+        >
+          <UiEntity
+            uiTransform={{
+              positionType: 'absolute',
+              position: { top: 0, left: 0 },
+              width: '100%',
+              height: '100%',
+            }}
+            uiBackground={{
+              textureMode: 'stretch',
+              texture: {
+                src: this._texture,
+              },
+              uvs: getImageAtlasMapping(this._section),
+            }}
+          />
+          {this.visible &&
+            this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
+            <UiEntity
+            uiTransform={{
+              display: this.visible ? 'flex' : 'none',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              width: 'auto'
+            }}
+            >
+          {this.visible &&
+            this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
+            </UiEntity>
+        </UiEntity>
       </UiEntity>
     )
   }
@@ -246,11 +255,11 @@ export class Prompt extends UIObject implements IPrompt {
   }
 
   public realWidth(): number {
-    return this.width ? this.width : this._section.sourceWidth
+    return this.posWidth ? this.posWidth : this._section.sourceWidth
   }
 
   public realHeight(): number {
-    return this.height ? this.height : this._section.sourceHeight
+    return this.posHeight ? this.posHeight : this._section.sourceHeight
   }
 
   private _setStyle() {

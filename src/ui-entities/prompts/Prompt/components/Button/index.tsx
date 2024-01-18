@@ -45,27 +45,23 @@ enum PromptButtonCustomBgStyles {
 
 export type PromptButtonConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition: number
-  yPosition: number
   onMouseDown: Callback
   style?: PromptButtonStyles
+  buttonSize?: number | 'auto'
 }
 
 const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = {
   startHidden: false,
   text: '',
-  xPosition: 0,
-  yPosition: 0,
   onMouseDown: () => {},
   style: PromptButtonStyles.ROUNDSILVER,
+  buttonSize: 'auto'
 } as const
 
 /**
  * Prompt button
  * @param {boolean} [startHidden=false] starting hidden
  * @param {string | number} [text=''] label text
- * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
- * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
  * @param {Callback} [onMouseDown=0] click action
  * @param {PromptButtonStyles} [style=CloseIconStyles.ROUNDSILVER] visible variant
  *
@@ -76,12 +72,8 @@ export class PromptButton extends InPromptUIObject {
   public iconElement: PromptButtonIconElementProps
 
   public text: string | number
-  public xPosition: number
-  public yPosition: number
   public onMouseDown: Callback
 
-  private _xPosition: number | undefined
-  private _yPosition: number | undefined
   private readonly _width: number
   private readonly _height: number
   private _disabled: boolean
@@ -96,10 +88,9 @@ export class PromptButton extends InPromptUIObject {
     parent,
     startHidden = promptButtonInitialConfig.startHidden,
     text = promptButtonInitialConfig.text,
-    xPosition = promptButtonInitialConfig.xPosition,
-    yPosition = promptButtonInitialConfig.yPosition,
     onMouseDown = promptButtonInitialConfig.onMouseDown,
     style = promptButtonInitialConfig.style,
+    buttonSize = promptButtonInitialConfig.buttonSize,
   }: PromptButtonConfig) {
     super({
       startHidden,
@@ -107,8 +98,6 @@ export class PromptButton extends InPromptUIObject {
     })
 
     this.text = String(text).slice(0, 16)
-    this.xPosition = xPosition
-    this.yPosition = yPosition
     this.onMouseDown = onMouseDown
 
     this._style = style
@@ -140,26 +129,14 @@ export class PromptButton extends InPromptUIObject {
         ? Color4.Black()
         : Color4.White()
 
-    this.labelElement = {
-      font: defaultFont,
-      fontSize: 20,
-      textAlign: 'middle-center',
-      uiTransform: {
-        width: '100%',
-        height: '100%',
-        margin: {
-          left: labelXOffset,
-        },
-      },
-    }
+    this.labelElement = {}
 
     this.imageElement = {
       uiTransform: {
-        justifyContent: 'center',
-        width: 'auto',
+        justifyContent: 'flex-end',
+        width: typeof(buttonSize) == 'number' ? buttonSize as number : 'auto',
         height: this._height,
         margin: {top: 30, right: 10}
-        // positionType: 'absolute',
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -221,8 +198,6 @@ export class PromptButton extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
       <UiEntity
@@ -236,7 +211,8 @@ export class PromptButton extends InPromptUIObject {
         uiText={{
           value: String(this.text),
           color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
-          fontSize: 24
+          fontSize: 24,
+          font: defaultFont,
         }}
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
@@ -255,13 +231,6 @@ export class PromptButton extends InPromptUIObject {
             },
           }}
         />
-        {/* <Label
-          {...this.labelElement}
-          value={String(this.text)}
-          color={
-            this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor
-          }
-        /> */}
       </UiEntity>
     )
   }

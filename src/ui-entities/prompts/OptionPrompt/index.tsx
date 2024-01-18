@@ -12,15 +12,16 @@ type OptionPromptConfig = PromptExternalConfig & {
   textSize?: number;
   useDarkTheme?: boolean;
   acceptLabel?: string;
+  acceptSize?: number | 'auto'
   rejectLabel?: string;
+  rejectSize?: number | 'auto'
   onAccept: () => void;
   onReject?: () => void;
-  filter?: (text: string | number) => number
 }
 
 type OptionPromptSizeConfig = {
-  width?: number;
-  height?: number;
+  width?: 'auto' | number;
+  height?: 'auto'| number;
 }
 
 const optionPromptInitialConfig: Required<OptionPromptConfig & OptionPromptSizeConfig> = {
@@ -31,18 +32,17 @@ const optionPromptInitialConfig: Required<OptionPromptConfig & OptionPromptSizeC
   textSize: 21,
   useDarkTheme: false,
   acceptLabel: 'Yes',
+  acceptSize: 'auto',
   rejectLabel: 'No',
-  width: 480,
-  height: 384,
+  rejectSize: 'auto',
+  width: 'auto',
+  height: 'auto',
   onAccept: () => {
   },
   onReject: () => {
   },
   onClose: () => {
   },
-  filter: (text: string | number) => {
-    return (String(text).match(/((?:\S+\s*){5})/g)||'').length
-  }
 } as const
 
 /**
@@ -77,49 +77,46 @@ export class OptionPrompt extends Prompt {
       textSize = optionPromptInitialConfig.textSize,
       useDarkTheme = optionPromptInitialConfig.useDarkTheme,
       acceptLabel = optionPromptInitialConfig.acceptLabel,
+      acceptSize = optionPromptInitialConfig.acceptSize,
       rejectLabel = optionPromptInitialConfig.rejectLabel,
+      rejectSize = optionPromptInitialConfig.rejectSize,
       onAccept = optionPromptInitialConfig.onAccept,
       onReject = optionPromptInitialConfig.onReject,
       onClose = optionPromptInitialConfig.onClose,
-      filter = optionPromptInitialConfig.filter
+      width = optionPromptInitialConfig.width,
+      height = optionPromptInitialConfig.height,
     }: OptionPromptConfig) {
     super(
       {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
-        width: optionPromptInitialConfig.width,
-        height: optionPromptInitialConfig.height + filter(text) * (filter(text) <= 10 ?  10 :  18),
+        width: width,
+        height: height,
         onClose,
       })
 
     this.titleElement = this.addText({
       value: String(title),
-      xPosition: 0,
-      yPosition: 160 + filter(text) * (filter(text) <= 10 ?  3 :  9),
       size: titleSize,
     })
 
     this.textElement = this.addText({
       value: String(text).split(/((?:\S+\s*){5})/g).filter(Boolean).join('\n'),
-      xPosition: 0,
-      yPosition: 40,
       size: textSize,
     })
 
     this.primaryButtonElement = this.addButton({
       text: String(acceptLabel),
-      xPosition: -100,
-      yPosition: -120 - filter(text)* (filter(text) <= 10 ?  3 :  8),
       onMouseDown: onAccept,
       style: PromptButtonStyles.E,
+      buttonSize: acceptSize
     })
 
     this.secondaryButtonElement = this.addButton({
       text: String(rejectLabel),
-      xPosition: 100,
-      yPosition: -120 - filter(text) * (filter(text) <= 10 ?  3 :  8),
       onMouseDown: onReject,
       style: PromptButtonStyles.F,
+      buttonSize: rejectSize
     })
   }
 }
