@@ -1,5 +1,5 @@
 import { Color4 } from '@dcl/sdk/math'
-import ReactEcs, { Label } from '@dcl/sdk/react-ecs'
+import ReactEcs, { Label, UiEntity } from '@dcl/sdk/react-ecs'
 import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
@@ -73,30 +73,37 @@ export class Announcement extends DelayedHidingUIObject {
     this.textElement = {
       textAlign: 'bottom-center',
       font: defaultFont,
-      uiTransform: {
-        positionType: 'absolute',
-        position: { bottom: '50%', left: '50%' },
-      },
     }
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
     return (
-      <Label
-        key={key}
-        {...this.textElement}
-        fontSize={this.size}
-        color={this.color}
-        value={String(this.value)}
+      <UiEntity
         uiTransform={{
-          ...this.textElement.uiTransform,
+          positionType: 'absolute',
+          width: '100%',
+          height: '100%',
           display: this.visible ? 'flex' : 'none',
-          margin: {
-            left: this.xOffset,
-            bottom: this.yOffset,
-          },
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
+      >
+        <Label
+          key={key}
+          {...this.textElement}
+          fontSize={this.size}
+          color={this.color}
+          value={String(this.value)}
+          uiTransform={{
+            ...this.textElement.uiTransform,
+            display: this.visible ? 'flex' : 'none',
+            margin: {
+              left: this.xOffset,
+              bottom: this.yOffset,
+            },
+          }}
+        />
+      </UiEntity>
     )
   }
 }
