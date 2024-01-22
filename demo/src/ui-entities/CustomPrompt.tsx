@@ -14,27 +14,27 @@ export const customPrompt = ui.createComponent(ui.CustomPrompt,
 const promptTitle = customPrompt.addText({
   value: 'What will you do?',
   xPosition: 0,
-  yPosition: -100,
+  yPosition: -140,
   color: Color4.Yellow(),
   size: 30,
 })
 
 const promptIcon = customPrompt.addIcon({
   image: 'images/scene-thumbnail.png',
-  xPosition: 150,
+  xPosition: -150,
   yPosition: 200,
 })
 
 const promptText = customPrompt.addText({
   value: 'It\'s an important decision',
   xPosition: 0,
-  yPosition: 50,
+  yPosition: 60,
 })
 
 const promptTextBox = customPrompt.addTextBox({
   placeholder: 'Enter text',
   xPosition: 0,
-  yPosition: -20,
+  yPosition: -30,
   onChange: () => {
     console.log('addTextBox onChange')
   },
@@ -67,7 +67,7 @@ const promptSwitch = customPrompt.addSwitch({
 const promptButtonE = customPrompt.addButton({
   style: ui.ButtonStyles.E,
   text: 'Yeah',
-  xPosition: 100,
+  xPosition: 0,
   yPosition: 0,
   onMouseDown: () => {
     console.log('addButton onMouseDown')
@@ -77,7 +77,7 @@ const promptButtonE = customPrompt.addButton({
 const promptButtonF = customPrompt.addButton({
   style: ui.ButtonStyles.F,
   text: 'Nope',
-  xPosition: -200,
+  xPosition: 0,
   yPosition: 0,
   onMouseDown: () => {
     console.log('addButton onMouseDown')

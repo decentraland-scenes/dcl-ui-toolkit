@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@dcl/sdk": "next",
-    "@dcl/js-runtime": "7.3.37-7586726635.commit-58deb0d"
+    "@dcl/js-runtime": "7.3.37"
   },
   "prettier": {
     "semi": false,

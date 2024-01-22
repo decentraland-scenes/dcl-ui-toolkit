@@ -95,6 +95,7 @@ export class PromptInput extends InPromptUIObject {
         uiTransform={{
           ...this.fillInBoxElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
+          position: {left: this.xPosition, top: this.yPosition}
         }}
         onChange={this.onChange}
       />
