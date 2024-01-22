@@ -45,6 +45,8 @@ enum PromptButtonCustomBgStyles {
 
 export type PromptButtonConfig = InPromptUIObjectConfig & {
   text: string | number
+  xPosition?: number
+  yPosition?: number
   onMouseDown: Callback
   style?: PromptButtonStyles
   buttonSize?: number | 'auto'
@@ -53,6 +55,8 @@ export type PromptButtonConfig = InPromptUIObjectConfig & {
 const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = {
   startHidden: false,
   text: '',
+  xPosition: 0,
+  yPosition: 0,
   onMouseDown: () => {},
   style: PromptButtonStyles.ROUNDSILVER,
   buttonSize: 'auto'
@@ -62,6 +66,8 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
  * Prompt button
  * @param {boolean} [startHidden=false] starting hidden
  * @param {string | number} [text=''] label text
+ * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
+ * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
  * @param {Callback} [onMouseDown=0] click action
  * @param {PromptButtonStyles} [style=CloseIconStyles.ROUNDSILVER] visible variant
  *
@@ -72,8 +78,12 @@ export class PromptButton extends InPromptUIObject {
   public iconElement: PromptButtonIconElementProps
 
   public text: string | number
+  public xPosition: number
+  public yPosition: number
   public onMouseDown: Callback
 
+  private _xPosition: number | undefined
+  private _yPosition: number | undefined
   private readonly _width: number
   private readonly _height: number
   private _disabled: boolean
@@ -88,6 +98,8 @@ export class PromptButton extends InPromptUIObject {
     parent,
     startHidden = promptButtonInitialConfig.startHidden,
     text = promptButtonInitialConfig.text,
+    xPosition = promptButtonInitialConfig.xPosition,
+    yPosition = promptButtonInitialConfig.yPosition,
     onMouseDown = promptButtonInitialConfig.onMouseDown,
     style = promptButtonInitialConfig.style,
     buttonSize = promptButtonInitialConfig.buttonSize,
@@ -98,6 +110,8 @@ export class PromptButton extends InPromptUIObject {
     })
 
     this.text = String(text).slice(0, 16)
+    this.xPosition = xPosition
+    this.yPosition = yPosition
     this.onMouseDown = onMouseDown
 
     this._style = style
@@ -207,6 +221,7 @@ export class PromptButton extends InPromptUIObject {
           ...this.imageElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
           flexDirection: 'row-reverse',
+          position: {left: this.xPosition, top: this.yPosition}
         }}
         uiText={{
           value: String(this.text),
