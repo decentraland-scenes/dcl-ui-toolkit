@@ -226,7 +226,6 @@ export class PromptButton extends InPromptUIObject {
             ...this.imageElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
             flexDirection: 'row',
-            position: { bottom: this.yPosition, right: this.xPosition * -1 },
           }
           : {
             ...this.imageElement.uiTransform,

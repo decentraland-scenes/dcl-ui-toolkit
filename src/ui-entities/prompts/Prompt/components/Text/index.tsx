@@ -88,7 +88,6 @@ export class PromptText extends InPromptUIObject {
             ? {           
               display: this.visible ? 'flex' : 'none',
               margin: {top: 30, left: 10, right: 10},
-              position: { left: this.xPosition, top: this.yPosition * -1 },
               height: 'auto',
               alignSelf: 'center'
             }

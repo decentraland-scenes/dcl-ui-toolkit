@@ -805,6 +805,7 @@ const promptButtonE = customPrompt.addButton({
   text: 'Yeah',
   xPosition: 0,
   yPosition: 0,
+  buttonSize: 200,
   onMouseDown: () => {
     console.log('Yeah pressed')
   },
@@ -815,6 +816,7 @@ const promptButtonF = customPrompt.addButton({
   text: 'Nope',
   xPosition: 0,
   yPosition: -75,
+  buttonSize: 'auto',
   onMouseDown: () => {
     console.log('Nope pressed')
   },
@@ -828,6 +830,7 @@ The `addButton` function can take the following parameters:
 - `text: string | number`\*: Label to show on the button.
 - `xPosition: number`\*: Offset on X from the center of the window.
 - `yPosition: number`\*: Offset on Y from the center of the window.
+- `buttonSize: number | auto`\*: Size of button, `auto` by default.
 - `onMouseDown: () => void`\*: Function to execute when the button is clicked.
 - `style: PromptButtonStyles = PromptButtonStyles.ROUNDSILVER`: Choose out of several predefined style options, with different colors and rounded or square corners.
 - `startHidden: boolean = false`: If true, the button will be invisible till calling the `show()` function.

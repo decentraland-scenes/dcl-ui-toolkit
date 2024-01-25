@@ -100,7 +100,6 @@ export class PromptInput extends InPromptUIObject {
             ...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
             margin: {right: 10, left: 10},
-            position: { bottom: this.yPosition, right: this.xPosition * -1 },
           }
           : {
             ...this.fillInBoxElement.uiTransform,
