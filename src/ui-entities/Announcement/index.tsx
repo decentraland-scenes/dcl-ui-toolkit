@@ -97,7 +97,7 @@ export class Announcement extends DelayedHidingUIObject {
           uiTransform={{
             ...this.textElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
-            margin: {
+            position: {
               left: this.xOffset,
               bottom: this.yOffset,
             },

@@ -44,7 +44,7 @@ const promptInitialConfig: Required<PromptConfig> = {
   style: PromptStyles.LIGHT,
   width: 400,
   height: 250,
-  onClose: () => {},
+  onClose: () => { },
 } as const
 
 /**
@@ -69,7 +69,7 @@ export class Prompt extends UIObject implements IPrompt {
   private _texture: AtlasTheme
   private _section: ImageAtlasData
   private _components: (
-    | PromptCloseIcon
+ 
     | PromptText
     | PromptIcon
     | PromptCheckbox
@@ -78,6 +78,9 @@ export class Prompt extends UIObject implements IPrompt {
   )[]
   private _btn: (
     | PromptButton
+  )[]
+  private _closeIconBtn: (
+    | PromptCloseIcon
   )[]
   private readonly _closeIconData: PromptCloseIconConfig
   public readonly isDarkTheme: boolean
@@ -118,9 +121,12 @@ export class Prompt extends UIObject implements IPrompt {
 
     this.closeIcon = new PromptCloseIcon(this._closeIconData)
 
-    this._components = [this.closeIcon]
+    this._components = []
 
     this._btn = []
+
+    this._closeIconBtn = [this.closeIcon]
+
   }
 
   public addTextBox(config: Omit<PromptInputConfig, 'parent'>): PromptInput {
@@ -190,16 +196,17 @@ export class Prompt extends UIObject implements IPrompt {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
+    const width = this.realWidth()
+    const height = this.realHeight()
 
     return (
       <UiEntity
         uiTransform={{
-          positionType: 'absolute',
-          height: '100%',
           width: '100%',
-          display: this.visible ? 'flex' : 'none',
+          height: '100%',
+          alignItems: 'center',
           justifyContent: 'center',
-          alignItems: 'center'
+          positionType: 'absolute'
         }}
       >
         <UiEntity
@@ -207,12 +214,10 @@ export class Prompt extends UIObject implements IPrompt {
           uiTransform={{
             display: this.visible ? 'flex' : 'none',
             flexDirection: 'column',
-            alignItems: 'center',
+            positionType: 'absolute',
             justifyContent: 'center',
-            alignSelf: 'center',
-            padding: {top: 40, bottom: 20, left: 10, right: 10},
-            width: this.width,
-            height: this.height,
+            width: this.width != 'auto' ? this.width : 'auto',
+            height: this.height != 'auto' ? this.height : 'auto',
           }}
         >
           <UiEntity
@@ -230,19 +235,28 @@ export class Prompt extends UIObject implements IPrompt {
               uvs: getImageAtlasMapping(this._section),
             }}
           />
-          {this.visible &&
-            this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
-            <UiEntity
+           {this.visible &&
+              this._closeIconBtn.map((component, idx) => component.render(`prompt-component-${idx}`))}
+          <UiEntity
             uiTransform={{
-              display: this.visible ? 'flex' : 'none',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              width: 'auto'
+              flexDirection: 'column',
+              alignSelf: 'center',
+              justifyContent: 'flex-end',
+              width: this.width != 'auto' ? width : 'auto',
+              height: this.height != 'auto' ? height : 'auto',
             }}
+          >
+            {this.visible &&
+              this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
+            <UiEntity
+              uiTransform={{
+                justifyContent: 'center',
+              }}
             >
-          {this.visible &&
-            this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
+              {this.visible &&
+                this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
             </UiEntity>
+          </UiEntity>
         </UiEntity>
       </UiEntity>
     )

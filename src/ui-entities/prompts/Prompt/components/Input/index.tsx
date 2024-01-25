@@ -16,8 +16,8 @@ export type PromptInputFillInBoxElementProps = Partial<
 
 export type PromptInputConfig = InPromptUIObjectConfig & {
   placeholder?: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
   onChange?: (value: string) => void
 }
 
@@ -26,7 +26,7 @@ const promptInputInitialConfig: Omit<Required<PromptInputConfig>, 'parent'> = {
   placeholder: 'Fill in',
   xPosition: 0,
   yPosition: 0,
-  onChange: () => {},
+  onChange: () => { },
 } as const
 
 /**
@@ -85,6 +85,8 @@ export class PromptInput extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
+    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
+    this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
       <Input
@@ -92,11 +94,21 @@ export class PromptInput extends InPromptUIObject {
         {...this.fillInBoxElement}
         placeholder={String(this.placeholder)}
         color={this.fillInBoxElement.color || (this.isDarkTheme ? Color4.White() : Color4.Black())}
-        uiTransform={{
-          ...this.fillInBoxElement.uiTransform,
-          display: this.visible ? 'flex' : 'none',
-          position: {left: this.xPosition, top: this.yPosition}
-        }}
+        uiTransform={
+          (this.xPosition == 0 && this.yPosition == 0)
+          ? {
+            ...this.fillInBoxElement.uiTransform,
+            display: this.visible ? 'flex' : 'none',
+            margin: {right: 10, left: 10},
+            position: { bottom: this.yPosition, right: this.xPosition * -1 },
+          }
+          : {
+            ...this.fillInBoxElement.uiTransform,
+            display: this.visible ? 'flex' : 'none',
+            positionType: 'absolute',
+            position: { bottom: this._yPosition, right: this._xPosition * -1 },
+            margin: {left: '50%', top: '50%'}
+          }}
         onChange={this.onChange}
       />
     )

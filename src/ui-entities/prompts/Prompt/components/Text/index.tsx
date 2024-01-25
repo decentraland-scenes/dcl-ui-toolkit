@@ -70,10 +70,6 @@ export class PromptText extends InPromptUIObject {
     this.size = size
 
     this.textElement = {
-      uiTransform: {
-        height: 'auto',
-        position: {left: xPosition, top: yPosition}
-      },
       textAlign: 'middle-center',
       font: defaultFont,
     }
@@ -87,10 +83,23 @@ export class PromptText extends InPromptUIObject {
         value={String(this.value)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
-        uiTransform={{
-          ...this.textElement.uiTransform,
-          display: this.visible ? 'flex' : 'none',
-        }}
+        uiTransform={
+          (this.xPosition == 0 && this.yPosition == 0)
+            ? {           
+              display: this.visible ? 'flex' : 'none',
+              margin: {top: 30, left: 10, right: 10},
+              position: { left: this.xPosition, top: this.yPosition * -1 },
+              height: 'auto',
+              alignSelf: 'center'
+            }
+            : {
+              display: this.visible ? 'flex' : 'none',
+              maxWidth: '100%',
+              positionType: 'absolute',
+              position: { top: '50%', left: '50%' },
+              margin: { left: this.xPosition, top: this.yPosition * -1 },
+            }
+        }
       />
     )
   }

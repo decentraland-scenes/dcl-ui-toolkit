@@ -108,6 +108,8 @@ export class OptionPrompt extends Prompt {
     this.primaryButtonElement = this.addButton({
       text: String(acceptLabel),
       onMouseDown: onAccept,
+      xPosition: 0,
+      yPosition: 0,
       style: PromptButtonStyles.E,
       buttonSize: acceptSize
     })

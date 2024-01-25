@@ -57,7 +57,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
   text: '',
   xPosition: 0,
   yPosition: 0,
-  onMouseDown: () => {},
+  onMouseDown: () => { },
   style: PromptButtonStyles.ROUNDSILVER,
   buttonSize: 'auto'
 } as const
@@ -109,7 +109,7 @@ export class PromptButton extends InPromptUIObject {
       parent,
     })
 
-    this.text = String(text).slice(0, 16)
+    this.text = text
     this.xPosition = xPosition
     this.yPosition = yPosition
     this.onMouseDown = onMouseDown
@@ -148,9 +148,10 @@ export class PromptButton extends InPromptUIObject {
     this.imageElement = {
       uiTransform: {
         justifyContent: 'flex-end',
-        width: typeof(buttonSize) == 'number' ? buttonSize as number : 'auto',
+        width: typeof (buttonSize) == 'number' ? buttonSize as number : 'auto',
         height: this._height,
-        margin: {top: 30, right: 10}
+        margin: { top: 30, right: 10, bottom: 10 },
+        maxWidth: 300,
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -162,7 +163,7 @@ export class PromptButton extends InPromptUIObject {
           atlasHeight: sourcesComponentsCoordinates.atlasHeight,
           atlasWidth: sourcesComponentsCoordinates.atlasWidth,
         }),
-      }, 
+      },
     }
 
     this.iconElement = {
@@ -212,23 +213,29 @@ export class PromptButton extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
+    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
+    this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
 
     return (
       <UiEntity
         key={key}
         {...this.imageElement}
-        uiTransform={{
-          ...this.imageElement.uiTransform,
-          display: this.visible ? 'flex' : 'none',
-          flexDirection: 'row-reverse',
-          position: {left: this.xPosition, top: this.yPosition}
-        }}
-        uiText={{
-          value: String(this.text),
-          color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
-          fontSize: 24,
-          font: defaultFont,
-        }}
+        uiTransform={
+          (this.xPosition == 0 && this.yPosition == 0)
+          ? {
+            ...this.imageElement.uiTransform,
+            display: this.visible ? 'flex' : 'none',
+            flexDirection: 'row',
+            position: { bottom: this.yPosition, right: this.xPosition * -1 },
+          }
+          : {
+            ...this.imageElement.uiTransform,
+            display: this.visible ? 'flex' : 'none',
+            flexDirection: 'row',
+            position: { bottom: this._yPosition, right: this._xPosition * -1 },
+            positionType: 'absolute',
+          }}
+       
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
           this._click()
@@ -246,6 +253,23 @@ export class PromptButton extends InPromptUIObject {
             },
           }}
         />
+        <UiEntity
+        uiTransform={{
+          width: 'auto',
+          flexGrow: 1,
+          maxWidth: '265',
+          overflow: 'hidden',
+        }}
+        uiText={{
+          value: String(this.text),
+          color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
+          fontSize: 24,
+          font: defaultFont,
+          textAlign: 'middle-left'
+        }}
+        >
+
+        </UiEntity>
       </UiEntity>
     )
   }

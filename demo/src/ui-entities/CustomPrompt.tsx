@@ -14,27 +14,27 @@ export const customPrompt = ui.createComponent(ui.CustomPrompt,
 const promptTitle = customPrompt.addText({
   value: 'What will you do?',
   xPosition: 0,
-  yPosition: -140,
+  yPosition: 250,
   color: Color4.Yellow(),
   size: 30,
 })
 
 const promptIcon = customPrompt.addIcon({
   image: 'images/scene-thumbnail.png',
-  xPosition: -150,
-  yPosition: 200,
+  xPosition: 0,
+  yPosition: 128,
 })
 
 const promptText = customPrompt.addText({
   value: 'It\'s an important decision',
   xPosition: 0,
-  yPosition: 60,
+  yPosition: 50,
 })
 
 const promptTextBox = customPrompt.addTextBox({
   placeholder: 'Enter text',
   xPosition: 0,
-  yPosition: -30,
+  yPosition: -20,
   onChange: () => {
     console.log('addTextBox onChange')
   },
@@ -67,8 +67,8 @@ const promptSwitch = customPrompt.addSwitch({
 const promptButtonE = customPrompt.addButton({
   style: ui.ButtonStyles.E,
   text: 'Yeah',
-  xPosition: 0,
-  yPosition: 0,
+  xPosition: -100,
+  yPosition: -200,
   onMouseDown: () => {
     console.log('addButton onMouseDown')
   },
@@ -77,8 +77,8 @@ const promptButtonE = customPrompt.addButton({
 const promptButtonF = customPrompt.addButton({
   style: ui.ButtonStyles.F,
   text: 'Nope',
-  xPosition: 0,
-  yPosition: 0,
+  xPosition: 100,
+  yPosition: -200,
   onMouseDown: () => {
     console.log('addButton onMouseDown')
   },
