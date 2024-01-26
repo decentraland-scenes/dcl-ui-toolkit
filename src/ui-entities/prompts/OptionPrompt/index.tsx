@@ -117,6 +117,8 @@ export class OptionPrompt extends Prompt {
     this.secondaryButtonElement = this.addButton({
       text: String(rejectLabel),
       onMouseDown: onReject,
+      xPosition: 0,
+      yPosition: 0,
       style: PromptButtonStyles.F,
       buttonSize: rejectSize
     })

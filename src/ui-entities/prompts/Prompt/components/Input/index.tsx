@@ -96,18 +96,14 @@ export class PromptInput extends InPromptUIObject {
         color={this.fillInBoxElement.color || (this.isDarkTheme ? Color4.White() : Color4.Black())}
         uiTransform={
           (this.xPosition == 0 && this.yPosition == 0)
-          ? {
-            ...this.fillInBoxElement.uiTransform,
+          ? {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
-            margin: {right: 10, left: 10},
-          }
-          : {
-            ...this.fillInBoxElement.uiTransform,
+            margin: {right: 10, left: 10}}
+          : {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
             positionType: 'absolute',
             position: { bottom: this._yPosition, right: this._xPosition * -1 },
-            margin: {left: '50%', top: '50%'}
-          }}
+            margin: {left: '50%', top: '50%'}}}
         onChange={this.onChange}
       />
     )

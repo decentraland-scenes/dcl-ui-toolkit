@@ -85,19 +85,14 @@ export class PromptText extends InPromptUIObject {
         fontSize={this.size}
         uiTransform={
           (this.xPosition == 0 && this.yPosition == 0)
-            ? {           
-              display: this.visible ? 'flex' : 'none',
-              margin: {top: 30, left: 10, right: 10},
+            ? {display: this.visible ? 'flex' : 'none',
+              margin: { top: 30, left: 10, right: 10 },
               height: 'auto',
-              alignSelf: 'center'
-            }
-            : {
-              display: this.visible ? 'flex' : 'none',
-              maxWidth: '100%',
+              alignSelf: 'center'}
+            : {display: this.visible ? 'flex' : 'none',
               positionType: 'absolute',
               position: { top: '50%', left: '50%' },
-              margin: { left: this.xPosition, top: this.yPosition * -1 },
-            }
+              margin: { left: this.xPosition, top: this.yPosition * -1 }}
         }
       />
     )

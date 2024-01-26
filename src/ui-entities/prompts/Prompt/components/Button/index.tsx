@@ -222,24 +222,16 @@ export class PromptButton extends InPromptUIObject {
         {...this.imageElement}
         uiTransform={
           (this.xPosition == 0 && this.yPosition == 0)
-          ? {
-            ...this.imageElement.uiTransform,
-            display: this.visible ? 'flex' : 'none',
-            flexDirection: 'row',
-          }
-          : {
-            ...this.imageElement.uiTransform,
-            display: this.visible ? 'flex' : 'none',
-            flexDirection: 'row',
-            position: { bottom: this._yPosition, right: this._xPosition * -1 },
-            positionType: 'absolute',
-          }}
-       
+            ? {...this.imageElement.uiTransform,
+              display: this.visible ? 'flex' : 'none'}
+            : {...this.imageElement.uiTransform,
+              display: this.visible ? 'flex' : 'none',
+              position: { bottom: this._yPosition, right: this._xPosition * -1 },
+              positionType: 'absolute'}}
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
           this._click()
-        }}
-      >
+        }}>
         <UiEntity
           {...this.iconElement}
           uiTransform={{
@@ -248,27 +240,24 @@ export class PromptButton extends InPromptUIObject {
             margin: {
               top: -26 / 2,
               left: 5,
-              right: 5
             },
           }}
         />
         <UiEntity
-        uiTransform={{
-          width: 'auto',
-          flexGrow: 1,
-          maxWidth: '265',
-          overflow: 'hidden',
-        }}
-        uiText={{
-          value: String(this.text),
-          color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
-          fontSize: 24,
-          font: defaultFont,
-          textAlign: 'middle-left'
-        }}
-        >
-
-        </UiEntity>
+          uiTransform={{
+            width: 'auto',
+            flexGrow: 1,
+            maxWidth: '264',
+            overflow: 'hidden',
+            margin: { right: 5 }
+          }}
+          uiText={{
+            value: String(this.text),
+            color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
+            fontSize: 24,
+            font: defaultFont,
+            textAlign: 'middle-left'
+          }}/>
       </UiEntity>
     )
   }
