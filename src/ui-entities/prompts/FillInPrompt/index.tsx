@@ -99,6 +99,8 @@ export class FillInPrompt extends Prompt {
       onMouseDown: () => {
         onAccept(this._inputText)
       },
+      xPosition: 0,
+      yPosition: 0,
       style: PromptButtonStyles.E,
       buttonSize: acceptSize,
     })

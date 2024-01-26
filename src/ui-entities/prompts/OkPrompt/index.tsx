@@ -81,6 +81,8 @@ export class OkPrompt extends Prompt {
     this.buttonElement = this.addButton({
       text: String(acceptLabel),
       onMouseDown: onAccept,
+      xPosition: 0,
+      yPosition: 0,
       style: PromptButtonStyles.E,
       buttonSize: acceptSize
     })

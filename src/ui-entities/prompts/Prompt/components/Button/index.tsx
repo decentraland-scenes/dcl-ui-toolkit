@@ -222,16 +222,21 @@ export class PromptButton extends InPromptUIObject {
         {...this.imageElement}
         uiTransform={
           (this.xPosition == 0 && this.yPosition == 0)
-            ? {...this.imageElement.uiTransform,
-              display: this.visible ? 'flex' : 'none'}
-            : {...this.imageElement.uiTransform,
+            ? {
+              ...this.imageElement.uiTransform,
+              display: this.visible ? 'flex' : 'none'
+            }
+            : {
+              ...this.imageElement.uiTransform,
               display: this.visible ? 'flex' : 'none',
               position: { bottom: this._yPosition, right: this._xPosition * -1 },
-              positionType: 'absolute'}}
+              positionType: 'absolute'
+            }}
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
           this._click()
-        }}>
+        }}
+      >
         <UiEntity
           {...this.iconElement}
           uiTransform={{
@@ -257,7 +262,8 @@ export class PromptButton extends InPromptUIObject {
             fontSize: 24,
             font: defaultFont,
             textAlign: 'middle-left'
-          }}/>
+          }}
+        />
       </UiEntity>
     )
   }

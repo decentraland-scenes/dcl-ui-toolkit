@@ -207,7 +207,8 @@ export class Prompt extends UIObject implements IPrompt {
           alignItems: 'center',
           justifyContent: 'center',
           positionType: 'absolute'
-        }}>
+        }}
+      >
         <UiEntity
           key={key}
           uiTransform={{
@@ -217,7 +218,8 @@ export class Prompt extends UIObject implements IPrompt {
             justifyContent: 'center',
             width: this.width != 'auto' ? this.width : 'auto',
             height: this.height != 'auto' ? this.height : 'auto',
-          }}>
+          }}
+        >
           <UiEntity
             uiTransform={{
               positionType: 'absolute',
@@ -231,7 +233,8 @@ export class Prompt extends UIObject implements IPrompt {
                 src: this._texture,
               },
               uvs: getImageAtlasMapping(this._section),
-            }} />
+            }}
+          />
           {this.visible &&
             this._closeIconBtn.map((component, idx) => component.render(`prompt-component-${idx}`))}
           <UiEntity
@@ -241,7 +244,8 @@ export class Prompt extends UIObject implements IPrompt {
               justifyContent: 'flex-end',
               width: this.width != 'auto' ? width : 'auto',
               height: this.height != 'auto' ? height : 'auto',
-            }}>
+            }}
+          >
             {this.visible &&
               this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
             <UiEntity
