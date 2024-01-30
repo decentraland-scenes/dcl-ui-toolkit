@@ -165,7 +165,7 @@ export class PromptButton extends InPromptUIObject {
         justifyContent: 'flex-end',
         width: typeof (buttonSize) == 'number' ? buttonSize as number : 'auto',
         height: this._height,
-        margin: { top: 30, bottom: 10 },
+        margin: { top: 30, bottom: 20 },
         maxWidth: 300,
       },
       uiBackground: {

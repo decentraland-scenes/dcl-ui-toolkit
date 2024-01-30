@@ -244,6 +244,7 @@ export class Prompt extends UIObject implements IPrompt {
               justifyContent: 'flex-end',
               width: this.width != 'auto' ? width : 'auto',
               height: this.height != 'auto' ? height : 'auto',
+              margin: {top: 20}
             }}
           >
             {this.visible &&

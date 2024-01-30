@@ -101,7 +101,7 @@ export class OptionPrompt extends Prompt {
     })
 
     this.textElement = this.addText({
-      value: String(text).split(/((?:\S+\s*){5})/g).filter(Boolean).join('\n'),
+      value: String(text),
       size: textSize,
     })
 

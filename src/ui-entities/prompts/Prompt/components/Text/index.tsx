@@ -29,6 +29,23 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   size: 15,
 } as const
 
+function lineBreak(text: string, maxLineLength: number): string {
+  const words = text.split(' ');
+  let currentLine = '';
+  const lines = [];
+
+  for (const word of words) {
+    if (currentLine.length + word.length + 1 <= maxLineLength) {
+      currentLine += `${word} `;
+    } else {
+      lines.push(currentLine.trim());
+      currentLine = `${word} `;
+    }
+  }
+  lines.push(currentLine.trim());
+  return lines.join('\n');
+}
+
 /**
  * Prompt text
  * @param {boolean} [startHidden=false] starting hidden
@@ -80,13 +97,13 @@ export class PromptText extends InPromptUIObject {
       <Label
         key={key}
         {...this.textElement}
-        value={String(this.value)}
+        value={lineBreak(String(this.value), 50)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
         uiTransform={
           (this.xPosition == 0 && this.yPosition == 0)
             ? {display: this.visible ? 'flex' : 'none',
-              margin: { top: 30, left: 10, right: 10 },
+              margin: { top: 20, left: 20, right: 20 }, 
               height: 'auto',
               alignSelf: 'center'}
             : {display: this.visible ? 'flex' : 'none',
