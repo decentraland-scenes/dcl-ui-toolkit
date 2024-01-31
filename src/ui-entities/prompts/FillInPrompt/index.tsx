@@ -82,6 +82,7 @@ export class FillInPrompt extends Prompt {
 
     this.titleElement = this.addText({
       value: String(title),
+      positionAbsolute: false,
       size: titleSize,
     })
 
@@ -92,6 +93,7 @@ export class FillInPrompt extends Prompt {
       },
       xPosition: 0,
       yPosition: 0,
+      positionAbsolute: false,
     })
 
     this.buttonElement = this.addButton({
@@ -101,6 +103,7 @@ export class FillInPrompt extends Prompt {
       },
       xPosition: 0,
       yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.E,
       buttonSize: acceptSize,
     })

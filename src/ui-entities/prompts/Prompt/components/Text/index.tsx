@@ -16,6 +16,7 @@ export type PromptTextConfig = InPromptUIObjectConfig & {
   value: string | number
   xPosition?: number
   yPosition?: number
+  positionAbsolute?: boolean,
   color?: Color4
   size?: number
 }
@@ -25,6 +26,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   value: '',
   xPosition: 0,
   yPosition: 0,
+  positionAbsolute: true,
   color: Color4.Black(),
   size: 15,
 } as const
@@ -52,6 +54,7 @@ function lineBreak(text: string, maxLineLength: number): string {
  * @param {string | number} [value=''] starting value
  * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
  * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
+ * @param {boolean} [positionAbsolute=true] Position by absolute
  * @param {boolean} [darkTheme=false] prompt color style
  * @param {Color4} [color=Color4.Black()] text color
  * @param {number} [size=15] text size
@@ -63,6 +66,7 @@ export class PromptText extends InPromptUIObject {
   public value: string | number
   public xPosition: number
   public yPosition: number
+  public positionAbsolute: boolean
   public color: Color4 | undefined
   public size: number
 
@@ -73,6 +77,7 @@ export class PromptText extends InPromptUIObject {
     value = promptTextInitialConfig.value,
     xPosition = promptTextInitialConfig.xPosition,
     yPosition = promptTextInitialConfig.yPosition,
+    positionAbsolute = promptTextInitialConfig.positionAbsolute,
     size = promptTextInitialConfig.size,
   }: PromptTextConfig) {
     super({
@@ -83,6 +88,7 @@ export class PromptText extends InPromptUIObject {
     this.value = value
     this.xPosition = xPosition
     this.yPosition = yPosition
+    this.positionAbsolute = positionAbsolute
     this.color = color
     this.size = size
 
@@ -101,7 +107,7 @@ export class PromptText extends InPromptUIObject {
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
         uiTransform={
-          (this.xPosition == 0 && this.yPosition == 0)
+          (!this.positionAbsolute)
             ? {display: this.visible ? 'flex' : 'none',
               margin: { top: 20, left: 20, right: 20 }, 
               height: 'auto',

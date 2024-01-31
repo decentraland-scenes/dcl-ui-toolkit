@@ -75,6 +75,7 @@ export class OkPrompt extends Prompt {
 
     this.textElement = this.addText({
       value: String(text),
+      positionAbsolute: false,
       size: textSize,
     })
 
@@ -83,6 +84,7 @@ export class OkPrompt extends Prompt {
       onMouseDown: onAccept,
       xPosition: 0,
       yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.E,
       buttonSize: acceptSize
     })

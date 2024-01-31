@@ -97,11 +97,13 @@ export class OptionPrompt extends Prompt {
 
     this.titleElement = this.addText({
       value: String(title),
+      positionAbsolute: false,
       size: titleSize,
     })
 
     this.textElement = this.addText({
       value: String(text),
+      positionAbsolute: false,
       size: textSize,
     })
 
@@ -110,6 +112,7 @@ export class OptionPrompt extends Prompt {
       onMouseDown: onAccept,
       xPosition: 0,
       yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.E,
       buttonSize: acceptSize
     })
@@ -119,6 +122,7 @@ export class OptionPrompt extends Prompt {
       onMouseDown: onReject,
       xPosition: 0,
       yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.F,
       buttonSize: rejectSize
     })

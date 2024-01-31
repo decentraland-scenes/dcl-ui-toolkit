@@ -51,6 +51,7 @@ export type PromptButtonConfig = InPromptUIObjectConfig & {
   text: string | number
   xPosition?: number
   yPosition?: number
+  positionAbsolute?: boolean
   onMouseDown: Callback
   style?: PromptButtonStyles
   buttonSize?: number | 'auto'
@@ -61,6 +62,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
   text: '',
   xPosition: 0,
   yPosition: 0,
+  positionAbsolute: true,
   onMouseDown: () => { },
   style: PromptButtonStyles.ROUNDSILVER,
   buttonSize: 'auto'
@@ -72,6 +74,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
  * @param {string | number} [text=''] label text
  * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
  * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
+ * @param {boolean} [positionAbsolute=true] Position by absolute 
  * @param {Callback} [onMouseDown=0] click action
  * @param {PromptButtonStyles} [style=CloseIconStyles.ROUNDSILVER] visible variant
  *
@@ -86,6 +89,7 @@ export class PromptButton extends InPromptUIObject {
   public text: string | number
   public xPosition: number
   public yPosition: number
+  public positionAbsolute: boolean
   public onMouseDown: Callback
 
   private _xPosition: number | undefined
@@ -106,6 +110,7 @@ export class PromptButton extends InPromptUIObject {
     text = promptButtonInitialConfig.text,
     xPosition = promptButtonInitialConfig.xPosition,
     yPosition = promptButtonInitialConfig.yPosition,
+    positionAbsolute = promptButtonInitialConfig.positionAbsolute,
     onMouseDown = promptButtonInitialConfig.onMouseDown,
     style = promptButtonInitialConfig.style,
     buttonSize = promptButtonInitialConfig.buttonSize,
@@ -118,6 +123,7 @@ export class PromptButton extends InPromptUIObject {
     this.text = text
     this.xPosition = xPosition
     this.yPosition = yPosition
+    this.positionAbsolute = positionAbsolute,
     this.onMouseDown = onMouseDown
 
     this._style = style
@@ -272,7 +278,7 @@ export class PromptButton extends InPromptUIObject {
       <UiEntity
         key={key}
         uiTransform={
-          (this.xPosition == 0 && this.yPosition == 0)
+          (!this.positionAbsolute)
             ? {
               ...this.imageElement.uiTransform,
               display: this.visible ? 'flex' : 'none',

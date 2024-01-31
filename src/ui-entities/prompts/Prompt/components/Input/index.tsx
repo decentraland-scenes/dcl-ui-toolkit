@@ -18,6 +18,7 @@ export type PromptInputConfig = InPromptUIObjectConfig & {
   placeholder?: string | number
   xPosition?: number
   yPosition?: number
+  positionAbsolute?: boolean
   onChange?: (value: string) => void
 }
 
@@ -26,6 +27,7 @@ const promptInputInitialConfig: Omit<Required<PromptInputConfig>, 'parent'> = {
   placeholder: 'Fill in',
   xPosition: 0,
   yPosition: 0,
+  positionAbsolute: true,
   onChange: () => { },
 } as const
 
@@ -35,6 +37,7 @@ const promptInputInitialConfig: Omit<Required<PromptInputConfig>, 'parent'> = {
  * @param {string | number} [placeholder='Fill in'] Default string to display in the box
  * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
  * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
+ * @param {boolean} [positionAbsolute=true] Position by absolute
  * @param {() => void} onChange Function to call every time the value in the text box is modified by the player
  *
  */
@@ -44,6 +47,7 @@ export class PromptInput extends InPromptUIObject {
   public placeholder: string | number
   public xPosition: number
   public yPosition: number
+  public positionAbsolute: boolean
   public onChange: (value: string) => void
 
   private _xPosition: number | undefined
@@ -57,6 +61,7 @@ export class PromptInput extends InPromptUIObject {
     placeholder = promptInputInitialConfig.placeholder,
     xPosition = promptInputInitialConfig.xPosition,
     yPosition = promptInputInitialConfig.yPosition,
+    positionAbsolute = promptInputInitialConfig.positionAbsolute,
     onChange = promptInputInitialConfig.onChange,
   }: PromptInputConfig) {
     super({
@@ -70,6 +75,7 @@ export class PromptInput extends InPromptUIObject {
     this.placeholder = placeholder
     this.xPosition = xPosition
     this.yPosition = yPosition
+    this.positionAbsolute = positionAbsolute
 
     this.onChange = onChange
 
@@ -95,7 +101,7 @@ export class PromptInput extends InPromptUIObject {
         placeholder={String(this.placeholder)}
         color={this.fillInBoxElement.color || (this.isDarkTheme ? Color4.White() : Color4.Black())}
         uiTransform={
-          (this.xPosition == 0 && this.yPosition == 0)
+          (!this.positionAbsolute)
           ? {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
             margin: {right: 10, left: 10}}
