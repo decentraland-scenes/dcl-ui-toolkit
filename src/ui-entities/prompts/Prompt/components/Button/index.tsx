@@ -74,7 +74,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
  * @param {string | number} [text=''] label text
  * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
  * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
- * @param {boolean} [positionAbsolute=true] Position by absolute 
+ * @param {boolean} [positionAbsolute=true] Position by absolute
  * @param {Callback} [onMouseDown=0] click action
  * @param {PromptButtonStyles} [style=CloseIconStyles.ROUNDSILVER] visible variant
  *
@@ -308,13 +308,14 @@ export class PromptButton extends InPromptUIObject {
               display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
               margin: {
                 top: -26 / 2,
+                right: 5
               },
             }}
           />
           <UiEntity
             uiTransform={{
               width: 'auto',
-              maxWidth: 250,
+              maxWidth: 255,
               overflow: 'hidden',
             }}
             uiText={{

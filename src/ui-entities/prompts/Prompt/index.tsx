@@ -252,6 +252,7 @@ export class Prompt extends UIObject implements IPrompt {
             <UiEntity
               uiTransform={{
                 justifyContent: 'center',
+                margin: {left: 20, right: 10}
               }}>
               {this.visible &&
                 this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}

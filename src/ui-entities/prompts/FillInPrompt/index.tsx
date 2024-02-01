@@ -28,7 +28,7 @@ const fillInPromptInitialConfig: Required<FillInPromptConfig> = {
   height: 'auto',
   onAccept: () => {
   },
-  onClose: () => {
+  onClose: () => { 
   },
 } as const
 
