@@ -553,9 +553,10 @@ When instancing a new Ok Prompt, you can pass the following parameters:
 - `text: string`: Message string.
 - `onAccept?: () => void`: Function that gets executed if player clicks the button or presses E.
 - `acceptLabel: string = 'Ok'`: Label to go in the accept button.
+- `acceptSize: number | 'auto' = 'auto'`: Width of the accept button.
 - `useDarkTheme: boolean = false`: Switch the style of the window to the dark theme.
-- `width: number = 400`: Width of the prompt.
-- `height: number = 250`: Height of the prompt.
+- `width: number | 'auto' = 'auto'`: Width of the prompt.
+- `height: number | 'auto' = 'auto'`: Height of the prompt.
 - `onClose?: () => void`: If provided, a callback function that fires when the prompt is closed via the (X) button.
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
@@ -605,12 +606,14 @@ When instancing a new Option Prompt, you can pass the following parameters:
 - `text: string | number`: Smaller print instructions displayed at the center of the prompt.
 - `textSize: number = 21`: Size of the prompt text.
 - `onAccept?: () => void`: Function that gets executed if player clicks accept (left) button or presses the E key.
+- `acceptSize: number | 'auto' = 'auto'`: Width of the accept button.
 - `onReject?: () => void`: Function that gets executed if player clicks reject (right) button or presses the F key.
+- `rejectSize: number | 'auto' = 'auto'`: Width of the reject button.
 - `acceptLabel: string = 'Yes'`: String to go in the accept button
 - `rejectLabel: string = 'No'`: String to go in the reject button
 - `useDarkTheme: boolean = false`: Switch the style of the window to the dark theme.
-- `width: number = 400`: Width of the prompt.
-- `height: number = 250`: Height of the prompt.
+- `width: number | 'auto' = 'auto'`: Width of the prompt.
+- `height: number | 'auto' = 'auto'`: Height of the prompt.
 - `onClose?: () => void`: If provided, a callback function that fires when the prompt is closed via the (X) button.
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
@@ -665,10 +668,11 @@ When instancing a new Fill-in Prompt, you can pass the following parameters:
 - `titleSize: number = 24`: Size of the header text.
 - `onAccept: (value: string) => void`: Function that gets executed when player clicks the button or presses the E key.
 - `acceptLabel: string = 'Submit'`: String to use as label on the submit button.
+- `acceptSize: number | 'auto' = 'auto'`: Width of the accept button.
 - `placeholder: string = 'Fill in'`: Text to display as placeholder in the text box.
 - `useDarkTheme: boolean = false`: Switch the style of the window to the dark theme.
-- `width: number = 400`: Width of the prompt.
-- `height: number = 250`: Height of the prompt.
+- `width: number | 'auto' = 'auto'`: Width of the prompt.
+- `height: number | 'auto' = 'auto'`: Height of the prompt.
 - `onClose?: () => void`: If provided, a callback function that fires when the prompt is closed via the (X) button.
 - `startHidden: boolean = true`: If true, the prompt starts invisible till you run its `show()` function.
 
@@ -801,6 +805,7 @@ const promptButtonE = customPrompt.addButton({
   text: 'Yeah',
   xPosition: 0,
   yPosition: 0,
+  buttonSize: 200,
   onMouseDown: () => {
     console.log('Yeah pressed')
   },
@@ -811,6 +816,7 @@ const promptButtonF = customPrompt.addButton({
   text: 'Nope',
   xPosition: 0,
   yPosition: -75,
+  buttonSize: 'auto',
   onMouseDown: () => {
     console.log('Nope pressed')
   },
@@ -824,6 +830,7 @@ The `addButton` function can take the following parameters:
 - `text: string | number`\*: Label to show on the button.
 - `xPosition: number`\*: Offset on X from the center of the window.
 - `yPosition: number`\*: Offset on Y from the center of the window.
+- `buttonSize: number | auto`\*: Size of button, `auto` by default.
 - `onMouseDown: () => void`\*: Function to execute when the button is clicked.
 - `style: PromptButtonStyles = PromptButtonStyles.ROUNDSILVER`: Choose out of several predefined style options, with different colors and rounded or square corners.
 - `startHidden: boolean = false`: If true, the button will be invisible till calling the `show()` function.

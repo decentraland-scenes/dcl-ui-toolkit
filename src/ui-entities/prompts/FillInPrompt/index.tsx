@@ -12,6 +12,7 @@ type FillInPromptConfig = PromptExternalConfig & {
   useDarkTheme?: boolean;
   placeholder?: string | number;
   acceptLabel?: string;
+  acceptSize?: number | 'auto';
   onAccept: (value: string) => void;
 }
 
@@ -22,11 +23,12 @@ const fillInPromptInitialConfig: Required<FillInPromptConfig> = {
   useDarkTheme: false,
   placeholder: 'Fill in',
   acceptLabel: 'Submit',
-  width: 400,
-  height: 250,
+  acceptSize: 'auto',
+  width: 'auto',
+  height: 'auto',
   onAccept: () => {
   },
-  onClose: () => {
+  onClose: () => { 
   },
 } as const
 
@@ -61,15 +63,18 @@ export class FillInPrompt extends Prompt {
       useDarkTheme = fillInPromptInitialConfig.useDarkTheme,
       placeholder = fillInPromptInitialConfig.placeholder,
       acceptLabel = fillInPromptInitialConfig.acceptLabel,
+      acceptSize = fillInPromptInitialConfig.acceptSize,
       onAccept = fillInPromptInitialConfig.onAccept,
       onClose = fillInPromptInitialConfig.onClose,
+      width = fillInPromptInitialConfig.width,
+      height = fillInPromptInitialConfig.height,
     }: FillInPromptConfig) {
     super(
       {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
-        width: fillInPromptInitialConfig.width,
-        height: fillInPromptInitialConfig.height,
+        width: width,
+        height: height,
         onClose,
       })
 
@@ -77,8 +82,7 @@ export class FillInPrompt extends Prompt {
 
     this.titleElement = this.addText({
       value: String(title),
-      xPosition: 0,
-      yPosition: 90,
+      positionAbsolute: false,
       size: titleSize,
     })
 
@@ -89,16 +93,19 @@ export class FillInPrompt extends Prompt {
       },
       xPosition: 0,
       yPosition: 0,
+      positionAbsolute: false,
     })
 
     this.buttonElement = this.addButton({
       text: String(acceptLabel),
-      xPosition: 0,
-      yPosition: -70,
       onMouseDown: () => {
         onAccept(this._inputText)
       },
+      xPosition: 0,
+      yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.E,
+      buttonSize: acceptSize,
     })
   }
 }

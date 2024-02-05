@@ -14,8 +14,9 @@ export type PromptTextTextElementProps = Omit<UiLabelProps, 'value' | 'color' | 
 
 export type PromptTextConfig = InPromptUIObjectConfig & {
   value: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
+  positionAbsolute?: boolean,
   color?: Color4
   size?: number
 }
@@ -25,9 +26,27 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   value: '',
   xPosition: 0,
   yPosition: 0,
+  positionAbsolute: true,
   color: Color4.Black(),
   size: 15,
 } as const
+
+function lineBreak(text: string, maxLineLength: number): string {
+  const words = text.split(' ');
+  let currentLine = '';
+  const lines = [];
+
+  for (const word of words) {
+    if (currentLine.length + word.length + 1 <= maxLineLength) {
+      currentLine += `${word} `;
+    } else {
+      lines.push(currentLine.trim());
+      currentLine = `${word} `;
+    }
+  }
+  lines.push(currentLine.trim());
+  return lines.join('\n');
+}
 
 /**
  * Prompt text
@@ -35,6 +54,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
  * @param {string | number} [value=''] starting value
  * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
  * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
+ * @param {boolean} [positionAbsolute=true] Position by absolute
  * @param {boolean} [darkTheme=false] prompt color style
  * @param {Color4} [color=Color4.Black()] text color
  * @param {number} [size=15] text size
@@ -46,6 +66,7 @@ export class PromptText extends InPromptUIObject {
   public value: string | number
   public xPosition: number
   public yPosition: number
+  public positionAbsolute: boolean
   public color: Color4 | undefined
   public size: number
 
@@ -56,6 +77,7 @@ export class PromptText extends InPromptUIObject {
     value = promptTextInitialConfig.value,
     xPosition = promptTextInitialConfig.xPosition,
     yPosition = promptTextInitialConfig.yPosition,
+    positionAbsolute = promptTextInitialConfig.positionAbsolute,
     size = promptTextInitialConfig.size,
   }: PromptTextConfig) {
     super({
@@ -66,15 +88,11 @@ export class PromptText extends InPromptUIObject {
     this.value = value
     this.xPosition = xPosition
     this.yPosition = yPosition
+    this.positionAbsolute = positionAbsolute
     this.color = color
     this.size = size
 
     this.textElement = {
-      uiTransform: {
-        maxWidth: '100%',
-        positionType: 'absolute',
-        position: { top: '50%', left: '50%' },
-      },
       textAlign: 'middle-center',
       font: defaultFont,
     }
@@ -85,14 +103,20 @@ export class PromptText extends InPromptUIObject {
       <Label
         key={key}
         {...this.textElement}
-        value={String(this.value)}
+        value={lineBreak(String(this.value), 50)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
-        uiTransform={{
-          ...this.textElement.uiTransform,
-          display: this.visible ? 'flex' : 'none',
-          margin: { left: this.xPosition, top: this.yPosition * -1 },
-        }}
+        uiTransform={
+          (!this.positionAbsolute)
+            ? {display: this.visible ? 'flex' : 'none',
+              margin: { top: 20, left: 20, right: 20 }, 
+              height: 'auto',
+              alignSelf: 'center'}
+            : {display: this.visible ? 'flex' : 'none',
+              positionType: 'absolute',
+              position: { top: '50%', left: '50%' },
+              margin: { left: this.xPosition, top: this.yPosition * -1 }}
+        }
       />
     )
   }

@@ -12,14 +12,16 @@ type OptionPromptConfig = PromptExternalConfig & {
   textSize?: number;
   useDarkTheme?: boolean;
   acceptLabel?: string;
+  acceptSize?: number | 'auto'
   rejectLabel?: string;
+  rejectSize?: number | 'auto'
   onAccept: () => void;
   onReject?: () => void;
 }
 
 type OptionPromptSizeConfig = {
-  width?: number;
-  height?: number;
+  width?: 'auto' | number;
+  height?: 'auto'| number;
 }
 
 const optionPromptInitialConfig: Required<OptionPromptConfig & OptionPromptSizeConfig> = {
@@ -30,9 +32,11 @@ const optionPromptInitialConfig: Required<OptionPromptConfig & OptionPromptSizeC
   textSize: 21,
   useDarkTheme: false,
   acceptLabel: 'Yes',
+  acceptSize: 'auto',
   rejectLabel: 'No',
-  width: 480,
-  height: 384,
+  rejectSize: 'auto',
+  width: 'auto',
+  height: 'auto',
   onAccept: () => {
   },
   onReject: () => {
@@ -73,48 +77,54 @@ export class OptionPrompt extends Prompt {
       textSize = optionPromptInitialConfig.textSize,
       useDarkTheme = optionPromptInitialConfig.useDarkTheme,
       acceptLabel = optionPromptInitialConfig.acceptLabel,
+      acceptSize = optionPromptInitialConfig.acceptSize,
       rejectLabel = optionPromptInitialConfig.rejectLabel,
+      rejectSize = optionPromptInitialConfig.rejectSize,
       onAccept = optionPromptInitialConfig.onAccept,
       onReject = optionPromptInitialConfig.onReject,
       onClose = optionPromptInitialConfig.onClose,
+      width = optionPromptInitialConfig.width,
+      height = optionPromptInitialConfig.height,
     }: OptionPromptConfig) {
     super(
       {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
-        width: optionPromptInitialConfig.width,
-        height: optionPromptInitialConfig.height,
+        width: width,
+        height: height,
         onClose,
       })
 
     this.titleElement = this.addText({
       value: String(title),
-      xPosition: 0,
-      yPosition: 160,
+      positionAbsolute: false,
       size: titleSize,
     })
 
     this.textElement = this.addText({
       value: String(text),
-      xPosition: 0,
-      yPosition: 40,
+      positionAbsolute: false,
       size: textSize,
     })
 
     this.primaryButtonElement = this.addButton({
       text: String(acceptLabel),
-      xPosition: -100,
-      yPosition: -120,
       onMouseDown: onAccept,
+      xPosition: 0,
+      yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.E,
+      buttonSize: acceptSize
     })
 
     this.secondaryButtonElement = this.addButton({
       text: String(rejectLabel),
-      xPosition: 100,
-      yPosition: -120,
       onMouseDown: onReject,
+      xPosition: 0,
+      yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.F,
+      buttonSize: rejectSize
     })
   }
 }

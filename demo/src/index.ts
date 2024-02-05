@@ -215,7 +215,7 @@ export class Cube {
       cube,
       this.activate_cube.bind(this),
       {
-        button: InputAction.IA_PRIMARY,
+        button: InputAction.IA_POINTER,
         hoverText: name
       }
     );

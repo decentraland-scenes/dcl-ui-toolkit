@@ -3,7 +3,7 @@ import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 import { Color4 } from '@dcl/sdk/math'
 import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
-import { InputAction } from '@dcl/sdk/ecs'
+import { InputAction, UiText } from '@dcl/sdk/ecs'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
@@ -41,14 +41,20 @@ export enum PromptButtonStyles {
 enum PromptButtonCustomBgStyles {
   BUTTONE = `buttonE`,
   BUTTONF = `buttonF`,
+  BUTTONECORNER = `buttonECorner`,
+  BUTTONEEDGE = `buttonEEdge`,
+  BUTTONFCORNER = `buttonFCorner`,
+  BUTTONFEDGE = `buttonFEdge`,
 }
 
 export type PromptButtonConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
+  positionAbsolute?: boolean
   onMouseDown: Callback
   style?: PromptButtonStyles
+  buttonSize?: number | 'auto'
 }
 
 const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = {
@@ -56,8 +62,10 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
   text: '',
   xPosition: 0,
   yPosition: 0,
-  onMouseDown: () => {},
+  positionAbsolute: true,
+  onMouseDown: () => { },
   style: PromptButtonStyles.ROUNDSILVER,
+  buttonSize: 'auto'
 } as const
 
 /**
@@ -66,6 +74,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
  * @param {string | number} [text=''] label text
  * @param {number} [xPosition=0] Position on X on the prompt, counting from the center of the prompt
  * @param {number} [yPosition=0] Position on Y on the prompt, counting from the center of the prompt
+ * @param {boolean} [positionAbsolute=true] Position by absolute
  * @param {Callback} [onMouseDown=0] click action
  * @param {PromptButtonStyles} [style=CloseIconStyles.ROUNDSILVER] visible variant
  *
@@ -73,11 +82,14 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
 export class PromptButton extends InPromptUIObject {
   public labelElement: PromptButtonLabelElementProps
   public imageElement: PromptButtonImageElementProps
+  public imageElementCorner: PromptButtonImageElementProps
+  public imageElementEdge: PromptButtonImageElementProps
   public iconElement: PromptButtonIconElementProps
 
   public text: string | number
   public xPosition: number
   public yPosition: number
+  public positionAbsolute: boolean
   public onMouseDown: Callback
 
   private _xPosition: number | undefined
@@ -98,8 +110,10 @@ export class PromptButton extends InPromptUIObject {
     text = promptButtonInitialConfig.text,
     xPosition = promptButtonInitialConfig.xPosition,
     yPosition = promptButtonInitialConfig.yPosition,
+    positionAbsolute = promptButtonInitialConfig.positionAbsolute,
     onMouseDown = promptButtonInitialConfig.onMouseDown,
     style = promptButtonInitialConfig.style,
+    buttonSize = promptButtonInitialConfig.buttonSize,
   }: PromptButtonConfig) {
     super({
       startHidden,
@@ -109,6 +123,7 @@ export class PromptButton extends InPromptUIObject {
     this.text = text
     this.xPosition = xPosition
     this.yPosition = yPosition
+    this.positionAbsolute = positionAbsolute,
     this.onMouseDown = onMouseDown
 
     this._style = style
@@ -118,19 +133,28 @@ export class PromptButton extends InPromptUIObject {
     this._isEStyle = this._style === PromptButtonStyles.E
     this._isFStyle = this._style === PromptButtonStyles.F
 
+
     this._width = 174
     this._height = 46
 
     let buttonImg: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
+    let buttonImgCorn: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
+    let buttonImgEdge: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
+
+
     let labelXOffset: number = 0
 
     if (this._isEStyle) {
       buttonImg = PromptButtonCustomBgStyles.BUTTONE
+      buttonImgCorn = PromptButtonCustomBgStyles.BUTTONECORNER
+      buttonImgEdge = PromptButtonCustomBgStyles.BUTTONEEDGE
       labelXOffset = 25
     }
 
     if (this._isFStyle) {
       buttonImg = PromptButtonCustomBgStyles.BUTTONF
+      buttonImgCorn = PromptButtonCustomBgStyles.BUTTONFCORNER
+      buttonImgEdge = PromptButtonCustomBgStyles.BUTTONFEDGE
       labelXOffset = 25
     }
 
@@ -140,27 +164,15 @@ export class PromptButton extends InPromptUIObject {
         ? Color4.Black()
         : Color4.White()
 
-    this.labelElement = {
-      font: defaultFont,
-      fontSize: 20,
-      textAlign: 'middle-center',
-      uiTransform: {
-        width: '100%',
-        height: '100%',
-        margin: {
-          left: labelXOffset,
-        },
-      },
-    }
+    this.labelElement = {}
 
     this.imageElement = {
       uiTransform: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: this._width,
+        justifyContent: 'flex-end',
+        width: typeof (buttonSize) == 'number' ? buttonSize as number : 'auto',
         height: this._height,
-        positionType: 'absolute',
+        margin: { top: 30, bottom: 20 },
+        maxWidth: 300,
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -175,14 +187,51 @@ export class PromptButton extends InPromptUIObject {
       },
     }
 
+    this.imageElementCorner = {
+      uiTransform: {
+        height: this._height,
+        width: 12
+      },
+      uiBackground: {
+        textureMode: 'stretch',
+        texture: {
+          src: AtlasTheme.ATLAS_PATH_LIGHT,
+        },
+        uvs: getImageAtlasMapping({
+          ...sourcesComponentsCoordinates.buttons[buttonImgCorn],
+          atlasHeight: sourcesComponentsCoordinates.atlasHeight,
+          atlasWidth: sourcesComponentsCoordinates.atlasWidth,
+        }),
+      },
+    }
+
+    this.imageElementEdge = {
+      uiTransform: {
+        height: this._height,
+        width: 12,
+        margin: { right: 10 }
+      },
+      uiBackground: {
+        textureMode: 'stretch',
+        texture: {
+          src: AtlasTheme.ATLAS_PATH_LIGHT,
+        },
+        uvs: getImageAtlasMapping({
+          ...sourcesComponentsCoordinates.buttons[buttonImgEdge],
+          atlasHeight: sourcesComponentsCoordinates.atlasHeight,
+          atlasWidth: sourcesComponentsCoordinates.atlasWidth,
+        }),
+      },
+    }
+
     this.iconElement = {
       uiTransform: {
         width: 26,
         height: 26,
-        positionType: 'absolute',
+        alignSelf: 'flex-start',
+        justifyContent: "center",
         position: {
           top: '50%',
-          left: '50%',
         },
       },
       uiBackground: {
@@ -228,35 +277,57 @@ export class PromptButton extends InPromptUIObject {
     return (
       <UiEntity
         key={key}
-        {...this.imageElement}
-        uiTransform={{
-          ...this.imageElement.uiTransform,
-          display: this.visible ? 'flex' : 'none',
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },
-        }}
+        uiTransform={
+          (!this.positionAbsolute)
+            ? {
+              ...this.imageElement.uiTransform,
+              display: this.visible ? 'flex' : 'none',
+            }
+            : {
+              ...this.imageElement.uiTransform,
+              display: this.visible ? 'flex' : 'none',
+              position: { bottom: this._yPosition, right: this._xPosition * -1 },
+              positionType: 'absolute'
+            }}
         onMouseDown={() => {
           console.log('prompt button onMouseDown_________________')
           this._click()
         }}
       >
+        <UiEntity {...this.imageElementCorner}/>
         <UiEntity
-          {...this.iconElement}
+          {...this.imageElement}
           uiTransform={{
-            ...this.iconElement.uiTransform,
-            display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
-            margin: {
-              top: -26 / 2,
-              left: this._buttonIconPos(String(this.text).length) - 26 / 2,
-            },
+            display: this.visible ? 'flex' : 'none',
           }}
-        />
-        <Label
-          {...this.labelElement}
-          value={String(this.text)}
-          color={
-            this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor
-          }
-        />
+        >
+          <UiEntity
+            {...this.iconElement}
+            uiTransform={{
+              ...this.iconElement.uiTransform,
+              display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
+              margin: {
+                top: -26 / 2,
+                right: 5
+              },
+            }}
+          />
+          <UiEntity
+            uiTransform={{
+              width: 'auto',
+              maxWidth: 255,
+              overflow: 'hidden',
+            }}
+            uiText={{
+              value: String(this.text),
+              color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
+              fontSize: 24,
+              font: defaultFont,
+              textAlign: 'middle-left'
+            }}
+          />
+        </UiEntity>
+        <UiEntity {...this.imageElementEdge}/>
       </UiEntity>
     )
   }

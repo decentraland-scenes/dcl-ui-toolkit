@@ -30,8 +30,8 @@ export enum PromptStyles {
 }
 
 export type PromptExternalConfig = UIObjectConfig & {
-  width?: number
-  height?: number
+  width?: number | 'auto'
+  height?: number | 'auto'
   onClose?: Callback
 }
 
@@ -44,15 +44,15 @@ const promptInitialConfig: Required<PromptConfig> = {
   style: PromptStyles.LIGHT,
   width: 400,
   height: 250,
-  onClose: () => {},
+  onClose: () => { },
 } as const
 
 /**
  * Creates a prompt object that includes a background and a close icon, and supports adding as many custom UI elements as desired
  * @param {boolean} [startHidden=true] starting hidden
  * @param {PromptStyles} [style=PromptStyles.LIGHT]: pick from a few predefined options of color, shape and size, or provide the string path to a custom image
- * @param {number} width background width
- * @param {number} height background height
+ * @param {number | auto} width background width
+ * @param {number | auto} height background height
  * @param {Callback} onClose callback on prompt close
  *
  */
@@ -60,20 +60,27 @@ export class Prompt extends UIObject implements IPrompt {
   public closeIcon: PromptCloseIcon
 
   public style: PromptStyles
-  public width: number | undefined
-  public height: number | undefined
+  public width: number | 'auto' | undefined
+  public height: number | 'auto' | undefined
+  public posWidth: number | undefined
+  public posHeight: number | undefined
   public onClose: Callback
 
   private _texture: AtlasTheme
   private _section: ImageAtlasData
   private _components: (
-    | PromptCloseIcon
+
     | PromptText
     | PromptIcon
-    | PromptButton
     | PromptCheckbox
     | PromptSwitch
     | PromptInput
+  )[]
+  private _btn: (
+    | PromptButton
+  )[]
+  private _closeIconBtn: (
+    | PromptCloseIcon
   )[]
   private readonly _closeIconData: PromptCloseIconConfig
   public readonly isDarkTheme: boolean
@@ -114,7 +121,12 @@ export class Prompt extends UIObject implements IPrompt {
 
     this.closeIcon = new PromptCloseIcon(this._closeIconData)
 
-    this._components = [this.closeIcon]
+    this._components = []
+
+    this._btn = []
+
+    this._closeIconBtn = [this.closeIcon]
+
   }
 
   public addTextBox(config: Omit<PromptInputConfig, 'parent'>): PromptInput {
@@ -156,7 +168,7 @@ export class Prompt extends UIObject implements IPrompt {
       ...this._getPromptComponentCustomConfig(),
     })
 
-    this._components.push(uiButton)
+    this._btn.push(uiButton)
 
     return uiButton
   }
@@ -189,36 +201,64 @@ export class Prompt extends UIObject implements IPrompt {
 
     return (
       <UiEntity
-        key={key}
         uiTransform={{
-          display: this.visible ? 'flex' : 'none',
-          flexDirection: 'column',
+          width: '100%',
+          height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          positionType: 'absolute',
-          position: { top: '50%', left: '50%' },
-          margin: { top: -height / 2, left: -width / 2 },
-          width,
-          height,
+          positionType: 'absolute'
         }}
       >
         <UiEntity
+          key={key}
           uiTransform={{
+            display: this.visible ? 'flex' : 'none',
+            flexDirection: 'column',
             positionType: 'absolute',
-            position: { top: 0, left: 0 },
-            width: '100%',
-            height: '100%',
+            justifyContent: 'center',
+            width: this.width != 'auto' ? this.width : 'auto',
+            height: this.height != 'auto' ? this.height : 'auto',
           }}
-          uiBackground={{
-            textureMode: 'stretch',
-            texture: {
-              src: this._texture,
-            },
-            uvs: getImageAtlasMapping(this._section),
-          }}
-        />
-        {this.visible &&
-          this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
+        >
+          <UiEntity
+            uiTransform={{
+              positionType: 'absolute',
+              position: { top: 0, left: 0 },
+              width: '100%',
+              height: '100%',
+            }}
+            uiBackground={{
+              textureMode: 'stretch',
+              texture: {
+                src: this._texture,
+              },
+              uvs: getImageAtlasMapping(this._section),
+            }}
+          />
+          {this.visible &&
+            this._closeIconBtn.map((component, idx) => component.render(`prompt-component-${idx}`))}
+          <UiEntity
+            uiTransform={{
+              flexDirection: 'column',
+              alignSelf: 'center',
+              justifyContent: 'flex-end',
+              width: this.width != 'auto' ? width : 'auto',
+              height: this.height != 'auto' ? height : 'auto',
+              margin: {top: 20}
+            }}
+          >
+            {this.visible &&
+              this._components.map((component, idx) => component.render(`prompt-component-${idx}`))}
+            <UiEntity
+              uiTransform={{
+                justifyContent: 'center',
+                margin: {left: 20, right: 10}
+              }}>
+              {this.visible &&
+                this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
+            </UiEntity>
+          </UiEntity>
+        </UiEntity>
       </UiEntity>
     )
   }
@@ -230,11 +270,11 @@ export class Prompt extends UIObject implements IPrompt {
   }
 
   public realWidth(): number {
-    return this.width ? this.width : this._section.sourceWidth
+    return this.posWidth ? this.posWidth : this._section.sourceWidth
   }
 
   public realHeight(): number {
-    return this.height ? this.height : this._section.sourceHeight
+    return this.posHeight ? this.posHeight : this._section.sourceHeight
   }
 
   private _setStyle() {

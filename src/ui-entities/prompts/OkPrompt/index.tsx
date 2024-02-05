@@ -10,7 +10,9 @@ type OkPromptConfig = PromptExternalConfig & {
   textSize?: number;
   useDarkTheme?: boolean;
   acceptLabel?: string;
+  acceptSize?: number | 'auto'
   onAccept?: () => void;
+  filter?: (text: string | number) => number;
 }
 
 const okPromptInitialConfig: Required<OkPromptConfig> = {
@@ -19,12 +21,16 @@ const okPromptInitialConfig: Required<OkPromptConfig> = {
   textSize: 24,
   useDarkTheme: false,
   acceptLabel: 'Ok',
-  width: 400,
-  height: 250,
+  acceptSize: 'auto',
+  width: 'auto',
+  height: 'auto',
   onAccept: () => {
   },
   onClose: () => {
   },
+  filter: (text: string | number) => {
+    return (String(text).match(/((?:\S+\s*){5})/g)||'').length
+  }
 } as const
 
 /**
@@ -52,30 +58,35 @@ export class OkPrompt extends Prompt {
       useDarkTheme = okPromptInitialConfig.useDarkTheme,
       acceptLabel = okPromptInitialConfig.acceptLabel,
       onAccept = okPromptInitialConfig.onAccept,
+      acceptSize = okPromptInitialConfig.acceptSize,
       onClose = okPromptInitialConfig.onClose,
+      filter = okPromptInitialConfig.filter,
+      width = okPromptInitialConfig.width,
+      height = okPromptInitialConfig.height,
     }: OkPromptConfig) {
     super(
       {
         startHidden,
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
-        width: okPromptInitialConfig.width,
-        height: okPromptInitialConfig.height,
+        width: width,
+        height: height,
         onClose,
       })
 
     this.textElement = this.addText({
       value: String(text),
-      xPosition: 0,
-      yPosition: 40,
+      positionAbsolute: false,
       size: textSize,
     })
 
     this.buttonElement = this.addButton({
       text: String(acceptLabel),
-      xPosition: 0,
-      yPosition: -70,
       onMouseDown: onAccept,
+      xPosition: 0,
+      yPosition: 0,
+      positionAbsolute: false,
       style: PromptButtonStyles.E,
+      buttonSize: acceptSize
     })
   }
 }
