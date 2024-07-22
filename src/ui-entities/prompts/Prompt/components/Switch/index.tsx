@@ -25,12 +25,13 @@ export enum PromptSwitchStyles {
 
 export type PromptSwitchConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
   onCheck?: () => void
   onUncheck?: () => void
   startChecked?: boolean
   style?: PromptSwitchStyles
+  positionAbsolute?: boolean
 }
 
 const promptSwitchInitialConfig: Omit<Required<PromptSwitchConfig>, 'parent'> = {
@@ -42,6 +43,7 @@ const promptSwitchInitialConfig: Omit<Required<PromptSwitchConfig>, 'parent'> = 
   onUncheck: () => {},
   startChecked: false,
   style: PromptSwitchStyles.ROUNDGREEN,
+  positionAbsolute: false,
 } as const
 
 /**
@@ -64,6 +66,7 @@ export class PromptSwitch extends InPromptUIObject {
   public yPosition: number
   public style: PromptSwitchStyles
   public startChecked: boolean
+  public absolute: boolean
   public onUncheck: () => void
   public onCheck: () => void
 
@@ -81,6 +84,7 @@ export class PromptSwitch extends InPromptUIObject {
     onUncheck = promptSwitchInitialConfig.onUncheck,
     startChecked = promptSwitchInitialConfig.startChecked,
     style = promptSwitchInitialConfig.style,
+    positionAbsolute = promptSwitchInitialConfig.positionAbsolute,
   }: PromptSwitchConfig) {
     super({
       startHidden,
@@ -94,6 +98,7 @@ export class PromptSwitch extends InPromptUIObject {
     this.startChecked = startChecked
     this.onUncheck = onUncheck
     this.onCheck = onCheck
+    this.absolute = positionAbsolute
 
     this._checked = startChecked
 
@@ -152,7 +157,8 @@ export class PromptSwitch extends InPromptUIObject {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          positionType: 'absolute',
+          positionType: this.absolute ? 'absolute' : 'relative',
+          margin: { right: 10, left: 10, top: 25, bottom: 25 },
           position: { bottom: this._yPosition, right: this._xPosition * -1 },
         }}
       >

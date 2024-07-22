@@ -27,7 +27,7 @@ const promptInputInitialConfig: Omit<Required<PromptInputConfig>, 'parent'> = {
   placeholder: 'Fill in',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   onChange: () => { },
 } as const
 
@@ -104,11 +104,11 @@ export class PromptInput extends InPromptUIObject {
           (!this.positionAbsolute)
           ? {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
-            margin: {right: 10, left: 10, top: 10},
+            margin: {right: 10, left: 10, top: 10, bottom: 10},
             alignSelf: 'center'}
           : {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
-            positionType: 'absolute',
+            positionType: this.positionAbsolute ? 'absolute' : 'relative',
             position: { bottom: this._yPosition, right: this._xPosition * -1 },
             margin: {left: '50%', top: '50%'}}}
         onChange={this.onChange}

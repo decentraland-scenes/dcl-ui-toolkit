@@ -26,7 +26,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   value: '',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   color: Color4.Black(),
   size: 15,
 } as const
@@ -106,16 +106,19 @@ export class PromptText extends InPromptUIObject {
         value={lineBreak(String(this.value), 50)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
+        textAlign='middle-center'
         uiTransform={
           (!this.positionAbsolute)
             ? {display: this.visible ? 'flex' : 'none',
               margin: { top: 20, left: 20, right: 20 }, 
               height: 'auto',
-              alignSelf: 'center'}
+              alignSelf: 'center',
+              alignContent: 'center'  }
             : {display: this.visible ? 'flex' : 'none',
-              positionType: 'absolute',
-              position: { top: '50%', left: '50%' },
-              margin: { left: this.xPosition, top: this.yPosition * -1 }}
+                positionType: this.positionAbsolute? 'absolute' : 'relative',
+              // position: { top: '50%', left: '50%' },
+              // margin: { left: this.xPosition, top: this.yPosition * -1 }
+            }
         }
       />
     )

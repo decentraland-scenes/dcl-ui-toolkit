@@ -62,7 +62,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
   text: '',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   onMouseDown: () => { },
   style: PromptButtonStyles.ROUNDSILVER,
   buttonSize: 'auto'
@@ -170,7 +170,8 @@ export class PromptButton extends InPromptUIObject {
       uiTransform: {
         justifyContent: 'flex-end',
         width: typeof (buttonSize) == 'number' ? buttonSize as number : 'auto',
-        height: this._height,
+        height: 'auto',
+        minHeight: 46,
         margin: { top: 30, bottom: 20 },
         maxWidth: 300,
       },
@@ -189,7 +190,7 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElementCorner = {
       uiTransform: {
-        height: this._height,
+        height: this.imageElement.height,
         width: 12
       },
       uiBackground: {
@@ -207,7 +208,7 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElementEdge = {
       uiTransform: {
-        height: this._height,
+        height: this.imageElement.height,
         width: 12,
         margin: { right: 10 }
       },
@@ -233,6 +234,7 @@ export class PromptButton extends InPromptUIObject {
         position: {
           top: '50%',
         },
+        margin: {right: 10},
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -272,7 +274,7 @@ export class PromptButton extends InPromptUIObject {
 
   public render(key?: string): ReactEcs.JSX.Element {
     this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
+    this._yPosition = this.promptHeight / 2 + this.imageElement.height / -2 + this.yPosition
 
     return (
       <UiEntity
@@ -282,6 +284,7 @@ export class PromptButton extends InPromptUIObject {
             ? {
               ...this.imageElement.uiTransform,
               display: this.visible ? 'flex' : 'none',
+              margin: { right: 10, left: 10, bottom:20, top: 20 },
             }
             : {
               ...this.imageElement.uiTransform,
