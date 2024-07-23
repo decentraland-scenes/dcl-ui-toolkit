@@ -86,7 +86,7 @@ export class PromptIcon extends InPromptUIObject {
 
     this.imageElement = {
       uiTransform: {
-        positionType: this.absolute,
+        positionType: this.absolute ? 'absolute' : 'relative',
       },
       uiBackground: {
         textureMode: 'stretch',

@@ -632,7 +632,7 @@ const optionPrompt = ui.createComponent(ui.OptionPrompt, {
   startHidden: false,
 })
 
-prompt.show()
+optionPrompt.show()
 ```
 
 <img src="screenshots/option-prompt.png" width="400">
