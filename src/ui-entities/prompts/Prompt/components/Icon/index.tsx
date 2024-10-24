@@ -1,9 +1,10 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+import ReactEcs, { EntityPropTypes, UiEntity } from '@dcl/sdk/react-ecs'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
 import { getImageAtlasMapping, ImageAtlasData } from '../../../../../utils/imageUtils'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptIconImageElementProps = Omit<EntityPropTypes, 'uiTransform' | 'uiBackground'> & {
   uiTransform?: Omit<
@@ -72,10 +73,10 @@ export class PromptIcon extends InPromptUIObject {
       parent,
     })
 
-    this.width = width
-    this.height = height
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.width = width  * scaleFactor
+    this.height = height  * scaleFactor
+    this.xPosition = xPosition  * scaleFactor
+    this.yPosition = yPosition  * scaleFactor
     this.image = image
     if (section) this.section = section
 

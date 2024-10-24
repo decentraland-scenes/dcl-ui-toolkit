@@ -1,7 +1,7 @@
 import { Color4 } from '@dcl/sdk/math'
-import ReactEcs, { Label } from '@dcl/sdk/react-ecs'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+import ReactEcs, { EntityPropTypes, Label, UiLabelProps } from '@dcl/sdk/react-ecs'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { UIObject, UIObjectConfig } from '../UIObject'
 

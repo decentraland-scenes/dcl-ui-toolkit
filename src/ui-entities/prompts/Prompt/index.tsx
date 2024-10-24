@@ -1,5 +1,5 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+import ReactEcs, { Callback, UiEntity } from '@dcl/sdk/react-ecs'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 
 import { UIObject, UIObjectConfig } from '../../UIObject'
 
@@ -19,6 +19,7 @@ import { getImageAtlasMapping, ImageAtlasData } from '../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../constants/resources'
 import { IPrompt } from './IPrompt'
+import { scaleFactor } from '../../../utils/scaleFactor'
 
 export enum PromptStyles {
   LIGHT = `light`,
@@ -42,8 +43,8 @@ export type PromptConfig = PromptExternalConfig & {
 const promptInitialConfig: Required<PromptConfig> = {
   startHidden: true,
   style: PromptStyles.LIGHT,
-  width: 400,
-  height: 250,
+  width: 400  * scaleFactor,
+  height: 250  * scaleFactor,
   onClose: () => { },
 } as const
 
@@ -108,8 +109,8 @@ export class Prompt extends UIObject implements IPrompt {
     }
 
     this._closeIconData = {
-      width: 32,
-      height: 32,
+      width: 32  * scaleFactor,
+      height: 32  * scaleFactor,
       style: PromptCloseIconStyles.CLOSED,
       onMouseDown: this._close,
       parent: this,
@@ -244,7 +245,7 @@ export class Prompt extends UIObject implements IPrompt {
               justifyContent: 'flex-end',
               width: this.width != 'auto' ? width : 'auto',
               height: this.height != 'auto' ? height : 'auto',
-              margin: {top: 20}
+              margin: {top: 20 * scaleFactor}
             }}
           >
             {this.visible &&
@@ -252,7 +253,7 @@ export class Prompt extends UIObject implements IPrompt {
             <UiEntity
               uiTransform={{
                 justifyContent: 'center',
-                margin: {left: 20, right: 10}
+                margin: {left: 20 * scaleFactor, right: 10 * scaleFactor}
               }}>
               {this.visible &&
                 this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}
@@ -337,7 +338,7 @@ export class Prompt extends UIObject implements IPrompt {
         this._texture = AtlasTheme.ATLAS_PATH_LIGHT
 
         this._closeIconData.style = PromptCloseIconStyles.CLOSED
-        this._closeIconData.xPosition = 15
+        this._closeIconData.xPosition = 15  * scaleFactor
 
         break
 
@@ -351,7 +352,7 @@ export class Prompt extends UIObject implements IPrompt {
         this._texture = AtlasTheme.ATLAS_PATH_DARK
 
         this._closeIconData.style = PromptCloseIconStyles.CLOSEW
-        this._closeIconData.xPosition = 15
+        this._closeIconData.xPosition = 15  * scaleFactor
 
         break
     }

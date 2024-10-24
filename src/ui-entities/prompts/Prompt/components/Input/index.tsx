@@ -1,11 +1,12 @@
-import ReactEcs, { Input } from '@dcl/sdk/react-ecs'
+import ReactEcs, { EntityPropTypes, Input, UiInputProps } from '@dcl/sdk/react-ecs'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiInputProps } from '@dcl/react-ecs/dist/components/Input/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiInputProps } from '@dcl/react-ecs/dist/components/Input/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptInputFillInBoxElementProps = Partial<
   Omit<UiInputProps, 'onChange' | 'placeholder'>
@@ -69,12 +70,12 @@ export class PromptInput extends InPromptUIObject {
       parent,
     })
 
-    this._width = 312
-    this._height = 46
+    this._width = 312  * scaleFactor
+    this._height = 46  * scaleFactor
 
     this.placeholder = placeholder
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition  * scaleFactor
+    this.yPosition = yPosition  * scaleFactor
     this.positionAbsolute = positionAbsolute
 
     this.onChange = onChange
@@ -84,7 +85,7 @@ export class PromptInput extends InPromptUIObject {
         width: this._width,
         height: this._height,
       },
-      fontSize: 22,
+      fontSize: 22  * scaleFactor,
       textAlign: 'middle-center',
       font: defaultFont,
     }
@@ -104,7 +105,7 @@ export class PromptInput extends InPromptUIObject {
           (!this.positionAbsolute)
           ? {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',
-            margin: {right: 10, left: 10, top: 10},
+            margin: {right: 20 * scaleFactor, left: 20 * scaleFactor, top: 10 * scaleFactor},
             alignSelf: 'center'}
           : {...this.fillInBoxElement.uiTransform,
             display: this.visible ? 'flex' : 'none',

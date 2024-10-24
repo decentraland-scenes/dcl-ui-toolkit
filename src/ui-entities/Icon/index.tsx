@@ -1,5 +1,5 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+import ReactEcs, { EntityPropTypes, UiEntity } from '@dcl/sdk/react-ecs'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 
 import { UIObject, UIObjectConfig } from '../UIObject'
 

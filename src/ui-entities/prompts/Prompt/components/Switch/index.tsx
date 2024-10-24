@@ -1,7 +1,7 @@
-import ReactEcs, { Label, UiEntity } from '@dcl/sdk/react-ecs'
+import ReactEcs, { EntityPropTypes, Label, UiEntity, UiLabelProps } from '@dcl/sdk/react-ecs'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
@@ -9,6 +9,7 @@ import { getImageAtlasMapping } from '../../../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../../../constants/resources'
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptSwitchLabelElementProps = EntityPropTypes & Omit<UiLabelProps, 'value'>
 
@@ -88,8 +89,8 @@ export class PromptSwitch extends InPromptUIObject {
     })
 
     this.text = text
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition * scaleFactor
+    this.yPosition = yPosition * scaleFactor
     this.style = style
     this.startChecked = startChecked
     this.onUncheck = onUncheck
@@ -99,10 +100,10 @@ export class PromptSwitch extends InPromptUIObject {
 
     this.imageElement = {
       uiTransform: {
-        width: 64,
-        height: 32,
+        width: 64 * scaleFactor,
+        height: 32 * scaleFactor,
         margin: {
-          right: 5,
+          right: 5 * scaleFactor,
         },
       },
       uiBackground: {
@@ -120,7 +121,7 @@ export class PromptSwitch extends InPromptUIObject {
       },
       textAlign: 'middle-left',
       font: defaultFont,
-      fontSize: 20,
+      fontSize: 20 * scaleFactor,
     }
   }
 
@@ -140,7 +141,7 @@ export class PromptSwitch extends InPromptUIObject {
 
   public render(key?: string): ReactEcs.JSX.Element {
     this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + 32 / -2 + this.yPosition
+    this._yPosition = this.promptHeight / 2 + 32 * scaleFactor / -2 + this.yPosition
 
     return (
       <UiEntity
@@ -148,7 +149,7 @@ export class PromptSwitch extends InPromptUIObject {
         uiTransform={{
           display: this.visible ? 'flex' : 'none',
           width: '100%',
-          height: 32,
+          height: 32 * scaleFactor,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',

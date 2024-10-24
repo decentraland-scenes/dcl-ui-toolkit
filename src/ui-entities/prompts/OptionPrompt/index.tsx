@@ -1,9 +1,10 @@
 import ReactEcs from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 
 import { Prompt, PromptExternalConfig, PromptStyles } from '../Prompt'
 import { PromptButton, PromptButtonStyles } from '../Prompt/components/Button'
 import { PromptText } from '../Prompt/components/Text'
+import { scaleFactor } from '../../../utils/scaleFactor'
 
 type OptionPromptConfig = PromptExternalConfig & {
   title: string | number;
@@ -72,12 +73,12 @@ export class OptionPrompt extends Prompt {
     {
       startHidden = optionPromptInitialConfig.startHidden,
       title = optionPromptInitialConfig.title,
-      titleSize = optionPromptInitialConfig.titleSize,
+      titleSize = optionPromptInitialConfig.titleSize  * scaleFactor,
       text = optionPromptInitialConfig.text,
-      textSize = optionPromptInitialConfig.textSize,
+      textSize = optionPromptInitialConfig.textSize  * scaleFactor,
       useDarkTheme = optionPromptInitialConfig.useDarkTheme,
       acceptLabel = optionPromptInitialConfig.acceptLabel,
-      acceptSize = optionPromptInitialConfig.acceptSize,
+      acceptSize = optionPromptInitialConfig.acceptSize ,
       rejectLabel = optionPromptInitialConfig.rejectLabel,
       rejectSize = optionPromptInitialConfig.rejectSize,
       onAccept = optionPromptInitialConfig.onAccept,

@@ -1,10 +1,11 @@
 import ReactEcs from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 
 import { Prompt, PromptExternalConfig, PromptStyles } from '../Prompt'
 import { PromptButton, PromptButtonStyles } from '../Prompt/components/Button'
 import { PromptText } from '../Prompt/components/Text'
 import { PromptInput } from '../Prompt/components/Input'
+import { scaleFactor } from '../../../utils/scaleFactor'
 
 type FillInPromptConfig = PromptExternalConfig & {
   title: string | number;
@@ -59,7 +60,7 @@ export class FillInPrompt extends Prompt {
     {
       startHidden = fillInPromptInitialConfig.startHidden,
       title = fillInPromptInitialConfig.title,
-      titleSize = fillInPromptInitialConfig.titleSize,
+      titleSize = fillInPromptInitialConfig.titleSize  * scaleFactor,
       useDarkTheme = fillInPromptInitialConfig.useDarkTheme,
       placeholder = fillInPromptInitialConfig.placeholder,
       acceptLabel = fillInPromptInitialConfig.acceptLabel,

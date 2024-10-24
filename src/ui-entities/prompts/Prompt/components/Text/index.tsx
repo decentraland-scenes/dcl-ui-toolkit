@@ -1,11 +1,12 @@
-import ReactEcs, { Label } from '@dcl/sdk/react-ecs'
+import ReactEcs, { EntityPropTypes, Label, UiLabelProps } from '@dcl/sdk/react-ecs'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptTextTextElementProps = Omit<UiLabelProps, 'value' | 'color' | 'fontSize'> &
   Omit<EntityPropTypes, 'uiTransform'> & {
@@ -28,7 +29,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   yPosition: 0,
   positionAbsolute: true,
   color: Color4.Black(),
-  size: 15,
+  size: 15 * scaleFactor,
 } as const
 
 function lineBreak(text: string, maxLineLength: number): string {
@@ -86,11 +87,11 @@ export class PromptText extends InPromptUIObject {
     })
 
     this.value = value
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition  * scaleFactor
+    this.yPosition = yPosition  * scaleFactor
     this.positionAbsolute = positionAbsolute
     this.color = color
-    this.size = size
+    this.size = size  * scaleFactor
 
     this.textElement = {
       textAlign: 'middle-center',
@@ -103,13 +104,13 @@ export class PromptText extends InPromptUIObject {
       <Label
         key={key}
         {...this.textElement}
-        value={lineBreak(String(this.value), 50)}
+        value={lineBreak(String(this.value), 50  * scaleFactor)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
         uiTransform={
           (!this.positionAbsolute)
             ? {display: this.visible ? 'flex' : 'none',
-              margin: { top: 20, left: 20, right: 20 }, 
+              margin: { top: 20  * scaleFactor, left: 20  * scaleFactor, right: 20  * scaleFactor }, 
               height: 'auto',
               alignSelf: 'center'}
             : {display: this.visible ? 'flex' : 'none',
