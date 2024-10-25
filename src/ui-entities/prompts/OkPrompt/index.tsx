@@ -64,6 +64,8 @@ export class OkPrompt extends Prompt {
       filter = okPromptInitialConfig.filter,
       width = okPromptInitialConfig.width,
       height = okPromptInitialConfig.height,
+      minWidth = okPromptInitialConfig.minWidth,
+      minHeight = okPromptInitialConfig.minHeight,
     }: OkPromptConfig) {
     super(
       {
@@ -71,6 +73,8 @@ export class OkPrompt extends Prompt {
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: width,
         height: height,
+        minWidth: minWidth,
+        minHeight: minHeight,
         onClose,
       })
 

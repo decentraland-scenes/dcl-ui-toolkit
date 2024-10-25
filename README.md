@@ -615,7 +615,7 @@ When instancing a new Option Prompt, you can pass the following parameters:
 ```ts
 ReactEcsRenderer.setUiRenderer(ui.render)
 
-const prompt = ui.createComponent(ui.OptionPrompt, {
+const optionPrompt = ui.createComponent(ui.OptionPrompt, {
   title: 'Pick an option!',
   text: 'What will you choose?',
   acceptLabel: 'Pick A',
@@ -631,7 +631,7 @@ const prompt = ui.createComponent(ui.OptionPrompt, {
   startHidden: false,
 })
 
-prompt.show()
+optionPrompt.show()
 ```
 
 <img src="screenshots/option-prompt.png" width="400">
@@ -1024,22 +1024,16 @@ export const customPrompt = ui.createComponent(ui.CustomPrompt, {
 
 const promptTitle = customPrompt.addText({
   value: 'What will you do?',
-  xPosition: 0,
-  yPosition: 250,
   color: Color4.Yellow(),
   size: 30,
 })
 
 const promptText = customPrompt.addText({
   value: "It's an important decision",
-  xPosition: 0,
-  yPosition: 200,
 })
 
 const promptCheckbox = customPrompt.addCheckbox({
   text: "Don't show again",
-  xPosition: -80,
-  yPosition: 150,
   onCheck: () => {
     console.log('checkbox checked')
   },
@@ -1050,8 +1044,6 @@ const promptCheckbox = customPrompt.addCheckbox({
 
 const promptSwitch = customPrompt.addSwitch({
   text: 'Turn me',
-  xPosition: -60,
-  yPosition: 50,
   onCheck: () => {
     console.log('switch checked')
   },
@@ -1062,8 +1054,6 @@ const promptSwitch = customPrompt.addSwitch({
 
 const promptTextBox = customPrompt.addTextBox({
   placeholder: 'Enter text',
-  xPosition: 0,
-  yPosition: 100,
   onChange: (value) => {
     console.log('textbox changed:', value)
   },
@@ -1072,8 +1062,6 @@ const promptTextBox = customPrompt.addTextBox({
 const promptButtonE = customPrompt.addButton({
   style: ui.ButtonStyles.E,
   text: 'Yeah',
-  xPosition: 0,
-  yPosition: -150,
   onMouseDown: () => {
     console.log('Yeah clicked')
   },
@@ -1082,8 +1070,6 @@ const promptButtonE = customPrompt.addButton({
 const promptButtonF = customPrompt.addButton({
   style: ui.ButtonStyles.F,
   text: 'Nope',
-  xPosition: 0,
-  yPosition: -225,
   onMouseDown: () => {
     console.log('Nope clicked')
   },
@@ -1091,8 +1077,6 @@ const promptButtonF = customPrompt.addButton({
 
 const promptIcon = customPrompt.addIcon({
   image: 'images/scene-thumbnail.png',
-  xPosition: 0,
-  yPosition: -50,
 })
 
 customPrompt.show()

@@ -86,6 +86,8 @@ export class OptionPrompt extends Prompt {
       onClose = optionPromptInitialConfig.onClose,
       width = optionPromptInitialConfig.width,
       height = optionPromptInitialConfig.height,
+      minWidth = optionPromptInitialConfig.minWidth,
+      minHeight = optionPromptInitialConfig.minHeight,
     }: OptionPromptConfig) {
     super(
       {
@@ -93,6 +95,8 @@ export class OptionPrompt extends Prompt {
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: width,
         height: height,
+        minWidth: minWidth,
+        minHeight: minHeight,
         onClose,
       })
 
