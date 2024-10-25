@@ -26,12 +26,13 @@ export enum PromptSwitchStyles {
 
 export type PromptSwitchConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
   onCheck?: () => void
   onUncheck?: () => void
   startChecked?: boolean
   style?: PromptSwitchStyles
+  positionAbsolute?: boolean
 }
 
 const promptSwitchInitialConfig: Omit<Required<PromptSwitchConfig>, 'parent'> = {
@@ -43,6 +44,7 @@ const promptSwitchInitialConfig: Omit<Required<PromptSwitchConfig>, 'parent'> = 
   onUncheck: () => {},
   startChecked: false,
   style: PromptSwitchStyles.ROUNDGREEN,
+  positionAbsolute: false,
 } as const
 
 /**
@@ -67,6 +69,7 @@ export class PromptSwitch extends InPromptUIObject {
   public startChecked: boolean
   public onUncheck: () => void
   public onCheck: () => void
+  public absolute: boolean
 
   private _checked: boolean
   private _xPosition: number | undefined
@@ -82,6 +85,7 @@ export class PromptSwitch extends InPromptUIObject {
     onUncheck = promptSwitchInitialConfig.onUncheck,
     startChecked = promptSwitchInitialConfig.startChecked,
     style = promptSwitchInitialConfig.style,
+    positionAbsolute = promptSwitchInitialConfig.positionAbsolute,
   }: PromptSwitchConfig) {
     super({
       startHidden,
@@ -95,6 +99,7 @@ export class PromptSwitch extends InPromptUIObject {
     this.startChecked = startChecked
     this.onUncheck = onUncheck
     this.onCheck = onCheck
+    this.absolute = positionAbsolute
 
     this._checked = startChecked
 
@@ -140,8 +145,8 @@ export class PromptSwitch extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    // this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
-    // this._yPosition = this.promptHeight / 2 + 32 * scaleFactor / -2 + this.yPosition
+    this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
+    this._yPosition = this.promptHeight / 2 + 32 * scaleFactor / -2 + this.yPosition
 
     return (
       <UiEntity
@@ -153,7 +158,8 @@ export class PromptSwitch extends InPromptUIObject {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          positionType: 'absolute',
+          positionType:  this.absolute ? 'absolute' : 'relative',
+          margin: { right: 10  * scaleFactor, left: 10  * scaleFactor, top: 25  * scaleFactor, bottom: 25  * scaleFactor },
           position: { bottom: this.yPosition, right: this.xPosition * -1 },
         }}
       >

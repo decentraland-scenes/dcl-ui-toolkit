@@ -27,7 +27,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   value: '',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   color: Color4.Black(),
   size: 15,
 } as const

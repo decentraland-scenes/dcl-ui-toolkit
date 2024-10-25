@@ -63,7 +63,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
   text: '',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   onMouseDown: () => { },
   style: PromptButtonStyles.ROUNDSILVER,
   buttonSize: 'auto'

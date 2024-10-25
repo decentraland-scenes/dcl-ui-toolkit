@@ -34,6 +34,8 @@ export type PromptExternalConfig = UIObjectConfig & {
   width?: number | 'auto'
   height?: number | 'auto'
   onClose?: Callback
+  minWidth?: number | undefined
+  minHeight?: number | undefined
 }
 
 export type PromptConfig = PromptExternalConfig & {
@@ -43,9 +45,12 @@ export type PromptConfig = PromptExternalConfig & {
 const promptInitialConfig: Required<PromptConfig> = {
   startHidden: true,
   style: PromptStyles.LIGHT,
-  width: 400  * scaleFactor,
-  height: 250  * scaleFactor,
+  width: 'auto',
+  height: 'auto',
+  minWidth: 400 * scaleFactor,
+  minHeight: 250 * scaleFactor,
   onClose: () => { },
+
 } as const
 
 /**
@@ -66,6 +71,9 @@ export class Prompt extends UIObject implements IPrompt {
   public posWidth: number | undefined
   public posHeight: number | undefined
   public onClose: Callback
+
+  public minWidth: number | undefined
+  public minHeight: number | undefined
 
   private _texture: AtlasTheme
   private _section: ImageAtlasData
@@ -102,6 +110,9 @@ export class Prompt extends UIObject implements IPrompt {
     this.width = width 
     this.height = height
     this.onClose = onClose
+
+    this.minHeight = promptInitialConfig.minHeight
+    this.minWidth = promptInitialConfig.minWidth
 
     this._texture = AtlasTheme.ATLAS_PATH_LIGHT
 
@@ -222,12 +233,15 @@ export class Prompt extends UIObject implements IPrompt {
             justifyContent: 'center',
             width: this.width != 'auto' ? this.width : 'auto',
             height: this.height != 'auto' ? this.height : 'auto',
+            minWidth: this.minWidth? this.minWidth : undefined,
+            minHeight: this.minHeight? this.minHeight : undefined
           }}
         >
           <UiEntity
             uiTransform={{
               positionType: 'absolute',
               position: { top: 0, left: 0 },
+                // textureMode: 'nine-slices',
               width: '100%',
               height: '100%',
             }}
@@ -236,6 +250,12 @@ export class Prompt extends UIObject implements IPrompt {
               texture: {
                 src: this._texture,
               },
+               // textureSlices: {
+              //   top: 0.2,
+              //   bottom: 0.2,
+              //   left: 0.2,
+              //   right: 0.2
+              // },
               uvs: getImageAtlasMapping(this._section),
             }}
           />
@@ -245,9 +265,11 @@ export class Prompt extends UIObject implements IPrompt {
             uiTransform={{
               flexDirection: 'column',
               alignSelf: 'center',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
               width: this.width != 'auto' ? width : 'auto',
               height: this.height != 'auto' ? height : 'auto',
+              minWidth: this.minWidth? this.minWidth : undefined,
+              minHeight: this.minHeight? this.minHeight : undefined,
               margin: {top: 20 * scaleFactor}
             }}
           >

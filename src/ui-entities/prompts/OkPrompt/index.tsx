@@ -25,6 +25,8 @@ const okPromptInitialConfig: Required<OkPromptConfig> = {
   acceptSize: 'auto',
   width: 'auto',
   height: 'auto',
+  minWidth: 400,
+  minHeight: 250,
   onAccept: () => {
   },
   onClose: () => {

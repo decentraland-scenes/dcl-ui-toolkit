@@ -38,6 +38,8 @@ const optionPromptInitialConfig: Required<OptionPromptConfig & OptionPromptSizeC
   rejectSize: 'auto',
   width: 'auto',
   height: 'auto',
+  minWidth: 400,
+  minHeight: 250,
   onAccept: () => {
   },
   onReject: () => {
