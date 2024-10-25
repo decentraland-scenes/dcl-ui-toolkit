@@ -34,8 +34,8 @@ export type PromptExternalConfig = UIObjectConfig & {
   width?: number | 'auto'
   height?: number | 'auto'
   onClose?: Callback
-  minWidth?: number | undefined
-  minHeight?: number | undefined
+  minWidth?: number
+  minHeight?: number
 }
 
 export type PromptConfig = PromptExternalConfig & {
@@ -231,8 +231,8 @@ export class Prompt extends UIObject implements IPrompt {
             flexDirection: 'column',
             positionType: 'absolute',
             justifyContent: 'center',
-            width: this.width != 'auto' ? this.width : 'auto',
-            height: this.height != 'auto' ? this.height : 'auto',
+            width: this.width !== 'auto' ? this.width : 'auto',
+            height: this.height !== 'auto' ? this.height : 'auto',
             minWidth: this.minWidth? this.minWidth : undefined,
             minHeight: this.minHeight? this.minHeight : undefined
           }}
@@ -268,8 +268,8 @@ export class Prompt extends UIObject implements IPrompt {
               justifyContent: 'center',
               width: this.width != 'auto' ? width : 'auto',
               height: this.height != 'auto' ? height : 'auto',
-              minWidth: this.minWidth? this.minWidth : undefined,
-              minHeight: this.minHeight? this.minHeight : undefined,
+              minWidth: this.minWidth,
+              minHeight: this.minHeight,
               margin: {top: 20 * scaleFactor}
             }}
           >
