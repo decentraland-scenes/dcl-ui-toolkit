@@ -69,8 +69,6 @@ export class FillInPrompt extends Prompt {
       onClose = fillInPromptInitialConfig.onClose,
       width = fillInPromptInitialConfig.width,
       height = fillInPromptInitialConfig.height,
-      minWidth = fillInPromptInitialConfig.minWidth,
-      minHeight = fillInPromptInitialConfig.minHeight,
     }: FillInPromptConfig) {
     super(
       {
@@ -78,8 +76,6 @@ export class FillInPrompt extends Prompt {
         style: useDarkTheme ? PromptStyles.DARK : PromptStyles.LIGHT,
         width: width,
         height: height,
-        minWidth: minWidth,
-        minHeight: minHeight,
         onClose,
       })
 

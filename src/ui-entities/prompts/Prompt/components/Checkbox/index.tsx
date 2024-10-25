@@ -23,13 +23,12 @@ export type PromptCheckboxImageElementProps = Omit<
 
 export type PromptCheckboxConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition?: number
-  yPosition?: number
+  xPosition: number
+  yPosition: number
   onCheck?: () => void
   onUncheck?: () => void
   large?: boolean
   startChecked?: boolean
-  positionAbsolute?: boolean
 }
 
 const promptCheckboxInitialConfig: Omit<Required<PromptCheckboxConfig>, 'parent'> = {
@@ -41,7 +40,6 @@ const promptCheckboxInitialConfig: Omit<Required<PromptCheckboxConfig>, 'parent'
   onUncheck: () => {},
   large: false,
   startChecked: false,
-  positionAbsolute: false,
 } as const
 
 /**
@@ -65,7 +63,6 @@ export class PromptCheckbox extends InPromptUIObject {
   public yPosition: number
   public large: boolean
   public startChecked: boolean
-  public absolute: boolean
   public onUncheck: () => void
   public onCheck: () => void
 
@@ -83,7 +80,6 @@ export class PromptCheckbox extends InPromptUIObject {
     startChecked = promptCheckboxInitialConfig.startChecked,
     onUncheck = promptCheckboxInitialConfig.onUncheck,
     onCheck = promptCheckboxInitialConfig.onCheck,
-    positionAbsolute = promptCheckboxInitialConfig.positionAbsolute,
   }: PromptCheckboxConfig) {
     super({
       startHidden,
@@ -97,7 +93,6 @@ export class PromptCheckbox extends InPromptUIObject {
     this.startChecked = startChecked
     this.onUncheck = onUncheck
     this.onCheck = onCheck
-    this.absolute = positionAbsolute
 
     this._checked = this.startChecked
 
@@ -157,9 +152,8 @@ export class PromptCheckbox extends InPromptUIObject {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          positionType: this.absolute ? 'absolute' : 'relative',
+          positionType: 'absolute',
           position: { bottom: this._yPosition, right: this._xPosition * -1 },
-          margin: { right: 10, left: 10, top: 10, bottom: 10 },
         }}
       >
         <UiEntity

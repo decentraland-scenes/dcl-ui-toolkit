@@ -23,7 +23,6 @@ export type PromptIconConfig = InPromptUIObjectConfig & {
   xPosition?: number
   yPosition?: number
   section?: ImageAtlasData
-  positionAbsolute?: boolean,
 }
 
 const promptIconInitialConfig: Omit<Required<PromptIconConfig>, 'section' | 'parent'> = {
@@ -33,7 +32,6 @@ const promptIconInitialConfig: Omit<Required<PromptIconConfig>, 'section' | 'par
   height: 128,
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: false,
 } as const
 
 /**
@@ -55,7 +53,6 @@ export class PromptIcon extends InPromptUIObject {
   public height: number
   public xPosition: number
   public yPosition: number
-  public absolute: boolean
   public section: ImageAtlasData | undefined
 
   private _xPosition: number | undefined
@@ -70,7 +67,6 @@ export class PromptIcon extends InPromptUIObject {
     height = promptIconInitialConfig.height,
     xPosition = promptIconInitialConfig.xPosition,
     yPosition = promptIconInitialConfig.yPosition,
-    positionAbsolute = promptIconInitialConfig.positionAbsolute,
   }: PromptIconConfig) {
     super({
       startHidden,
@@ -82,12 +78,11 @@ export class PromptIcon extends InPromptUIObject {
     this.xPosition = xPosition  * scaleFactor
     this.yPosition = yPosition  * scaleFactor
     this.image = image
-    this.absolute = positionAbsolute
     if (section) this.section = section
 
     this.imageElement = {
       uiTransform: {
-        positionType: this.absolute ? 'absolute' : 'relative',
+        positionType: 'absolute',
         margin: { top: 5 * scaleFactor, left: 5 * scaleFactor, right: 5 * scaleFactor, bottom: 5 * scaleFactor },
       },
       uiBackground: {
@@ -115,9 +110,7 @@ export class PromptIcon extends InPromptUIObject {
         uiTransform={{
           ...this.imageElement.uiTransform,
           display: this.visible ? 'flex' : 'none',
-          positionType: this.absolute ? 'absolute' : 'relative',
-          position: this.absolute? { bottom: this._yPosition, right: this._xPosition * -1 } : {},
-          alignSelf: 'center',
+          position: { bottom: this._yPosition, right: this._xPosition * -1 },
           width: this.width,
           height: this.height,
         }}
