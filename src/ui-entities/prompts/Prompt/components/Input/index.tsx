@@ -84,6 +84,8 @@ export class PromptInput extends InPromptUIObject {
       uiTransform: {
         width: this._width,
         height: this._height,
+        minHeight: this._height,
+        minWidth: this._width,
       },
       fontSize: 22  * scaleFactor,
       textAlign: 'middle-center',

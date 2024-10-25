@@ -121,6 +121,8 @@ export class PromptIcon extends InPromptUIObject {
           position: this.absolute? { bottom: this._yPosition, right: this._xPosition * -1 } : {},
           width: this.width,
           height: this.height,
+          minHeight: this.height,
+          minWidth: this.width,
           alignSelf: 'center'
         }}
       />
