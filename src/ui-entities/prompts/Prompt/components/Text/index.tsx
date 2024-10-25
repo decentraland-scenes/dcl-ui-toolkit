@@ -71,6 +71,9 @@ export class PromptText extends InPromptUIObject {
   public color: Color4 | undefined
   public size: number
 
+  private _xPosition: number | undefined
+  private _yPosition: number | undefined
+
   constructor({
     color,
     parent,
@@ -100,6 +103,11 @@ export class PromptText extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
+
+    this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
+    this._yPosition = this.promptHeight / 2 + 32 / -2 + this.yPosition
+
+
     return (
       <Label
         key={key}
@@ -107,16 +115,17 @@ export class PromptText extends InPromptUIObject {
         value={lineBreak(String(this.value), 50)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
+        textAlign='middle-center'
         uiTransform={
           (!this.positionAbsolute)
             ? {display: this.visible ? 'flex' : 'none',
               margin: { top: 20  * scaleFactor, left: 20  * scaleFactor, right: 20  * scaleFactor }, 
               height: 'auto',
-              alignSelf: 'center'}
+              positionType: 'relative',
+              alignSelf: 'center', alignContent: 'center'}
             : {display: this.visible ? 'flex' : 'none',
-              positionType: 'absolute',
-              position: { top: '50%', left: '50%' },
-              margin: { left: this.xPosition, top: this.yPosition * -1 }}
+              positionType:'absolute' ,
+              position: {  bottom: this._yPosition, right: this._xPosition * -1 }}
         }
       />
     )
