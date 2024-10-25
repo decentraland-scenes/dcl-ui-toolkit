@@ -160,7 +160,7 @@ export class PromptCheckbox extends InPromptUIObject {
           justifyContent: 'center',
           positionType: this.absolute ? 'absolute' : 'relative',
           margin: { right: 10  * scaleFactor, left: 10  * scaleFactor, top: 25  * scaleFactor, bottom: 25  * scaleFactor },
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },    
+          position: { bottom: this.yPosition, right: this.xPosition * -1 },    
         }}
       >
         <UiEntity
