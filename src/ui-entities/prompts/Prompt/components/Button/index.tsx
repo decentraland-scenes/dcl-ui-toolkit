@@ -324,7 +324,8 @@ export class PromptButton extends InPromptUIObject {
               color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
               fontSize: 24 * scaleFactor,
               font: defaultFont,
-              textAlign: 'middle-left'
+              textAlign: 'middle-left',
+              textWrap: 'nowrap'
             }}
           />
         </UiEntity>
@@ -336,6 +337,7 @@ export class PromptButton extends InPromptUIObject {
   private _click = (): void => {
     if (this._disabled || !this.visible || !this.isPromptVisible) return
 
+  
     console.log('prompt button _click_________________')
 
     this.onMouseDown()

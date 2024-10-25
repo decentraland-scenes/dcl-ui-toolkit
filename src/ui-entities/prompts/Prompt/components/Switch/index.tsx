@@ -140,8 +140,8 @@ export class PromptSwitch extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + 32 * scaleFactor / -2 + this.yPosition
+    // this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
+    // this._yPosition = this.promptHeight / 2 + 32 * scaleFactor / -2 + this.yPosition
 
     return (
       <UiEntity
@@ -154,7 +154,7 @@ export class PromptSwitch extends InPromptUIObject {
           alignItems: 'center',
           justifyContent: 'center',
           positionType: 'absolute',
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },
+          position: { bottom: this.yPosition, right: this.xPosition * -1 },
         }}
       >
         <UiEntity
