@@ -83,6 +83,7 @@ export class PromptIcon extends InPromptUIObject {
     this.imageElement = {
       uiTransform: {
         positionType: 'absolute',
+        margin: { top: 5 * scaleFactor, left: 5 * scaleFactor, right: 5 * scaleFactor, bottom: 5 * scaleFactor },
       },
       uiBackground: {
         textureMode: 'stretch',

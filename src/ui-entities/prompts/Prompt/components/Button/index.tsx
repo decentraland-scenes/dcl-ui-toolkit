@@ -170,9 +170,9 @@ export class PromptButton extends InPromptUIObject {
     this.imageElement = {
       uiTransform: {
         justifyContent: 'flex-end',
-        width: typeof (buttonSize) == 'number' ? buttonSize as number : 'auto',
-        height: this._height * scaleFactor,
-        margin: { top: 30 * scaleFactor, bottom: 20 * scaleFactor },
+        width: typeof (buttonSize) == 'number' ? buttonSize as number * scaleFactor : 'auto',
+        height: this._height,
+        margin: { top: 30 * scaleFactor, bottom: 30 * scaleFactor, left:  5 * scaleFactor, right: 5 * scaleFactor },
         maxWidth: 300 * scaleFactor,
       },
       uiBackground: {
@@ -190,7 +190,7 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElementCorner = {
       uiTransform: {
-        height: this._height,
+        height: this._height ,
         width: 12 * scaleFactor
       },
       uiBackground: {
@@ -308,21 +308,21 @@ export class PromptButton extends InPromptUIObject {
               ...this.iconElement.uiTransform,
               display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
               margin: {
-                top: -26 / 2,
-                right: 5
+                top: -26 / 2 * scaleFactor,
+                right: 5 * scaleFactor
               },
             }}
           />
           <UiEntity
             uiTransform={{
               width: 'auto',
-              maxWidth: 255,
+              maxWidth: 255 * scaleFactor,
               overflow: 'hidden',
             }}
             uiText={{
               value: String(this.text),
               color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
-              fontSize: 24,
+              fontSize: 24 * scaleFactor,
               font: defaultFont,
               textAlign: 'middle-left'
             }}
@@ -342,7 +342,7 @@ export class PromptButton extends InPromptUIObject {
   }
 
   private _buttonIconPos(textLen: number): number {
-    let pos = -20  * scaleFactor - textLen * 4
+    let pos = -20  * scaleFactor - textLen * 4 * scaleFactor
     return pos > -65  * scaleFactor ? pos : -65  * scaleFactor
   }
 

@@ -28,7 +28,6 @@ A collection of tools for common UI requirements for Decentraland scenes.
 - [Contribute](#contribute)
 - [CI/CD](#cicd)
 
-
 ## Install the library
 
 ## Via the Decentraland Editor
@@ -44,14 +43,14 @@ To use any of the helpers provided by the utils library, follow the steps in [Ma
 4. Import the library into the scene's script. Add this line at the start of your `index.ts` file, or any other TypeScript files that require it:
 
 ```ts
-import  *  as  ui  from  'dcl-ui-toolkit'
+import * as ui from 'dcl-ui-toolkit'
 ```
 
 5. Add following to your scene intialization code:
 
-    ```ts
-    ReactEcsRenderer.setUiRenderer(ui.render)
-    ```
+   ```ts
+   ReactEcsRenderer.setUiRenderer(ui.render)
+   ```
 
 6. Add the following permissions for fetching media on the 'scene.json' file. See [Required Permissions](https://docs.decentraland.org/creator/development-guide/sdk7/scene-metadata/#required-permissions) for more details:
 
@@ -63,30 +62,30 @@ import  *  as  ui  from  'dcl-ui-toolkit'
 		"decentraland.org"
 	],
 ```
- 
+
 ## Via the CLI
-  
+
 To use any of the helpers provided by the utils library
 
 1. Install it as an `npm` package. Run this command in your scene's project folder:
 
-    ```
-    npm install dcl-ui-toolkit
-    ```
+   ```
+   npm install dcl-ui-toolkit
+   ```
 
 2. Run `dcl start` or `dcl build` so the dependencies are correctly installed.
 
 3. Import the library into the scene's script. Add this line at the start of your `game.ts` file, or any other TypeScript files that require it:
 
-    ```ts
-    import * as ui from 'dcl-ui-toolkit'
-    ```
+   ```ts
+   import * as ui from 'dcl-ui-toolkit'
+   ```
+
 4. Add following to your scene intialization code:
 
-    ```ts
-    ReactEcsRenderer.setUiRenderer(ui.render)
-    ```
-
+   ```ts
+   ReactEcsRenderer.setUiRenderer(ui.render)
+   ```
 
 5. Add the following permissions for fetching media on the 'scene.json' file. See [Required Permissions](https://docs.decentraland.org/creator/development-guide/sdk7/scene-metadata/#required-permissions) for more details:
 
@@ -98,7 +97,6 @@ To use any of the helpers provided by the utils library
 		"decentraland.org"
 	],
 ```
-
 
 ## Text Announcement
 
@@ -570,9 +568,6 @@ const prompt = ui.createComponent(ui.OkPrompt, {
   },
   acceptLabel: 'Ok',
   useDarkTheme: true,
-  width: 450,
-  height: 300,
-  startHidden: false,
 })
 
 prompt.show()
@@ -1110,12 +1105,10 @@ customPrompt.show()
 If you want to combine elements from the UI Toolkit with your own [custom UI elements](https://docs.decentraland.org/creator/development-guide/sdk7/onscreen-ui/) in the same scene, you need to render all of the UI via a single call to the `ReactEcsRenderer.setUiRenderer` function. You can combine both into a single call in the following way:
 
 ```ts
-const uiComponent = () => (
-    [
-        ui.render(),
-        // Functions returning custom UI
-    ]
-)
+const uiComponent = () => [
+  ui.render(),
+  // Functions returning custom UI
+]
 
 ReactEcsRenderer.setUiRenderer(uiComponent)
 ```
@@ -1123,37 +1116,26 @@ ReactEcsRenderer.setUiRenderer(uiComponent)
 For example:
 
 ```ts
-const uiComponent = () => (
-    [
-        ui.render(),
-        MyCustomUI()
-    ]
-)
+const uiComponent = () => [ui.render(), MyCustomUI()]
 
 ReactEcsRenderer.setUiRenderer(uiComponent)
 
-
 function MyCustomUI() {
-
-	return <UiEntity
-		uiTransform={{
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			positionType: 'absolute',
-			position: { right: "3%", bottom: '3%' }
-		}}
-	>
-		<Label
-			value="Hello World!"
-			fontSize={18}
-			textAlign="middle-center"
-		/>
-	</UiEntity>
+  return (
+    <UiEntity
+      uiTransform={{
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        positionType: 'absolute',
+        position: { right: '3%', bottom: '3%' },
+      }}
+    >
+      <Label value="Hello World!" fontSize={18} textAlign="middle-center" />
+    </UiEntity>
+  )
 }
 ```
-
-
 
 ---
 

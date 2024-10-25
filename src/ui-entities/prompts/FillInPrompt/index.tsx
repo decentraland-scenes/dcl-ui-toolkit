@@ -60,7 +60,7 @@ export class FillInPrompt extends Prompt {
     {
       startHidden = fillInPromptInitialConfig.startHidden,
       title = fillInPromptInitialConfig.title,
-      titleSize = fillInPromptInitialConfig.titleSize  * scaleFactor,
+      titleSize = fillInPromptInitialConfig.titleSize,
       useDarkTheme = fillInPromptInitialConfig.useDarkTheme,
       placeholder = fillInPromptInitialConfig.placeholder,
       acceptLabel = fillInPromptInitialConfig.acceptLabel,

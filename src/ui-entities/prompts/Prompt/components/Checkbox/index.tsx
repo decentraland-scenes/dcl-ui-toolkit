@@ -120,7 +120,7 @@ export class PromptCheckbox extends InPromptUIObject {
       },
       textAlign: 'middle-left',
       font: defaultFont,
-      fontSize: 20,
+      fontSize: 20  * scaleFactor,
     }
   }
 

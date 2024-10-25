@@ -29,7 +29,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   yPosition: 0,
   positionAbsolute: true,
   color: Color4.Black(),
-  size: 15 * scaleFactor,
+  size: 15,
 } as const
 
 function lineBreak(text: string, maxLineLength: number): string {
@@ -104,7 +104,7 @@ export class PromptText extends InPromptUIObject {
       <Label
         key={key}
         {...this.textElement}
-        value={lineBreak(String(this.value), 50  * scaleFactor)}
+        value={lineBreak(String(this.value), 50)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
         uiTransform={

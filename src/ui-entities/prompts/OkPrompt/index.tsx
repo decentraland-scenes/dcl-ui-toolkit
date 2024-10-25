@@ -55,7 +55,7 @@ export class OkPrompt extends Prompt {
     {
       startHidden = okPromptInitialConfig.startHidden,
       text = okPromptInitialConfig.text,
-      textSize = okPromptInitialConfig.textSize  * scaleFactor,
+      textSize = okPromptInitialConfig.textSize,
       useDarkTheme = okPromptInitialConfig.useDarkTheme,
       acceptLabel = okPromptInitialConfig.acceptLabel,
       onAccept = okPromptInitialConfig.onAccept,

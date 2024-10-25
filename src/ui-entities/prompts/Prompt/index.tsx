@@ -95,8 +95,11 @@ export class Prompt extends UIObject implements IPrompt {
   }: PromptConfig) {
     super({ startHidden })
 
+    if(typeof width === 'number') { width = width * scaleFactor} 
+    if(typeof height === 'number') { height = height * scaleFactor} 
+
     this.style = style
-    this.width = width
+    this.width = width 
     this.height = height
     this.onClose = onClose
 
@@ -109,8 +112,8 @@ export class Prompt extends UIObject implements IPrompt {
     }
 
     this._closeIconData = {
-      width: 32  * scaleFactor,
-      height: 32  * scaleFactor,
+      width: 32,
+      height: 32,
       style: PromptCloseIconStyles.CLOSED,
       onMouseDown: this._close,
       parent: this,
@@ -338,7 +341,7 @@ export class Prompt extends UIObject implements IPrompt {
         this._texture = AtlasTheme.ATLAS_PATH_LIGHT
 
         this._closeIconData.style = PromptCloseIconStyles.CLOSED
-        this._closeIconData.xPosition = 15  * scaleFactor
+        this._closeIconData.xPosition = 15
 
         break
 
@@ -352,7 +355,7 @@ export class Prompt extends UIObject implements IPrompt {
         this._texture = AtlasTheme.ATLAS_PATH_DARK
 
         this._closeIconData.style = PromptCloseIconStyles.CLOSEW
-        this._closeIconData.xPosition = 15  * scaleFactor
+        this._closeIconData.xPosition = 15
 
         break
     }

@@ -73,9 +73,9 @@ export class OptionPrompt extends Prompt {
     {
       startHidden = optionPromptInitialConfig.startHidden,
       title = optionPromptInitialConfig.title,
-      titleSize = optionPromptInitialConfig.titleSize  * scaleFactor,
+      titleSize = optionPromptInitialConfig.titleSize,
       text = optionPromptInitialConfig.text,
-      textSize = optionPromptInitialConfig.textSize  * scaleFactor,
+      textSize = optionPromptInitialConfig.textSize,
       useDarkTheme = optionPromptInitialConfig.useDarkTheme,
       acceptLabel = optionPromptInitialConfig.acceptLabel,
       acceptSize = optionPromptInitialConfig.acceptSize ,
