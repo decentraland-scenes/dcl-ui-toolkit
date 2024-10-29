@@ -5,6 +5,7 @@ import ReactEcs, { EntityPropTypes, Label, UiEntity, UiLabelProps } from '@dcl/s
 import { DelayedHidingUIObject, DelayedHidingUIObjectConfig } from '../UIObject'
 
 import { defaultFont } from '../../constants/font'
+import { scaleFactor } from '../../utils/scaleFactor'
 
 export type AnnouncementTextElement = Omit<UiLabelProps, 'value' | 'fontSize' | 'color'> &
   Omit<EntityPropTypes, 'uiTransform'> & {
@@ -62,10 +63,10 @@ export class Announcement extends DelayedHidingUIObject {
   }: AnnouncementConfig) {
     super({ startHidden, duration })
 
-    this.xOffset = xOffset
-    this.yOffset = yOffset
+    this.xOffset = xOffset * scaleFactor
+    this.yOffset = yOffset * scaleFactor
     this.color = color
-    this.size = size
+    this.size = size * scaleFactor
 
     this.value = value
 

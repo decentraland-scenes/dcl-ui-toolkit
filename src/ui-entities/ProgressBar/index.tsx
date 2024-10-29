@@ -7,6 +7,7 @@ import { UIObject, UIObjectConfig } from '../UIObject'
 import { getImageAtlasMapping } from '../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../constants/resources'
+import { scaleFactor } from '../../utils/scaleFactor'
 
 export type ProgressBarBarElement = Omit<EntityPropTypes, 'uiTransform'> & {
   uiTransform?: Omit<
@@ -103,10 +104,10 @@ export class ProgressBar extends UIObject {
   }: ProgressBarConfig) {
     super({ startHidden })
 
-    this.scale = scale
+    this.scale = scale * scaleFactor
     this.color = color
-    this.xOffset = xOffset
-    this.yOffset = yOffset
+    this.xOffset = xOffset * scaleFactor
+    this.yOffset = yOffset * scaleFactor
     this.style = style
 
     this._value = value
