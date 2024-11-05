@@ -762,8 +762,6 @@ To add text to a custom prompt, use the `addText` function.
 ```ts
 const promptHeader = prompt.addText({
   value: 'Hello World!',
-  xPosition: 0,
-  yPosition: 100,
   size: 30,
 })
 ```
@@ -798,8 +796,6 @@ To add a button to a custom prompt, use the `addButton` function.
 const promptButtonE = customPrompt.addButton({
   style: ui.ButtonStyles.E,
   text: 'Yeah',
-  xPosition: 0,
-  yPosition: 0,
   buttonSize: 200,
   onMouseDown: () => {
     console.log('Yeah pressed')
@@ -809,8 +805,6 @@ const promptButtonE = customPrompt.addButton({
 const promptButtonF = customPrompt.addButton({
   style: ui.ButtonStyles.F,
   text: 'Nope',
-  xPosition: 0,
-  yPosition: -75,
   buttonSize: 'auto',
   onMouseDown: () => {
     console.log('Nope pressed')
@@ -856,8 +850,6 @@ To add a checkbox to a custom prompt, use the `addCheckbox` function.
 ```ts
 const promptCheckbox = customPrompt.addCheckbox({
   text: "Don't show again",
-  xPosition: -80,
-  yPosition: 0,
   onCheck: () => {
     console.log('checkbox checked')
   },
@@ -901,8 +893,6 @@ To add a switch to a custom prompt, use the `addSwitch` function.
 ```ts
 const promptSwitch = customPrompt.addSwitch({
   text: 'Turn me',
-  xPosition: -60,
-  yPosition: 0,
   onCheck: () => {
     console.log('switch checked')
   },
@@ -979,8 +969,6 @@ To add an input box to a custom prompt, use the `addTextBox` function.
 ```ts
 const promptTextBox = customPrompt.addTextBox({
   placeholder: 'Enter text',
-  xPosition: 0,
-  yPosition: 0,
   onChange: (value) => {
     console.log('textbox changed', value)
   },
@@ -1019,27 +1007,20 @@ ReactEcsRenderer.setUiRenderer(ui.render)
 
 export const customPrompt = ui.createComponent(ui.CustomPrompt, {
   style: ui.PromptStyles.DARKSLANTED,
-  height: 600,
 })
 
 const promptTitle = customPrompt.addText({
   value: 'What will you do?',
-  xPosition: 0,
-  yPosition: 250,
   color: Color4.Yellow(),
   size: 30,
 })
 
 const promptText = customPrompt.addText({
   value: "It's an important decision",
-  xPosition: 0,
-  yPosition: 200,
 })
 
 const promptCheckbox = customPrompt.addCheckbox({
   text: "Don't show again",
-  xPosition: -80,
-  yPosition: 150,
   onCheck: () => {
     console.log('checkbox checked')
   },
@@ -1050,8 +1031,6 @@ const promptCheckbox = customPrompt.addCheckbox({
 
 const promptSwitch = customPrompt.addSwitch({
   text: 'Turn me',
-  xPosition: -60,
-  yPosition: 50,
   onCheck: () => {
     console.log('switch checked')
   },
@@ -1062,8 +1041,6 @@ const promptSwitch = customPrompt.addSwitch({
 
 const promptTextBox = customPrompt.addTextBox({
   placeholder: 'Enter text',
-  xPosition: 0,
-  yPosition: 100,
   onChange: (value) => {
     console.log('textbox changed:', value)
   },
@@ -1072,8 +1049,6 @@ const promptTextBox = customPrompt.addTextBox({
 const promptButtonE = customPrompt.addButton({
   style: ui.ButtonStyles.E,
   text: 'Yeah',
-  xPosition: 0,
-  yPosition: -150,
   onMouseDown: () => {
     console.log('Yeah clicked')
   },
@@ -1082,8 +1057,6 @@ const promptButtonE = customPrompt.addButton({
 const promptButtonF = customPrompt.addButton({
   style: ui.ButtonStyles.F,
   text: 'Nope',
-  xPosition: 0,
-  yPosition: -225,
   onMouseDown: () => {
     console.log('Nope clicked')
   },
@@ -1091,8 +1064,6 @@ const promptButtonF = customPrompt.addButton({
 
 const promptIcon = customPrompt.addIcon({
   image: 'images/scene-thumbnail.png',
-  xPosition: 0,
-  yPosition: -50,
 })
 
 customPrompt.show()
