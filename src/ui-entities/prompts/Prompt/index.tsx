@@ -20,6 +20,7 @@ import { getImageAtlasMapping, ImageAtlasData } from '../../../utils/imageUtils'
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../constants/resources'
 import { IPrompt } from './IPrompt'
 import { scaleFactor } from '../../../utils/scaleFactor'
+import { PromptDropdown, PromptDropdownConfig } from './components/Dropdown'
 
 export enum PromptStyles {
   LIGHT = `light`,
@@ -84,6 +85,7 @@ export class Prompt extends UIObject implements IPrompt {
     | PromptCheckbox
     | PromptSwitch
     | PromptInput
+    | PromptDropdown
   )[]
   private _btn: (
     | PromptButton
@@ -209,6 +211,18 @@ export class Prompt extends UIObject implements IPrompt {
 
     return uiIcon
   }
+
+  public addDropdown(config: Omit<PromptDropdownConfig, 'parent'>): PromptDropdown {
+    const uiDropdown = new PromptDropdown({
+      ...config,
+      ...this._getPromptComponentCustomConfig(),
+    })
+
+    this._components.push(uiDropdown)
+
+    return uiDropdown
+  }
+
 
   public render(key?: string): ReactEcs.JSX.Element {
     const width = this.realWidth()
