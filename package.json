@@ -39,11 +39,11 @@
     "yarn": "please use npm"
   },
   "devDependencies": {
-    "@dcl/sdk": "next",
+    "@dcl/sdk": "latest",
     "prettier": "^2.8.7",
-    "typescript": "^4.9.3"
+    "typescript": "^5.0.2"
   },
-  "peerDependencies": {
-    "@dcl/sdk": "next"
+  "dependencies": {
+    "@dcl/js-runtime": "latest"
   }
 }
