@@ -1,9 +1,10 @@
 import ReactEcs from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 
 import { Prompt, PromptExternalConfig, PromptStyles } from '../Prompt'
 import { PromptButton, PromptButtonStyles } from '../Prompt/components/Button'
 import { PromptText } from '../Prompt/components/Text'
+import { scaleFactor } from '../../../utils/scaleFactor'
 
 type OkPromptConfig = PromptExternalConfig & {
   text: string | number;
@@ -24,6 +25,8 @@ const okPromptInitialConfig: Required<OkPromptConfig> = {
   acceptSize: 'auto',
   width: 'auto',
   height: 'auto',
+  minWidth: 400,
+  minHeight: 250,
   onAccept: () => {
   },
   onClose: () => {
@@ -58,7 +61,7 @@ export class OkPrompt extends Prompt {
       useDarkTheme = okPromptInitialConfig.useDarkTheme,
       acceptLabel = okPromptInitialConfig.acceptLabel,
       onAccept = okPromptInitialConfig.onAccept,
-      acceptSize = okPromptInitialConfig.acceptSize,
+      acceptSize = okPromptInitialConfig.acceptSize ,
       onClose = okPromptInitialConfig.onClose,
       filter = okPromptInitialConfig.filter,
       width = okPromptInitialConfig.width,

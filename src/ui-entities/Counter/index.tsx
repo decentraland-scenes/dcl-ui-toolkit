@@ -1,13 +1,14 @@
 import { Color4 } from '@dcl/sdk/math'
-import ReactEcs, { Label } from '@dcl/sdk/react-ecs'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+import ReactEcs, { EntityPropTypes, Label, UiLabelProps } from '@dcl/sdk/react-ecs'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { UIObject, UIObjectConfig } from '../UIObject'
 
 import { toFixedLengthStringUtil } from '../../utils/textUtils'
 
 import { defaultFont } from '../../constants/font'
+import { scaleFactor } from '../../utils/scaleFactor'
 
 export type CounterTextElement = Omit<UiLabelProps, 'value' | 'fontSize' | 'color'> &
   Omit<EntityPropTypes, 'uiTransform'> & {
@@ -68,10 +69,10 @@ export class Counter extends UIObject {
   }: CounterConfig) {
     super({ startHidden })
 
-    this.xOffset = xOffset
-    this.yOffset = yOffset
+    this.xOffset = xOffset * scaleFactor
+    this.yOffset = yOffset * scaleFactor
     this.color = color
-    this.size = size
+    this.size = size * scaleFactor
     this.fixedDigits = fixedDigits
 
     this._value = value

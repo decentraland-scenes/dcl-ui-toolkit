@@ -1,5 +1,5 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+import ReactEcs, { Callback, UiEntity } from '@dcl/sdk/react-ecs'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 
 import { UIObject, UIObjectConfig } from '../../UIObject'
 
@@ -19,6 +19,7 @@ import { getImageAtlasMapping, ImageAtlasData } from '../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../constants/resources'
 import { IPrompt } from './IPrompt'
+import { scaleFactor } from '../../../utils/scaleFactor'
 
 export enum PromptStyles {
   LIGHT = `light`,
@@ -33,6 +34,8 @@ export type PromptExternalConfig = UIObjectConfig & {
   width?: number | 'auto'
   height?: number | 'auto'
   onClose?: Callback
+  minWidth?: number
+  minHeight?: number
 }
 
 export type PromptConfig = PromptExternalConfig & {
@@ -42,9 +45,12 @@ export type PromptConfig = PromptExternalConfig & {
 const promptInitialConfig: Required<PromptConfig> = {
   startHidden: true,
   style: PromptStyles.LIGHT,
-  width: 400,
-  height: 250,
+  width: 'auto',
+  height: 'auto',
+  minWidth: 400 * scaleFactor,
+  minHeight: 250 * scaleFactor,
   onClose: () => { },
+
 } as const
 
 /**
@@ -65,6 +71,9 @@ export class Prompt extends UIObject implements IPrompt {
   public posWidth: number | undefined
   public posHeight: number | undefined
   public onClose: Callback
+
+  public minWidth: number | undefined
+  public minHeight: number | undefined
 
   private _texture: AtlasTheme
   private _section: ImageAtlasData
@@ -94,10 +103,16 @@ export class Prompt extends UIObject implements IPrompt {
   }: PromptConfig) {
     super({ startHidden })
 
+    if(typeof width === 'number') { width = width * scaleFactor} 
+    if(typeof height === 'number') { height = height * scaleFactor} 
+
     this.style = style
-    this.width = width
+    this.width = width 
     this.height = height
     this.onClose = onClose
+
+    this.minHeight = promptInitialConfig.minHeight
+    this.minWidth = promptInitialConfig.minWidth
 
     this._texture = AtlasTheme.ATLAS_PATH_LIGHT
 
@@ -216,14 +231,17 @@ export class Prompt extends UIObject implements IPrompt {
             flexDirection: 'column',
             positionType: 'absolute',
             justifyContent: 'center',
-            width: this.width != 'auto' ? this.width : 'auto',
-            height: this.height != 'auto' ? this.height : 'auto',
+            width: this.width,
+            height: this.height,
+            minWidth: this.minWidth? this.minWidth : undefined,
+            minHeight: this.minHeight? this.minHeight : undefined
           }}
         >
           <UiEntity
             uiTransform={{
               positionType: 'absolute',
               position: { top: 0, left: 0 },
+                // textureMode: 'nine-slices',
               width: '100%',
               height: '100%',
             }}
@@ -232,6 +250,12 @@ export class Prompt extends UIObject implements IPrompt {
               texture: {
                 src: this._texture,
               },
+               // textureSlices: {
+              //   top: 0.2,
+              //   bottom: 0.2,
+              //   left: 0.2,
+              //   right: 0.2
+              // },
               uvs: getImageAtlasMapping(this._section),
             }}
           />
@@ -241,10 +265,12 @@ export class Prompt extends UIObject implements IPrompt {
             uiTransform={{
               flexDirection: 'column',
               alignSelf: 'center',
-              justifyContent: 'flex-end',
-              width: this.width != 'auto' ? width : 'auto',
-              height: this.height != 'auto' ? height : 'auto',
-              margin: {top: 20}
+              justifyContent: 'center',
+              width: this.width,
+              height: this.height,
+              minWidth: this.minWidth,
+              minHeight: this.minHeight,
+              margin: {top: 20 * scaleFactor}
             }}
           >
             {this.visible &&
@@ -252,7 +278,7 @@ export class Prompt extends UIObject implements IPrompt {
             <UiEntity
               uiTransform={{
                 justifyContent: 'center',
-                margin: {left: 20, right: 10}
+                margin: {left: 20 * scaleFactor, right: 10 * scaleFactor}
               }}>
               {this.visible &&
                 this._btn.map((component, idx) => component.render(`prompt-component-${idx}`))}

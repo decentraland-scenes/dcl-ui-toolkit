@@ -1,9 +1,10 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+import ReactEcs, { EntityPropTypes, UiEntity } from '@dcl/sdk/react-ecs'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 
 import { UIObject, UIObjectConfig } from '../UIObject'
 
 import { getImageAtlasMapping, ImageAtlasData } from '../../utils/imageUtils'
+import { scaleFactor } from '../../utils/scaleFactor'
 
 export type IconImageElement = Omit<EntityPropTypes, 'uiTransform' | 'uiBackground'> & {
   uiTransform?: Omit<
@@ -76,10 +77,10 @@ export class Icon extends UIObject {
     super({ startHidden })
 
     this.image = image
-    this.width = width
-    this.height = height
-    this.xOffset = xOffset
-    this.yOffset = yOffset
+    this.width = width * scaleFactor
+    this.height = height * scaleFactor
+    this.xOffset = xOffset * scaleFactor
+    this.yOffset = yOffset * scaleFactor
     if (section) this.section = section
 
     this.imageElement = {

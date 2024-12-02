@@ -1,7 +1,7 @@
-import ReactEcs, { Label, UiEntity } from '@dcl/sdk/react-ecs'
+import ReactEcs, { EntityPropTypes, Label, UiEntity, UiLabelProps } from '@dcl/sdk/react-ecs'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
@@ -9,6 +9,7 @@ import { getImageAtlasMapping } from '../../../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../../../constants/resources'
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptCheckboxLabelElementProps = EntityPropTypes & Omit<UiLabelProps, 'value'>
 
@@ -22,12 +23,13 @@ export type PromptCheckboxImageElementProps = Omit<
 
 export type PromptCheckboxConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
   onCheck?: () => void
   onUncheck?: () => void
   large?: boolean
   startChecked?: boolean
+  positionAbsolute?: boolean
 }
 
 const promptCheckboxInitialConfig: Omit<Required<PromptCheckboxConfig>, 'parent'> = {
@@ -39,6 +41,7 @@ const promptCheckboxInitialConfig: Omit<Required<PromptCheckboxConfig>, 'parent'
   onUncheck: () => {},
   large: false,
   startChecked: false,
+  positionAbsolute: false,
 } as const
 
 /**
@@ -62,6 +65,7 @@ export class PromptCheckbox extends InPromptUIObject {
   public yPosition: number
   public large: boolean
   public startChecked: boolean
+  public absolute: boolean
   public onUncheck: () => void
   public onCheck: () => void
 
@@ -79,6 +83,7 @@ export class PromptCheckbox extends InPromptUIObject {
     startChecked = promptCheckboxInitialConfig.startChecked,
     onUncheck = promptCheckboxInitialConfig.onUncheck,
     onCheck = promptCheckboxInitialConfig.onCheck,
+    positionAbsolute = promptCheckboxInitialConfig.positionAbsolute,
   }: PromptCheckboxConfig) {
     super({
       startHidden,
@@ -86,12 +91,14 @@ export class PromptCheckbox extends InPromptUIObject {
     })
 
     this.text = text
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition * scaleFactor
+    this.yPosition = yPosition * scaleFactor
     this.large = large
     this.startChecked = startChecked
     this.onUncheck = onUncheck
     this.onCheck = onCheck
+
+    this.absolute = positionAbsolute
 
     this._checked = this.startChecked
 
@@ -101,7 +108,7 @@ export class PromptCheckbox extends InPromptUIObject {
     this.imageElement = {
       uiTransform: {
         margin: {
-          right: 5,
+          right: 5 * scaleFactor,
         },
       },
       uiBackground: {
@@ -119,7 +126,7 @@ export class PromptCheckbox extends InPromptUIObject {
       },
       textAlign: 'middle-left',
       font: defaultFont,
-      fontSize: 20,
+      fontSize: 20  * scaleFactor,
     }
   }
 
@@ -147,12 +154,13 @@ export class PromptCheckbox extends InPromptUIObject {
         uiTransform={{
           display: this.visible ? 'flex' : 'none',
           width: '100%',
-          height: 32,
+          height: 32 * scaleFactor,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          positionType: 'absolute',
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },
+          positionType: this.absolute ? 'absolute' : 'relative',
+          margin: { right: 10  * scaleFactor, left: 10  * scaleFactor, top: 20  * scaleFactor, bottom: 20  * scaleFactor },
+          position: { bottom: this.yPosition, right: this.xPosition * -1 },    
         }}
       >
         <UiEntity
@@ -167,8 +175,8 @@ export class PromptCheckbox extends InPromptUIObject {
           }}
           uiTransform={{
             ...this.imageElement.uiTransform,
-            width: this.large ? 32 : 24,
-            height: this.large ? 32 : 24,
+            width: this.large ? 32 * scaleFactor : 24 * scaleFactor,
+            height: this.large ? 32 * scaleFactor : 24 * scaleFactor,
           }}
           onMouseDown={this._click}
         />

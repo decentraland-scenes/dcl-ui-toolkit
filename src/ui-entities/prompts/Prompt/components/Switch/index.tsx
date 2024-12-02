@@ -1,7 +1,7 @@
-import ReactEcs, { Label, UiEntity } from '@dcl/sdk/react-ecs'
+import ReactEcs, { EntityPropTypes, Label, UiEntity, UiLabelProps } from '@dcl/sdk/react-ecs'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
@@ -9,6 +9,7 @@ import { getImageAtlasMapping } from '../../../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../../../constants/resources'
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptSwitchLabelElementProps = EntityPropTypes & Omit<UiLabelProps, 'value'>
 
@@ -25,12 +26,13 @@ export enum PromptSwitchStyles {
 
 export type PromptSwitchConfig = InPromptUIObjectConfig & {
   text: string | number
-  xPosition: number
-  yPosition: number
+  xPosition?: number
+  yPosition?: number
   onCheck?: () => void
   onUncheck?: () => void
   startChecked?: boolean
   style?: PromptSwitchStyles
+  positionAbsolute?: boolean
 }
 
 const promptSwitchInitialConfig: Omit<Required<PromptSwitchConfig>, 'parent'> = {
@@ -42,6 +44,7 @@ const promptSwitchInitialConfig: Omit<Required<PromptSwitchConfig>, 'parent'> = 
   onUncheck: () => {},
   startChecked: false,
   style: PromptSwitchStyles.ROUNDGREEN,
+  positionAbsolute: false,
 } as const
 
 /**
@@ -66,6 +69,7 @@ export class PromptSwitch extends InPromptUIObject {
   public startChecked: boolean
   public onUncheck: () => void
   public onCheck: () => void
+  public absolute: boolean
 
   private _checked: boolean
   private _xPosition: number | undefined
@@ -81,6 +85,7 @@ export class PromptSwitch extends InPromptUIObject {
     onUncheck = promptSwitchInitialConfig.onUncheck,
     startChecked = promptSwitchInitialConfig.startChecked,
     style = promptSwitchInitialConfig.style,
+    positionAbsolute = promptSwitchInitialConfig.positionAbsolute,
   }: PromptSwitchConfig) {
     super({
       startHidden,
@@ -88,21 +93,22 @@ export class PromptSwitch extends InPromptUIObject {
     })
 
     this.text = text
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition * scaleFactor
+    this.yPosition = yPosition * scaleFactor
     this.style = style
     this.startChecked = startChecked
     this.onUncheck = onUncheck
     this.onCheck = onCheck
+    this.absolute = positionAbsolute
 
     this._checked = startChecked
 
     this.imageElement = {
       uiTransform: {
-        width: 64,
-        height: 32,
+        width: 64 * scaleFactor,
+        height: 32 * scaleFactor,
         margin: {
-          right: 5,
+          right: 5 * scaleFactor,
         },
       },
       uiBackground: {
@@ -120,7 +126,7 @@ export class PromptSwitch extends InPromptUIObject {
       },
       textAlign: 'middle-left',
       font: defaultFont,
-      fontSize: 20,
+      fontSize: 20 * scaleFactor,
     }
   }
 
@@ -140,7 +146,7 @@ export class PromptSwitch extends InPromptUIObject {
 
   public render(key?: string): ReactEcs.JSX.Element {
     this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + 32 / -2 + this.yPosition
+    this._yPosition = this.promptHeight / 2 + 32 * scaleFactor / -2 + this.yPosition
 
     return (
       <UiEntity
@@ -148,12 +154,13 @@ export class PromptSwitch extends InPromptUIObject {
         uiTransform={{
           display: this.visible ? 'flex' : 'none',
           width: '100%',
-          height: 32,
+          height: 32 * scaleFactor,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          positionType: 'absolute',
-          position: { bottom: this._yPosition, right: this._xPosition * -1 },
+          positionType:  this.absolute ? 'absolute' : 'relative',
+          margin: { right: 10  * scaleFactor, left: 10  * scaleFactor, top: 20  * scaleFactor, bottom: 20  * scaleFactor },
+          position: { bottom: this.yPosition, right: this.xPosition * -1 },
         }}
       >
         <UiEntity

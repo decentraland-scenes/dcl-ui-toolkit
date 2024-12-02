@@ -1,3 +1,3 @@
-import { UiFontType } from '@dcl/react-ecs/dist/components/Label/types'
+import { UiFontType } from "@dcl/sdk/react-ecs";
 
 export const defaultFont: UiFontType = 'sans-serif'

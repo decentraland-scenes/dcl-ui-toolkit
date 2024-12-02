@@ -1,8 +1,8 @@
-import ReactEcs, { Label, UiEntity } from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+import ReactEcs, { Callback, EntityPropTypes, Label, UiEntity, UiLabelProps } from '@dcl/sdk/react-ecs'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 import { InputAction, UiText } from '@dcl/sdk/ecs'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
@@ -12,6 +12,7 @@ import { getImageAtlasMapping } from '../../../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../../../constants/resources'
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptButtonLabelElementProps = EntityPropTypes & Omit<UiLabelProps, 'value'>
 
@@ -62,7 +63,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
   text: '',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   onMouseDown: () => { },
   style: PromptButtonStyles.ROUNDSILVER,
   buttonSize: 'auto'
@@ -121,8 +122,8 @@ export class PromptButton extends InPromptUIObject {
     })
 
     this.text = text
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition * scaleFactor
+    this.yPosition = yPosition * scaleFactor
     this.positionAbsolute = positionAbsolute,
     this.onMouseDown = onMouseDown
 
@@ -134,8 +135,8 @@ export class PromptButton extends InPromptUIObject {
     this._isFStyle = this._style === PromptButtonStyles.F
 
 
-    this._width = 174
-    this._height = 46
+    this._width = 174 * scaleFactor
+    this._height = 46 * scaleFactor
 
     let buttonImg: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
     let buttonImgCorn: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
@@ -148,14 +149,14 @@ export class PromptButton extends InPromptUIObject {
       buttonImg = PromptButtonCustomBgStyles.BUTTONE
       buttonImgCorn = PromptButtonCustomBgStyles.BUTTONECORNER
       buttonImgEdge = PromptButtonCustomBgStyles.BUTTONEEDGE
-      labelXOffset = 25
+      labelXOffset = 25 * scaleFactor
     }
 
     if (this._isFStyle) {
       buttonImg = PromptButtonCustomBgStyles.BUTTONF
       buttonImgCorn = PromptButtonCustomBgStyles.BUTTONFCORNER
       buttonImgEdge = PromptButtonCustomBgStyles.BUTTONFEDGE
-      labelXOffset = 25
+      labelXOffset = 25 * scaleFactor
     }
 
     this._labelDisabledColor = Color4.Gray()
@@ -169,10 +170,10 @@ export class PromptButton extends InPromptUIObject {
     this.imageElement = {
       uiTransform: {
         justifyContent: 'flex-end',
-        width: typeof (buttonSize) == 'number' ? buttonSize as number : 'auto',
+        width: typeof (buttonSize) == 'number' ? buttonSize as number * scaleFactor : 'auto',
         height: this._height,
-        margin: { top: 30, bottom: 20 },
-        maxWidth: 300,
+        margin: { top: 30 * scaleFactor, bottom: 30 * scaleFactor, left:  5 * scaleFactor, right: 5 * scaleFactor },
+        maxWidth: 300 * scaleFactor,
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -189,8 +190,8 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElementCorner = {
       uiTransform: {
-        height: this._height,
-        width: 12
+        height: this._height ,
+        width: 12 * scaleFactor
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -208,8 +209,8 @@ export class PromptButton extends InPromptUIObject {
     this.imageElementEdge = {
       uiTransform: {
         height: this._height,
-        width: 12,
-        margin: { right: 10 }
+        width: 12 * scaleFactor,
+        margin: { right: 10 * scaleFactor }
       },
       uiBackground: {
         textureMode: 'stretch',
@@ -226,8 +227,8 @@ export class PromptButton extends InPromptUIObject {
 
     this.iconElement = {
       uiTransform: {
-        width: 26,
-        height: 26,
+        width: 26 * scaleFactor,
+        height: 26 * scaleFactor,
         alignSelf: 'flex-start',
         justifyContent: "center",
         position: {
@@ -307,23 +308,24 @@ export class PromptButton extends InPromptUIObject {
               ...this.iconElement.uiTransform,
               display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
               margin: {
-                top: -26 / 2,
-                right: 5
+                top: -26 / 2 * scaleFactor,
+                right: 5 * scaleFactor
               },
             }}
           />
           <UiEntity
             uiTransform={{
               width: 'auto',
-              maxWidth: 255,
+              maxWidth: 255 * scaleFactor,
               overflow: 'hidden',
             }}
             uiText={{
               value: String(this.text),
               color: this._disabled ? this._labelDisabledColor : this.labelElement.color || this._labelColor,
-              fontSize: 24,
+              fontSize: 24 * scaleFactor,
               font: defaultFont,
-              textAlign: 'middle-left'
+              textAlign: 'middle-left',
+              textWrap: 'nowrap'
             }}
           />
         </UiEntity>
@@ -335,14 +337,15 @@ export class PromptButton extends InPromptUIObject {
   private _click = (): void => {
     if (this._disabled || !this.visible || !this.isPromptVisible) return
 
+  
     console.log('prompt button _click_________________')
 
     this.onMouseDown()
   }
 
   private _buttonIconPos(textLen: number): number {
-    let pos = -20 - textLen * 4
-    return pos > -65 ? pos : -65
+    let pos = -20  * scaleFactor - textLen * 4 * scaleFactor
+    return pos > -65  * scaleFactor ? pos : -65  * scaleFactor
   }
 
   private _createSystemInputAction(): void {

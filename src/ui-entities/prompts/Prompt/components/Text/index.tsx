@@ -1,11 +1,12 @@
-import ReactEcs, { Label } from '@dcl/sdk/react-ecs'
+import ReactEcs, { EntityPropTypes, Label, UiLabelProps } from '@dcl/sdk/react-ecs'
 import { Color4 } from '@dcl/sdk/math'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
-import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+// import { UiLabelProps } from '@dcl/react-ecs/dist/components/Label/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
 import { defaultFont } from '../../../../../constants/font'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptTextTextElementProps = Omit<UiLabelProps, 'value' | 'color' | 'fontSize'> &
   Omit<EntityPropTypes, 'uiTransform'> & {
@@ -26,7 +27,7 @@ const promptTextInitialConfig: Omit<Required<PromptTextConfig>, 'parent'> = {
   value: '',
   xPosition: 0,
   yPosition: 0,
-  positionAbsolute: true,
+  positionAbsolute: false,
   color: Color4.Black(),
   size: 15,
 } as const
@@ -70,6 +71,9 @@ export class PromptText extends InPromptUIObject {
   public color: Color4 | undefined
   public size: number
 
+  private _xPosition: number | undefined
+  private _yPosition: number | undefined
+
   constructor({
     color,
     parent,
@@ -86,11 +90,11 @@ export class PromptText extends InPromptUIObject {
     })
 
     this.value = value
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.xPosition = xPosition  * scaleFactor
+    this.yPosition = yPosition  * scaleFactor
     this.positionAbsolute = positionAbsolute
     this.color = color
-    this.size = size
+    this.size = size  * scaleFactor
 
     this.textElement = {
       textAlign: 'middle-center',
@@ -99,6 +103,11 @@ export class PromptText extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
+
+    this._xPosition = this.promptWidth / -2 + this.promptWidth / 2 + this.xPosition
+    this._yPosition = this.promptHeight / 2 + 32 / -2 + this.yPosition
+
+
     return (
       <Label
         key={key}
@@ -106,16 +115,17 @@ export class PromptText extends InPromptUIObject {
         value={lineBreak(String(this.value), 50)}
         color={this.color || (this.isDarkTheme ? Color4.White() : promptTextInitialConfig.color)}
         fontSize={this.size}
+        textAlign='middle-center'
         uiTransform={
           (!this.positionAbsolute)
             ? {display: this.visible ? 'flex' : 'none',
-              margin: { top: 20, left: 20, right: 20 }, 
+              margin: { top: 20  * scaleFactor, left: 20  * scaleFactor, right: 20  * scaleFactor }, 
               height: 'auto',
-              alignSelf: 'center'}
+              positionType: 'relative',
+              alignSelf: 'center', alignContent: 'center'}
             : {display: this.visible ? 'flex' : 'none',
-              positionType: 'absolute',
-              position: { top: '50%', left: '50%' },
-              margin: { left: this.xPosition, top: this.yPosition * -1 }}
+              positionType:'absolute' ,
+              position: {  bottom: this._yPosition, right: this._xPosition * -1 }}
         }
       />
     )

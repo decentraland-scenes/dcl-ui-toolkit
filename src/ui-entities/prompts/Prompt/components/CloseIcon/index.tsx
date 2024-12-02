@@ -1,12 +1,13 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+import ReactEcs, { Callback, EntityPropTypes, UiEntity } from '@dcl/sdk/react-ecs'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 
 import { InPromptUIObject, InPromptUIObjectConfig } from '../../InPromptUIObject'
 
 import { getImageAtlasMapping } from '../../../../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../../../../constants/resources'
+import { scaleFactor } from '../../../../../utils/scaleFactor'
 
 export type PromptCloseIconIconElementProps = Omit<
   EntityPropTypes,
@@ -36,10 +37,10 @@ export type PromptCloseIconConfig = InPromptUIObjectConfig & {
 const promptCloseIconInitialConfig: Omit<Required<PromptCloseIconConfig>, 'parent'> = {
   startHidden: false,
   style: PromptCloseIconStyles.CLOSED,
-  width: 32,
-  height: 32,
-  xPosition: 10,
-  yPosition: 10,
+  width: 32 * scaleFactor,
+  height: 32 * scaleFactor,
+  xPosition: 10 * scaleFactor,
+  yPosition: 10 * scaleFactor,
   onMouseDown: () => {},
 } as const
 
@@ -81,10 +82,10 @@ export class PromptCloseIcon extends InPromptUIObject {
 
     this.onMouseDown = onMouseDown
 
-    this.width = width
-    this.height = height
-    this.xPosition = xPosition
-    this.yPosition = yPosition
+    this.width = width * scaleFactor
+    this.height = height * scaleFactor
+    this.xPosition = xPosition * scaleFactor
+    this.yPosition = yPosition * scaleFactor
     this.style = style
 
     this.iconElement = {

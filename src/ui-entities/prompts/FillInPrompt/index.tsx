@@ -1,10 +1,11 @@
 import ReactEcs from '@dcl/sdk/react-ecs'
-import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
+// import { Callback } from '@dcl/react-ecs/dist/components/listeners/types'
 
 import { Prompt, PromptExternalConfig, PromptStyles } from '../Prompt'
 import { PromptButton, PromptButtonStyles } from '../Prompt/components/Button'
 import { PromptText } from '../Prompt/components/Text'
 import { PromptInput } from '../Prompt/components/Input'
+import { scaleFactor } from '../../../utils/scaleFactor'
 
 type FillInPromptConfig = PromptExternalConfig & {
   title: string | number;
@@ -26,6 +27,8 @@ const fillInPromptInitialConfig: Required<FillInPromptConfig> = {
   acceptSize: 'auto',
   width: 'auto',
   height: 'auto',
+  minWidth: 400,
+  minHeight: 250,
   onAccept: () => {
   },
   onClose: () => { 

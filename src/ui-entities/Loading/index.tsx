@@ -1,11 +1,12 @@
-import ReactEcs, { UiEntity } from '@dcl/sdk/react-ecs'
-import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
+import ReactEcs, { EntityPropTypes, UiEntity } from '@dcl/sdk/react-ecs'
+// import { EntityPropTypes } from '@dcl/react-ecs/dist/components/types'
 
 import { DelayedHidingUIObject, DelayedHidingUIObjectConfig } from '../UIObject'
 
 import { getImageAtlasMapping } from '../../utils/imageUtils'
 
 import { AtlasTheme, sourcesComponentsCoordinates } from '../../constants/resources'
+import { scaleFactor } from '../../utils/scaleFactor'
 
 export type LoadingImageElement = Omit<EntityPropTypes, 'uiTransform' | 'uiBackground'> & {
   uiTransform?: Omit<
@@ -65,9 +66,9 @@ export class Loading extends DelayedHidingUIObject {
   }: LoadingConfig) {
     super({ startHidden, duration })
 
-    this.xOffset = xOffset
-    this.yOffset = yOffset
-    this.scale = scale
+    this.xOffset = xOffset * scaleFactor
+    this.yOffset = yOffset * scaleFactor
+    this.scale = scale * scaleFactor
 
     this.imageElement = {
       uiTransform: {

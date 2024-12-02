@@ -14,3 +14,5 @@ export { OptionPrompt } from './ui-entities/prompts/OptionPrompt'
 export { FillInPrompt } from './ui-entities/prompts/FillInPrompt'
 
 export { render, createComponent, destroyComponent } from './utils/factory'
+
+export { scaleFactor } from './utils/scaleFactor'
