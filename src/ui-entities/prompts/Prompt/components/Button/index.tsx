@@ -83,9 +83,9 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
 export class PromptButton extends InPromptUIObject {
   public labelElement: PromptButtonLabelElementProps
   public imageElement: PromptButtonImageElementProps
-  public imageElementCorner: PromptButtonImageElementProps
-  public imageElementEdge: PromptButtonImageElementProps
-  public iconElement: PromptButtonIconElementProps
+  public imageElementCorner: () => PromptButtonImageElementProps
+  public imageElementEdge: () => PromptButtonImageElementProps
+  public iconElement: () => PromptButtonIconElementProps
 
   public text: string | number
   public xPosition: number
@@ -122,8 +122,8 @@ export class PromptButton extends InPromptUIObject {
     })
 
     this.text = text
-    this.xPosition = xPosition * scaleFactor
-    this.yPosition = yPosition * scaleFactor
+    this.xPosition = xPosition
+    this.yPosition = yPosition
     this.positionAbsolute = positionAbsolute,
     this.onMouseDown = onMouseDown
 
@@ -135,8 +135,8 @@ export class PromptButton extends InPromptUIObject {
     this._isFStyle = this._style === PromptButtonStyles.F
 
 
-    this._width = 174 * scaleFactor
-    this._height = 46 * scaleFactor
+    this._width = 174
+    this._height = 46
 
     let buttonImg: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
     let buttonImgCorn: PromptButtonCustomBgStyles | PromptButtonStyles = this._style
@@ -188,7 +188,7 @@ export class PromptButton extends InPromptUIObject {
       },
     }
 
-    this.imageElementCorner = {
+    this.imageElementCorner = () => ({
       uiTransform: {
         height: this._height ,
         width: 12 * scaleFactor
@@ -204,9 +204,9 @@ export class PromptButton extends InPromptUIObject {
           atlasWidth: sourcesComponentsCoordinates.atlasWidth,
         }),
       },
-    }
+    })
 
-    this.imageElementEdge = {
+    this.imageElementEdge = () => ({
       uiTransform: {
         height: this._height,
         width: 12 * scaleFactor,
@@ -223,9 +223,9 @@ export class PromptButton extends InPromptUIObject {
           atlasWidth: sourcesComponentsCoordinates.atlasWidth,
         }),
       },
-    }
+    })
 
-    this.iconElement = {
+    this.iconElement = () => ({
       uiTransform: {
         width: 26 * scaleFactor,
         height: 26 * scaleFactor,
@@ -246,7 +246,7 @@ export class PromptButton extends InPromptUIObject {
           atlasWidth: sourcesComponentsCoordinates.atlasWidth,
         }),
       },
-    }
+    })
 
     this._createSystemInputAction()
   }
@@ -272,8 +272,8 @@ export class PromptButton extends InPromptUIObject {
   }
 
   public render(key?: string): ReactEcs.JSX.Element {
-    this._xPosition = this.promptWidth / -2 + this._width / 2 + this.xPosition
-    this._yPosition = this.promptHeight / 2 + this._height / -2 + this.yPosition
+    this._xPosition = this.promptWidth / -2 + this._width * scaleFactor / 2 + (this.xPosition * scaleFactor)
+    this._yPosition = this.promptHeight / 2 + this._height * scaleFactor / -2 + (this.yPosition * scaleFactor)
 
     return (
       <UiEntity
@@ -295,7 +295,7 @@ export class PromptButton extends InPromptUIObject {
           this._click()
         }}
       >
-        <UiEntity {...this.imageElementCorner}/>
+        <UiEntity {...this.imageElementCorner()}/>
         <UiEntity
           {...this.imageElement}
           uiTransform={{
@@ -303,9 +303,9 @@ export class PromptButton extends InPromptUIObject {
           }}
         >
           <UiEntity
-            {...this.iconElement}
+            {...this.iconElement()}
             uiTransform={{
-              ...this.iconElement.uiTransform,
+              ...this.iconElement().uiTransform,
               display: this._disabled || (!this._isEStyle && !this._isFStyle) ? 'none' : 'flex',
               margin: {
                 top: -26 / 2 * scaleFactor,
@@ -329,7 +329,7 @@ export class PromptButton extends InPromptUIObject {
             }}
           />
         </UiEntity>
-        <UiEntity {...this.imageElementEdge}/>
+        <UiEntity {...this.imageElementEdge()}/>
       </UiEntity>
     )
   }
@@ -337,7 +337,7 @@ export class PromptButton extends InPromptUIObject {
   private _click = (): void => {
     if (this._disabled || !this.visible || !this.isPromptVisible) return
 
-  
+
     console.log('prompt button _click_________________')
 
     this.onMouseDown()
