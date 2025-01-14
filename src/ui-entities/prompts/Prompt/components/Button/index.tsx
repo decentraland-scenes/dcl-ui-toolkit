@@ -171,7 +171,7 @@ export class PromptButton extends InPromptUIObject {
       uiTransform: {
         justifyContent: 'flex-end',
         width: typeof (buttonSize) == 'number' ? buttonSize as number * scaleFactor : 'auto',
-        height: this._height,
+        height: this._height * scaleFactor,
         margin: { top: 30 * scaleFactor, bottom: 30 * scaleFactor, left:  5 * scaleFactor, right: 5 * scaleFactor },
         maxWidth: 300 * scaleFactor,
       },
@@ -190,7 +190,7 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElementCorner = () => ({
       uiTransform: {
-        height: this._height ,
+        height: this._height * scaleFactor ,
         width: 12 * scaleFactor
       },
       uiBackground: {
@@ -208,7 +208,7 @@ export class PromptButton extends InPromptUIObject {
 
     this.imageElementEdge = () => ({
       uiTransform: {
-        height: this._height,
+        height: this._height * scaleFactor,
         width: 12 * scaleFactor,
         margin: { right: 10 * scaleFactor }
       },
