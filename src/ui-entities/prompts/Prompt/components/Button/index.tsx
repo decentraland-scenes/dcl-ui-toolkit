@@ -82,7 +82,7 @@ const promptButtonInitialConfig: Omit<Required<PromptButtonConfig>, 'parent'> = 
  */
 export class PromptButton extends InPromptUIObject {
   public labelElement: PromptButtonLabelElementProps
-  public imageElement: PromptButtonImageElementProps
+  public imageElement: () =>  PromptButtonImageElementProps
   public imageElementCorner: () => PromptButtonImageElementProps
   public imageElementEdge: () => PromptButtonImageElementProps
   public iconElement: () => PromptButtonIconElementProps
@@ -167,7 +167,7 @@ export class PromptButton extends InPromptUIObject {
 
     this.labelElement = {}
 
-    this.imageElement = {
+    this.imageElement = () => ( {
       uiTransform: {
         justifyContent: 'flex-end',
         width: typeof (buttonSize) == 'number' ? buttonSize as number * scaleFactor : 'auto',
@@ -186,7 +186,7 @@ export class PromptButton extends InPromptUIObject {
           atlasWidth: sourcesComponentsCoordinates.atlasWidth,
         }),
       },
-    }
+    })
 
     this.imageElementCorner = () => ({
       uiTransform: {
@@ -281,11 +281,11 @@ export class PromptButton extends InPromptUIObject {
         uiTransform={
           (!this.positionAbsolute)
             ? {
-              ...this.imageElement.uiTransform,
+              ...this.imageElement().uiTransform,
               display: this.visible ? 'flex' : 'none',
             }
             : {
-              ...this.imageElement.uiTransform,
+              ...this.imageElement().uiTransform,
               display: this.visible ? 'flex' : 'none',
               position: { bottom: this._yPosition, right: this._xPosition * -1 },
               positionType: 'absolute'
@@ -297,7 +297,7 @@ export class PromptButton extends InPromptUIObject {
       >
         <UiEntity {...this.imageElementCorner()}/>
         <UiEntity
-          {...this.imageElement}
+          {...this.imageElement()}
           uiTransform={{
             display: this.visible ? 'flex' : 'none',
           }}
