@@ -33,11 +33,6 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=22.0.0",
-    "yarn": "please use npm"
-  },
   "devDependencies": {
     "@dcl/sdk": "latest",
     "prettier": "^2.8.7",
