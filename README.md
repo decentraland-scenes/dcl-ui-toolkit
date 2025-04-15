@@ -29,7 +29,7 @@ A collection of tools for common UI requirements for Decentraland scenes.
 - [CI/CD](#cicd)
 
 ## Install the library
-
+<!--
 ## Via the Decentraland Editor
 
 To use any of the helpers provided by the utils library, follow the steps in [Manage Dependencies](https://docs.decentraland.org/creator/development-guide/sdk7/libraries/manage-dependencies/#via-the-editor) with Visual Studio Code open on your project folder.
@@ -62,7 +62,7 @@ import * as ui from 'dcl-ui-toolkit'
 		"decentraland.org"
 	],
 ```
-
+-->
 ## Via the CLI
 
 To use any of the helpers provided by the utils library
